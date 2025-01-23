@@ -1,0 +1,6 @@
+#root {
+  width: 100%; /* Full width of the viewport */
+  height: 100vh; /* Full height of the viewport */
+  margin: 0; /* Remove auto-centering */
+  padding: 0;
+}

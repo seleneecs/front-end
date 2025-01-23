@@ -1,0 +1,24 @@
+.layout-container {
+  width: 100%; /* Full width of the parent */
+  height: 100%; /* Full height of the parent */
+  display: flex; /* Use flexbox for alignment */
+  flex-direction: column; /* Align items vertically */
+  
+  background-color: #f0f4f8; /* Optional background color */
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+

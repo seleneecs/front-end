@@ -1,0 +1,89 @@
+.home-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding-top: 10px;
+  width: 100%;
+}
+
+.home-container > li:hover {
+  background-color: aqua;
+}
+
+.card {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 300px;
+  font-size: 18px;
+  color: #333;  
+  margin-bottom: 16px;
+}
+.card .section{
+  width: 100%;
+  background-color: rgba(119, 6, 211, 0.87);
+  color: #f8f9fa;
+}
+.grade {
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: rgba(119, 6, 211, 0.87);
+  border-bottom: 1px solid rgba(119, 6, 211, 0.87);
+  
+}
+
+.explore-button:hover {
+  background-color: #0056b3;
+}
+
+/* Scoped style specific to nested-list */
+
+
+.home-container .nested-list {
+  box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.4); /* Stronger shadow on hover */
+  cursor: pointer;
+}
+
+.home-container .nested-list li {
+ text-align: left;
+ margin-top: 10px;
+ padding-left: 16px;
+ cursor: pointer;
+}
+
+.home-container .nested-list li:hover {
+  color: purple;
+}
+
+.home-container .nested-list li:focus {
+  color: blue;
+  text-decoration: underline;
+}
+
+
+/* Prevent hover effects on nested list items */
+.home-container .nested-list li > ul {
+  cursor: default; /* Disable hover effects for nested lists */
+}
+.subjectList{
+  
+}
+.subjectList ul,
+.subjectList ol {
+  list-style: none;
+  padding: 0; /* Corrected padding value */
+  cursor: pointer;
+}
+
+.subjectSpan:focus {
+  font-weight: bolder;
+  padding: 6px 18px;
+  color: rgba(119, 6, 211, 0.87);
+
+  margin-bottom: 16px;
+  
+}

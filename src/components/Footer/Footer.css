@@ -1,0 +1,74 @@
+.footer {
+    position: relative; /* Can be changed to 'sticky' if preferred */
+    bottom: 0;
+    width: 100%;
+    
+  }
+  .footer-list li {
+    display: inline;
+    margin-right: 10px; /* Adjust spacing as needed */
+    position: relative;
+  }
+  
+
+  
+ 
+/* Footer2.css */
+.footer-link {
+    font-weight: bold;
+    text-decoration: none; /* Remove underline */
+  }
+  
+  .footer-link:hover {
+    text-decoration: underline; /* Add underline on hover */
+  }
+/* Footer2.css */
+.footer-link-bold {
+    font-weight: bold; /* Make the text bold */
+    text-decoration: none; /* Remove underline */
+  }
+  
+  .footer-link-bold:hover {
+    text-decoration: none; /* Keep underline removed on hover */
+  }
+/* Footer2.css */
+.list-unstyled a {
+    text-decoration: none; /* Remove underline from all links */
+  }
+  
+  .list-unstyled a:hover {
+    text-decoration: none; /* Ensure underline is not added on hover */
+  }
+/* Footer2.css */
+.bg-custom-dark {
+    background-color: #343a40; /* A lighter shade of dark */
+  }
+  .custom-footer-text {
+    color: #d3d3d3; /* Lighter gray color for good contrast on dark background */
+  }          
+
+  /* Tooltip Styling */
+.custom-footer-text {
+  position: relative; /* Position relative to allow positioning of the tooltip */
+}
+
+
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .layout-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .content {
+    flex-grow: 1;
+  }
+  
+  

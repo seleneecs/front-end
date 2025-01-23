@@ -1,0 +1,16 @@
+.logo-small {
+    width: 50px; /* Set the desired width */
+    height: auto; /* Maintain aspect ratio */
+}
+.btn-outline-greenish {
+    background-color: transparent;
+    border: none; /* Greenish border */
+    color: #28a745;            /* Greenish text */
+    font-weight: bolder;
+  }
+  
+  .btn-outline-greenish:hover {    
+    color: rgb(124, 8, 153);             
+    
+  }
+  
