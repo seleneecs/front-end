@@ -100,7 +100,7 @@ const sections = [
 ];
 
 // Table names mapping
-const elimufiMaterials = {
+const seleneMaterials = {
   selene_priprimary: [    
     { table: "schemes", unit: "Schemes" },
     { table: "curriculum_design", unit: "Curriculum Design" },
@@ -131,13 +131,13 @@ const elimufiMaterials = {
     { table: "notes", unit: "Notes" },
     { table: "schemes", unit: "Schemes" },
   ],
-  elimufi1_secondary: [
-    { table: "fullset_examinations", unit: "Fullset Examinations" },
-    { table: "holiday_assignments", unit: "Holiday Assignments" },
-    { table: "holiday_revisions", unit: "Holiday Revisions" },
-    { table: "ksce_past_papers", unit: "KCSE Past Papers" },
-    { table: "revision_notes", unit: "Revision Notes" },
+  selene_secondary: [
     { table: "schemes", unit: "Schemes" },
+    { table: "assesment_tools", unit: "Assesment Tools" },
+    { table: "fullset_examinations", unit: "Fullset Examinations" },
+    { table: "holiday_assignments", unit: "Holiday Assignments" },    
+    { table: "ksce_past_papers", unit: "KCSE Past Papers" },
+    { table: "revision_notes", unit: "Revision Notes" },    
     { table: "trial_examinations", unit: "Trial Examinations" },
   ],
 };
@@ -215,15 +215,15 @@ const Home = () => {
     const sectionToTableMap = {
       "Pre-Primary School": "selene_priprimary",
       "Primary School": "selene_primaryschool",
-      "Junior School": "elimufi1_jss",
-      "Secondary School": "elimufi1_secondary",
-      "Senior Secondary School": "elimufi1_secondary",
+      "Junior School": "selene_jss",
+      "Secondary School": "selene_secondary",
+      "Senior Secondary School": "selene_secondary",
     };
 
     const database = sectionToTableMap[section];
     if (!database) return;
 
-    const tables = elimufiMaterials[database] || [];
+    const tables = seleneMaterials[database] || [];
     setSelectedTables(
       tables.map((table) => ({
         ...table,
