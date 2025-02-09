@@ -2,14 +2,19 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 
 import Home from "./components/Home/Home";
-import ResourceForm from "./components/ResourceForm/ResourceFrom";
+
+import DynamicDataDisplay from "./components/DynamicDataDisplay/DynamicDataDisplay";
+import ResourceForm from "./components/ResourceForm/ResourceForm";
+
+
 
 
 const AppRoutes = () => (
   <>
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/resource/form" element={<ResourceForm />} />
+      <Route path="/resource/form" element={<ResourceForm/>} />
+      <Route path="/display" element={<DynamicDataDisplay/>}/>
     </Routes>
   </>
 );

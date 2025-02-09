@@ -5,6 +5,7 @@
   justify-content: center;
   padding-top: 10px;
   width: 100%;
+  
 }
 
 .home-container > li:hover {
@@ -21,7 +22,7 @@
   max-width: 300px;
   font-size: 18px;
   color: #333;  
-  margin-bottom: 16px;
+  margin-bottom: 16px;  
 }
 .card .section{
   width: 100%;
@@ -87,3 +88,4 @@
   margin-bottom: 16px;
   
 }
+

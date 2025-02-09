@@ -1,0 +1,53 @@
+.title {
+    width: 100%;
+    background-color: rgba(119, 6, 211, 0.87);
+    color: #f8f9fa;
+}
+
+.grade {
+    font-weight: bold;
+    margin-top: 6px;
+    color: rgba(119, 6, 211, 0.87);
+    border-bottom: 1px solid rgba(119, 6, 211, 0.87);
+    outline: none;
+}
+
+.grade li:focus {
+    color: #f8f9fa;
+    background-color: rgba(163, 146, 174, 0.87);
+}
+
+.grade ul {
+    list-style: none;
+    justify-content: space-between;
+   
+}
+
+.tables{
+    box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.4); /* Stronger shadow on hover */
+  cursor: pointer;
+}
+.tables li{
+    text-align: left;
+ margin-top: 10px;
+ padding-left: 16px;
+ cursor: pointer;
+}
+
+.pathway{
+    
+}
+.pathway h6{
+
+}
+
+.selected-grade{
+
+}
+.selected-grade h6{
+    color: rgba(119, 6, 211, 0.87);
+    width: fit-content;
+    padding: 0px 6px;
+    border-bottom: 1px solid rgba(119, 6, 211, 0.87);
+}
+

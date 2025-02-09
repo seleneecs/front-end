@@ -1,0 +1,23 @@
+.form_container{
+    background-color:#c750fe;
+    padding: 6px;
+    width: 100%;
+    justify-items: center;
+    border-radius: 6px;
+}
+
+form{
+    width: 100%;
+    font-size: 1rem;
+    font-weight: 300;   
+    padding: 6px;
+}
+
+.form_container input, 
+.form_container select {
+    width: 100%;
+    font-size: 1rem;
+    font-weight: 200;
+    background-color: #f0f9fd;
+   
+}

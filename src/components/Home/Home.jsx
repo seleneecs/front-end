@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import Layout from "../Layout/Layout";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "./Home.css";
+import SecondarySchool from "../secondary/SecondarySchool";
 
 // Configuration for all sections
 const sections = [
@@ -79,24 +81,7 @@ const sections = [
       },
     ],
   },
-  {
-    name: "Senior Secondary School",
-    levels: [...Array(3)].map((_, i) => `Grade ${i + 10}`),
-    titles: [
-      {
-        category: "Arts & Sport",
-        subjects: ["Sports", "Visual Arts", "Performing Arts"],
-      },
-      {
-        category: "Social Sciences",
-        subjects: ["Languages and Literature", "Humanities", "Business Studies"],
-      },
-      {
-        category: "STEM",
-        subjects: ["Pure Sciences", "Applied Sciences", "Technical and Engineering", "Career and Technical Studies"],
-      },
-    ],
-  },
+
 ];
 
 // Table names mapping
@@ -121,7 +106,7 @@ const seleneMaterials = {
     { table: "holiday_assignments", unit: "Holiday Assignments" },   
     { table: "trial_examinations", unit: "Trial Examinations" },
   ],
-  elimufi1_jss: [
+  selene_jss: [
     { table: "assessment_tools", unit: "Assessment Tools" },
     { table: "curriculum_designs", unit: "Curriculum Designs" },
     { table: "fullset_examinations", unit: "Fullset Examinations" },
@@ -142,14 +127,14 @@ const seleneMaterials = {
   ],
 };
 
-// Etract number from label
+/* Etract number from label
 function extractNumber(label) {
   const match = label.match(/\d+/);
   return match ? parseInt(match[0], 10) : null;
-}
+}*/
 
 // Renderer component
-const Renderer = ({ sections, handleItemClick, selectedTables, handleUnitClick }) => (
+const Renderer = ({ sections, handleSubjectClick, selectedTables, handleUnitClick }) => (
   <div className="home-container">
     {sections.map(({ name, levels, subjects, titles }) => (
       <div className="card" key={name}>
@@ -166,7 +151,7 @@ const Renderer = ({ sections, handleItemClick, selectedTables, handleUnitClick }
                   <ul>
                     {subjects.map((subject) => (
                       <li key={subject}>
-                        <span className="subjectSpan" onClick={() => handleItemClick(name, level, subject)}>
+                        <span className="subjectSpan" onClick={() => handleSubjectClick(name, level, subject)}>
                           {subject}
                         </span>
                         {selectedTables
@@ -187,14 +172,14 @@ const Renderer = ({ sections, handleItemClick, selectedTables, handleUnitClick }
               <ul>
                 {(typeof subjects === "function" ? subjects(index) : subjects).map((subject) => (
                   <li key={subject}>
-                    <span className="subjectSpan" onClick={() => handleItemClick(name, level, subject)}>
+                    <span className="subjectSpan" onClick={() => handleSubjectClick(name, level, subject)}>
                       {subject}
                     </span>
                     {selectedTables
                       .filter((table) => table.label === `${level} ${subject}`)
-                      .map(({ table, unit, database, label, subject }) => (
+                      .map(({unit,  table, database, level, subject }) => (
                         <ul className="nested-list" key={table}>
-                          <li onClick={() => handleUnitClick(unit, table, database, label, subject)}>{unit}</li>
+                          <li onClick={() => handleUnitClick(unit, table, database, level, subject)}>{unit}</li>
                         </ul>
                       ))}
                   </li>
@@ -209,40 +194,56 @@ const Renderer = ({ sections, handleItemClick, selectedTables, handleUnitClick }
 );
 
 const Home = () => {
-  const [selectedTables, setSelectedTables] = useState([]);
 
-  const handleItemClick = (section, level, subject) => {
-    const sectionToTableMap = {
-      "Pre-Primary School": "selene_priprimary",
-      "Primary School": "selene_primaryschool",
-      "Junior School": "selene_jss",
-      "Secondary School": "selene_secondary",
-      "Senior Secondary School": "selene_secondary",
-    };
+  const navigate= useNavigate()
+const [selectedTables, setSelectedTables] = useState([]);
+console.log("selected tables",selectedTables)
+  const handleSubjectClick = (section, level, subject) => {
+  console.log("section:", section);
+  console.log("level:", level);
+  console.log("subject:", subject);
 
-    const database = sectionToTableMap[section];
-    if (!database) return;
-
-    const tables = seleneMaterials[database] || [];
-    setSelectedTables(
-      tables.map((table) => ({
-        ...table,
-        database,
-        label: `${level} ${subject}`,
-        subject,
-      }))
-    );
+  const sectionToTableMap = {
+    "Pre-Primary School": "selene_priprimary",
+    "Primary School": "selene_primaryschool",
+    "Junior School": "selene_jss",
+    "Secondary School": "selene_secondary",
+    "Senior Secondary School": "selene_secondary",
   };
 
-  const handleUnitClick = async (unit, table, database, label, subject) => {
-    try {
-      const baseURL = "http://localhost:9000/api/resource";
-      const queryParams = { grade: extractNumber(label), tableName: table, subject, schema: database };
-      const fullURL = `${baseURL}?${new URLSearchParams(queryParams).toString()}`;
-      const response = await axios.get(fullURL);
+  const database = sectionToTableMap[section];
+  if (!database) return;
 
+  const tables = seleneMaterials[database] || [];
+  setSelectedTables(
+    tables.map((table) => ({
+      ...table,
+      database,
+      level,
+      label: `${level} ${subject}`, // Ensure label construction is correct
+      subject, // Pass subject as is
+    }))
+  );
+};
+
+
+  const handleUnitClick = async (unit, table, database, level, subject) => {
+    console.log( "table:",table, "database:",database, "Grade/Form:",level, "subject:", subject)
+    /*Fetch subscription_status WHERE user_id? and table and database and level and subject in `${database}.${table}`
+    if subscription_status is truthy then perform the code bellow under try
+    in users db we have users and subscription tables respectively we linked user_id in subscption table
+    to id in users table
+    */
+    try {
+      const baseURL = import.meta.env.VITE_API_URL ;
+      const subscribed ="yes" // this hardcoded yes i want it to be fetched from subscription db
+      const queryParams = { grade: level, tableName: table, subject, schema: database };//level decimal to be extracted
+      const fullURL = `${baseURL}/${subscribed}?${new URLSearchParams(queryParams).toString()}`;
+      const response = await axios.get(fullURL);
+      console.log("queryParams:", queryParams)
       console.log("Full URL:", fullURL);
       console.log("Fetched Data:", response.data);
+      navigate("/display", { state: { data: response.data, type: "table" } }); 
     } catch (error) {
       console.error("Error fetching data:", error.response ? error.response.data : error.message);
     }
@@ -252,10 +253,11 @@ const Home = () => {
     <Layout>
       <Renderer
         sections={sections}
-        handleItemClick={handleItemClick}
+        handleSubjectClick={handleSubjectClick}
         selectedTables={selectedTables}
         handleUnitClick={handleUnitClick}
       />
+      <SecondarySchool/>
     </Layout>
   );
 };
