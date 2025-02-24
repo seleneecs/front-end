@@ -23,3 +23,17 @@
 .data-display-container {
     padding: 20px;
 }
+
+.downloadable-item{
+    
+}
+.downloadable-item ul{
+    list-style: none;
+   color: rgb(13, 13, 197);
+   text-decoration: underline;
+
+}
+.downloadable-item span:hover{
+    cursor: pointer;
+
+}

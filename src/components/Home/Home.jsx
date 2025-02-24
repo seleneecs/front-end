@@ -127,11 +127,7 @@ const seleneMaterials = {
   ],
 };
 
-/* Etract number from label
-function extractNumber(label) {
-  const match = label.match(/\d+/);
-  return match ? parseInt(match[0], 10) : null;
-}*/
+
 
 // Renderer component
 const Renderer = ({ sections, handleSubjectClick, selectedTables, handleUnitClick }) => (
@@ -155,14 +151,15 @@ const Renderer = ({ sections, handleSubjectClick, selectedTables, handleUnitClic
                           {subject}
                         </span>
                         {selectedTables
-                          .filter((table) => table.label === `${level} ${subject}`)
-                          .map(({ table, unit, database, label, subject }) => (
-                            <ul className="nested-list" key={table}>
-                              <li onClick={() => handleUnitClick(unit, table, database, label, subject)}>
-                                {unit}
-                              </li>
-                            </ul>
-                          ))}
+  .filter((table) => table.label === `${level} ${subject}`)
+  .map(({ unit, table, database, level, subject }) => (
+    <ul className="nested-list" key={table}>
+      <li onClick={() => handleUnitClick(unit, table, database, level, subject)}>
+        {unit}
+      </li>
+    </ul>
+  ))}
+
                       </li>
                     ))}
                   </ul>
@@ -198,13 +195,13 @@ const Home = () => {
   const navigate= useNavigate()
 const [selectedTables, setSelectedTables] = useState([]);
 console.log("selected tables",selectedTables)
-  const handleSubjectClick = (section, level, subject) => {
+const handleSubjectClick = (section, level, subject) => {
   console.log("section:", section);
   console.log("level:", level);
   console.log("subject:", subject);
 
   const sectionToTableMap = {
-    "Pre-Primary School": "selene_priprimary",
+    "Pre-Primary School": "selene_primaryschool",
     "Primary School": "selene_primaryschool",
     "Junior School": "selene_jss",
     "Secondary School": "selene_secondary",
@@ -219,35 +216,52 @@ console.log("selected tables",selectedTables)
     tables.map((table) => ({
       ...table,
       database,
-      level,
-      label: `${level} ${subject}`, // Ensure label construction is correct
-      subject, // Pass subject as is
+      level,  // Ensure "Grade 7" or "Form 2" remains separate
+      subject,
+      label: `${level} ${subject}`, // Only used for filtering, not API calls
     }))
   );
 };
 
 
-  const handleUnitClick = async (unit, table, database, level, subject) => {
-    console.log( "table:",table, "database:",database, "Grade/Form:",level, "subject:", subject)
-    /*Fetch subscription_status WHERE user_id? and table and database and level and subject in `${database}.${table}`
-    if subscription_status is truthy then perform the code bellow under try
-    in users db we have users and subscription tables respectively we linked user_id in subscption table
-    to id in users table
-    */
-    try {
-      const baseURL = import.meta.env.VITE_API_URL ;
-      const subscribed ="yes" // this hardcoded yes i want it to be fetched from subscription db
-      const queryParams = { grade: level, tableName: table, subject, schema: database };//level decimal to be extracted
-      const fullURL = `${baseURL}/${subscribed}?${new URLSearchParams(queryParams).toString()}`;
-      const response = await axios.get(fullURL);
-      console.log("queryParams:", queryParams)
-      console.log("Full URL:", fullURL);
-      console.log("Fetched Data:", response.data);
-      navigate("/display", { state: { data: response.data, type: "table" } }); 
-    } catch (error) {
-      console.error("Error fetching data:", error.response ? error.response.data : error.message);
-    }
-  };
+
+const handleUnitClick = async (unit, table, database, level, subject) => {
+ 
+  console.log("CLICKED DETAILS", "table:", table, "database:", database, "Grade/Form:", level, "subject:", subject);
+  console.log("Category (level) before building URL:", level);
+
+  // Ensure `level` remains unchanged and does not include `subject`
+  const formattedGrade = level.trim(); // Keeps "Grade 7" or "Form 2" as-is
+
+  try {
+    const baseURL = import.meta.env.VITE_API_URL;
+    const subscribed = "yes"; // Hardcoded, should be fetched dynamically
+
+    // Send correct parameters
+    const queryParams = {
+      grade: formattedGrade, // Ensure "Form 2" or "Grade 7", no subject concatenation
+      tableName: table,
+      subject: subject, // Pass subject separately
+      schema: database,
+      category:level
+    };
+
+    const fullURL = `${baseURL}/${subscribed}?${new URLSearchParams(queryParams).toString()}`;
+    console.log("Corrected Full URL:", fullURL);
+
+    const response = await axios.get(fullURL, {
+      withCredentials: true, // ✅ Ensure cookies are sent with the request
+    });
+
+
+    navigate("/display", { state: { data: response.data, type: "table", fullURL } });
+  } catch (error) {
+    console.error("Error fetching data:", error.response ? error.response.data : error.message);
+  }
+};
+
+
+
 
   return (
     <Layout>

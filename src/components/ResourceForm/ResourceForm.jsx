@@ -8,7 +8,7 @@ const ResourceForm = () => {
     year: "",
     subject: "",
     grade: "",
-    file: null,
+    files: [], // Ensure consistency with backend field name
     schema: "",
     tableName: "",
   });
@@ -22,29 +22,46 @@ const ResourceForm = () => {
   };
 
   const handleFileChange = (e) => {
+    const selectedFiles = Array.from(e.target.files);
     setFormData((prevData) => ({
       ...prevData,
-      file: e.target.files[0],
+      files: selectedFiles, // Ensuring field matches backend
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formDataToSend = new FormData();
-    Object.keys(formData).forEach((key) => {
-      formDataToSend.append(key, formData[key]);
-    });
 
     try {
-      const baseURL = import.meta.env.VITE_API_URL ;
-      const response = await axios.post(baseURL, formDataToSend, {
+      const baseURL = import.meta.env.VITE_API_URL;
+      const formDataToSend = new FormData();
+
+      // Append all other form data
+      Object.keys(formData).forEach((key) => {
+        if (key !== "files") {
+          formDataToSend.append(key, formData[key]);
+        }
+      });
+
+      // Append all files correctly
+      formData.files.forEach((file) => {
+        formDataToSend.append("files", file); // Ensure the key name matches backend
+      });
+
+      // Debug: Check form data before sending
+      console.log("Form Data Being Sent:");
+      for (let pair of formDataToSend.entries()) {
+        console.log(pair[0], pair[1]);
+      }
+
+      const response = await axios.post(`${baseURL}/upload`, formDataToSend, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
 
-      alert("Resource created successfully!");
-      console.log("Response:", response.data);
+      console.log("Files uploaded successfully!", response.data);
+      alert("All files uploaded successfully!");
     } catch (error) {
       console.error("Error submitting form:", error.response?.data || error.message);
       alert("An error occurred while submitting the form. Please try again.");
@@ -53,7 +70,7 @@ const ResourceForm = () => {
 
   return (
     <Layout>
-      <div className="form_container container my-5">
+      <div className="form_container container my-5 container-fluid" >
         <h2 className="text-center mb-4">Create Resource</h2>
         <form onSubmit={handleSubmit}>
           <div className="row">
@@ -70,9 +87,7 @@ const ResourceForm = () => {
                 onChange={handleChange}
                 required
               >
-                <option value="" disabled>
-                  Select a schema
-                </option>
+                <option value="" disabled>Select a schema</option>
                 <option value="selene_primaryschool">Primary School</option>
                 <option value="selene_secondary">Secondary School</option>
                 <option value="selene_jss">Junior Secondary School</option>
@@ -93,9 +108,7 @@ const ResourceForm = () => {
                 onChange={handleChange}
                 required
               >
-                <option value="" disabled>
-                  Select a table
-                </option>
+                <option value="" disabled>Select a table</option>
                 <option value="fullset_examinations">Fullset Examinations</option>
                 <option value="ksce_past_papers">KCSE Past Papers</option>
                 <option value="schemes">Schemes</option>
@@ -167,14 +180,15 @@ const ResourceForm = () => {
           <div className="row">
             {/* File Upload */}
             <div className="col-md-12 mb-3">
-              <label htmlFor="file" className="form-label">
-                <strong>File</strong>
+              <label htmlFor="files" className="form-label">
+                <strong>Files</strong>
               </label>
               <input
                 type="file"
                 className="form-control"
-                id="file"
-                name="file"
+                id="files"
+                name="files"
+                multiple
                 onChange={handleFileChange}
                 required
               />

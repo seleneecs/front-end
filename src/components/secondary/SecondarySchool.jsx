@@ -78,7 +78,7 @@ const SecondarySchool = () => {
       console.log("queryParams:", queryParams)
       console.log("Full URL:", fullURL);
       console.log("Fetched Data:", response.data)
-      navigate("/display", { state: { data: response.data, type: "table" } }); 
+      navigate("/display", { state: { data: response.data, type: "table", fullURL } }); 
         } catch (error) {
           console.error("Error fetching data:", error.response ? error.response.data : error.message);
         }
