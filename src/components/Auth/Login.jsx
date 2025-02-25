@@ -13,7 +13,7 @@ const Login = () => {
 
     try {
         const response = await axios.post(
-            `${baseURL}/auth/login`,
+            `${baseURL}/api/auth/login`,
             { Email: email, Password: password }, // Send JSON, not form-data
             {
                 headers: { "Content-Type": "application/json" },

@@ -71,9 +71,9 @@ const SecondarySchool = () => {
         Grade: ${selectedGrade}, Schema:${material.database}`);
         try {
       const baseURL = import.meta.env.VITE_API_URL ;
-      const subscribed ="yes" // this hardcoded yes i want it to be fetched from subscription db
+      
       const queryParams = { grade: selectedGrade, tableName: material.table, subject:selectedLearningArea, schema: material.database };//level decimal to be extracted
-      const fullURL = `${baseURL}/${subscribed}?${new URLSearchParams(queryParams).toString()}`;
+      const fullURL = `${baseURL}/api/resource?${new URLSearchParams(queryParams).toString()}`;
       const response = await axios.get(fullURL);
       console.log("queryParams:", queryParams)
       console.log("Full URL:", fullURL);

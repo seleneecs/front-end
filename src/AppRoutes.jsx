@@ -7,6 +7,9 @@ import DynamicDataDisplay from "./components/DynamicDataDisplay/DynamicDataDispl
 import ResourceForm from "./components/ResourceForm/ResourceForm";
 import Login from "./components/Auth/Login";
 import Signup from "./components/Auth/Register";
+//import SubscriptionForm from "./components/Subscription/SubscriptionForm";
+
+
 
 
 
@@ -19,7 +22,9 @@ const AppRoutes = () => (
       <Route path="/resource/form" element={<ResourceForm/>} />
       <Route path="/display" element={<DynamicDataDisplay/>}/>
       <Route path="/auth/login" element={<Login/>}/>
-      <Route path="/auth/signup" element={<Signup/>}/>
+      <Route path="/auth/signup" element={<Signup/>}/>    
+       
+      {/*<Route path="/subscription" element={<SubscriptionForm/>}/>   */} 
     
     </Routes>
   </>

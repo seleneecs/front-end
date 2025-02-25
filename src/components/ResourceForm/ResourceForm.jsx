@@ -54,7 +54,7 @@ const ResourceForm = () => {
         console.log(pair[0], pair[1]);
       }
 
-      const response = await axios.post(`${baseURL}/upload`, formDataToSend, {
+      const response = await axios.post(`${baseURL}/api/upload`, formDataToSend, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

@@ -235,7 +235,7 @@ const handleUnitClick = async (unit, table, database, level, subject) => {
 
   try {
     const baseURL = import.meta.env.VITE_API_URL;
-    const subscribed = "yes"; // Hardcoded, should be fetched dynamically
+  
 
     // Send correct parameters
     const queryParams = {
@@ -246,7 +246,7 @@ const handleUnitClick = async (unit, table, database, level, subject) => {
       category:level
     };
 
-    const fullURL = `${baseURL}/${subscribed}?${new URLSearchParams(queryParams).toString()}`;
+    const fullURL = `${baseURL}/api/resource?${new URLSearchParams(queryParams).toString()}`;
     console.log("Corrected Full URL:", fullURL);
 
     const response = await axios.get(fullURL, {

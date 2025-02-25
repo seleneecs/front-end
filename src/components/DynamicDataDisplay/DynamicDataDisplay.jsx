@@ -43,7 +43,7 @@ const DynamicDataDisplay = () => {
         try {
             // ✅ Construct API URL with category
             const baseURL = import.meta.env.VITE_API_URL || "http://localhost:9000/api/file/resource";
-            const downloadURL = `${baseURL}/${row.id}/download?schema=${schema}&tableName=${tableName}&category=${encodeURIComponent(category)}`;
+            const downloadURL = `${baseURL}/api/resource/${row.id}/download?schema=${schema}&tableName=${tableName}&category=${encodeURIComponent(category)}`;
     
             console.log("Full URL for download:", downloadURL);
     
