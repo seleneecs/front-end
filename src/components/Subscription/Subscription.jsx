@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../Header/Header.jsx"; // ✅ Import Auth Context
+import { UserContext } from "../../context/UserCotext";
 
 const SubscriptionForm = () => {
-  const { user } = useAuth(); // ✅ Get userId from context
+
+  const { userId, setUserId } = useContext(UserContext);  // ✅ Include setUserId
+
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -13,45 +15,59 @@ const SubscriptionForm = () => {
     Amount: "",
     start_date: "",
     end_date: "",
-    user_id: user ? user.id : "", // ✅ Use user_id from context
+    user_id: "", // ✅ Initially empty, updated when userId is available
   });
 
   useEffect(() => {
-    if (user) {
-      console.log("User ID from context:", user.id); // ✅ Log user ID
+    console.log("🔍 Updating user_id in formData:", userId);
+  
+    if (userId) {
       const today = new Date();
       const futureDate = new Date();
       futureDate.setDate(today.getDate() + 30);
-
+  
       setFormData((prevData) => ({
         ...prevData,
-        user_id: user.id, // ✅ Dynamically update user_id
+        user_id: userId, // ✅ Ensure user_id is updated
         start_date: today.toISOString().split("T")[0],
         end_date: futureDate.toISOString().split("T")[0],
       }));
     }
-  }, [user]);
-
-  const categories = [
-    "PP1", "PP2", "GRADE 1", "GRADE 2", "GRADE 3", "GRADE 4", "GRADE 5",
-    "GRADE 6", "GRADE 7", "GRADE 8", "GRADE 9", "FORM 2", "FORM 3", "FORM 4",
-    "STEM", "ARTS AND SPORTS", "SOCIAL SCIENCES"
-  ];
+  }, [userId]); // ✅ Runs when userId changes
+  
+  
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData((prevData) => ({
+      ...prevData,
+      [e.target.name]: e.target.value,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await axios.post("http://localhost:9000/subscriptions/stk/push", formData, { withCredentials: true });
-      alert("Subscription request sent successfully!");
-      navigate("/dashboard");
-    } catch (error) {
-      alert("Failed to process subscription.");
+    console.log("Submitting form with data:", formData); // ✅ Log formData before sending
+
+    if (!formData.user_id) {
+        console.error("❌ user_id is missing!");
+        alert("User ID is missing. Please refresh and try again.");
+        return;
     }
-  };
+
+    try {
+        const response = await axios.post("http://localhost:9000/subscriptions/stk/push", formData, {
+            withCredentials: true,
+        });
+
+        console.log("Subscription response:", response.data);
+        alert("Subscription request sent successfully!");
+        navigate("/");
+    } catch (error) {
+        console.error("Subscription error:", error.response ? error.response.data : error.message);
+        alert("Failed to process subscription.");
+    }
+};
+
 
   return (
     <div className="container mt-5">
@@ -70,7 +86,11 @@ const SubscriptionForm = () => {
                   required
                 >
                   <option value="">Select a Category</option>
-                  {categories.map((category, index) => (
+                  {[
+                    "PP1", "PP2", "GRADE 1", "GRADE 2", "GRADE 3", "GRADE 4", "GRADE 5",
+                    "GRADE 6", "GRADE 7", "GRADE 8", "GRADE 9", "FORM 2", "FORM 3", "FORM 4",
+                    "STEM", "ARTS AND SPORTS", "SOCIAL SCIENCES"
+                  ].map((category, index) => (
                     <option key={index} value={category}>{category}</option>
                   ))}
                 </select>

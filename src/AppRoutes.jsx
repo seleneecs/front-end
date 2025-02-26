@@ -7,7 +7,7 @@ import DynamicDataDisplay from "./components/DynamicDataDisplay/DynamicDataDispl
 import ResourceForm from "./components/ResourceForm/ResourceForm";
 import Login from "./components/Auth/Login";
 import Signup from "./components/Auth/Register";
-//import SubscriptionForm from "./components/Subscription/SubscriptionForm";
+import SubscriptionForm from "./components/Subscription/Subscription"; // ✅ Import the component
 
 
 
@@ -24,7 +24,8 @@ const AppRoutes = () => (
       <Route path="/auth/login" element={<Login/>}/>
       <Route path="/auth/signup" element={<Signup/>}/>    
        
-      {/*<Route path="/subscription" element={<SubscriptionForm/>}/>   */} 
+      <Route path="/subscription" element={<SubscriptionForm />} /> {/* ✅ Add this route */}
+      <Route path="*" element={<div>404 - Page Not Found</div>} />
     
     </Routes>
   </>
