@@ -72,7 +72,7 @@ const SubscriptionForm = () => {
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">
-        <div className="col-md-6">
+        <div className="row justify-content-center">
           <div className="card shadow-lg p-4">
             <h3 className="text-center mb-4">Subscribe Now</h3>
             <form onSubmit={handleSubmit}>

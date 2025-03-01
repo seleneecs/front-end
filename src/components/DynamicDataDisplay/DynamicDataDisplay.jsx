@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import UnauthorizedModal from "../Modal/UnauthorizedModal";
 import Layout from "../Layout/Layout";
 import "./DynamicDataDisplay.css";
 
 const DynamicDataDisplay = () => {
+    const [showModal, setShowModal] = useState(false)
+    const [modalTitle, setModalTitle] = useState("")
+    const [buttonTitle, setButtonTitle] = useState("")
+    const navigate = useNavigate()
     const location = useLocation();
     const { data = {}, type, fullURL } = location.state || {};
     const actualData = data.data || [];
@@ -34,44 +40,59 @@ const DynamicDataDisplay = () => {
     const allowedFields = ["subject", "grade", "file", "fileName", "year"];
 
     const handleDownload = async (row) => {
-        // ✅ Validate row and required fields
-        if (!row?.id || !schema || !tableName || !category) {
-            console.error("Error: Missing required parameters for download.");
-            return;
+    // ✅ Validate row and required fields
+    if (!row?.id || !schema || !tableName || !category) {
+        console.error("Error: Missing required parameters for download.");
+        return;
+    }
+
+    try {
+        // ✅ Construct API URL with category
+        const baseURL = import.meta.env.VITE_API_URL || "http://localhost:9000/api/file/resource";
+        const downloadURL = `${baseURL}/api/resource/${row.id}/download?schema=${schema}&tableName=${tableName}&category=${encodeURIComponent(category)}`;
+
+        console.log("Full URL for download:", downloadURL);
+
+        // ✅ Fetch file from backend (Cookies will be automatically sent)
+        const response = await axios.get(downloadURL, {
+            responseType: "blob",
+            withCredentials: true, // Ensures cookies are sent with the request
+        });
+
+        console.log("Download response headers:", response.headers);
+
+        // ✅ Extract filename from response headers
+        const fileName = extractFileName(response.headers["content-disposition"]) || "downloaded_file";
+        console.log("Downloaded filename:", fileName);
+
+        // ✅ Handle file download
+        downloadBlob(response.data, fileName);
+        
+    } catch (error) {
+        console.error("Error during download:", error.response?.status, error.response?.data || error.message);
+    
+        let errorMessage = "An error occurred";
+        let buttonTitle = "Login"
+        if (error.response?.status === 401) {
+            errorMessage = "Login / Register to download";
+            buttonTitle = "Login"
+        } else if (error.response?.status === 402) {
+            buttonTitle = "Subscribe"
+            errorMessage = "Payment required to access this resource";
+        } else if (error.response?.status === 403) {
+            buttonTitle = "Renew subscription"
+            errorMessage = "Subscribe to download";
+        } else if (error.response?.status === 404) {
+            errorMessage = "File not found!";
         }
+        
+        setModalTitle(errorMessage);
+        setButtonTitle(buttonTitle)
+        setShowModal(true);  // ✅ Always show modal after setting title
+    }
     
-        try {
-            // ✅ Construct API URL with category
-            const baseURL = import.meta.env.VITE_API_URL || "http://localhost:9000/api/file/resource";
-            const downloadURL = `${baseURL}/api/resource/${row.id}/download?schema=${schema}&tableName=${tableName}&category=${encodeURIComponent(category)}`;
-    
-            console.log("Full URL for download:", downloadURL);
-    
-            // ✅ Fetch file from backend (Cookies will be automatically sent)
-            const response = await axios.get(downloadURL, {
-                responseType: "blob",
-                withCredentials: true, // Ensures cookies are sent with the request
-            });
-    
-            console.log("Download response headers:", response.headers);
-    
-            // ✅ Extract filename from response headers
-            const fileName = extractFileName(response.headers["content-disposition"]) || "downloaded_file";
-            console.log("Downloaded filename:", fileName);
-    
-            // ✅ Handle file download
-            downloadBlob(response.data, fileName);
-            
-        } catch (error) {
-            console.error("Error during download:", error.response?.status, error.response?.data || error.message);
-    
-            if (error.response?.status === 401) {
-                console.error("Unauthorized! Token may be invalid or expired.");
-            } else if (error.response?.status === 404) {
-                console.error("File not found! Check if the resource exists.");
-            }
-        }
-    };
+};
+
     
     
     // ✅ Extract filename from 'content-disposition' header
@@ -126,6 +147,14 @@ const DynamicDataDisplay = () => {
                     <p>Unsupported data format</p>
                 )}
             </div>
+            <UnauthorizedModal 
+                show={showModal} 
+                onClose={() => setShowModal(false)} 
+                onLogin={() => buttonTitle==="Login" ? navigate("/login/register"):navigate("/subscription")} 
+                title={modalTitle}
+                buttonTitle ={buttonTitle}
+            />
+
         </Layout>
     );
 };

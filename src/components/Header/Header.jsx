@@ -21,7 +21,7 @@ const Header = ({ children }) => {
 
       console.log("After logout - userId:", userId);
 
-      navigate("/auth/login", { replace: true });
+      navigate("/", { replace: true });
       
     } catch (error) {
       console.error("Logout error:", error);
@@ -45,7 +45,7 @@ const Header = ({ children }) => {
           Logout
         </button>
       ) : (
-        <Link to="/auth/login">
+        <Link to="/login/register">
           <button className="btn btn-outline-greenish">Get Started</button>
         </Link>
       )}
