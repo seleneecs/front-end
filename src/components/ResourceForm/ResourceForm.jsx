@@ -91,6 +91,7 @@ const ResourceForm = () => {
                 <option value="selene_primaryschool">Primary School</option>
                 <option value="selene_secondary">Secondary School</option>
                 <option value="selene_jss">Junior Secondary School</option>
+                <option value="selene_seniorschool">Senior Secondary School</option>
                 <option value="selene_priprimary">Preprimary</option>
               </select>
             </div>

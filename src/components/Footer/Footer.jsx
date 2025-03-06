@@ -56,8 +56,8 @@ const Footer = () => {
           </div>
         </div>
         {/* Footer Bottom */}
-        <div className=" py-3 border-top mt-4">
-          <ul className="d-flex  flex-md-row  list-unstyled custom-footer-text fs-7 fw-light">
+        <div className=" py-3 border-top mt-4 w-100">
+          <ul className=" list-unstyled custom-footer-text fs-7 fw-light">
             <li className="mx-2"><a className="custom-footer-text" href="#">Privacy Policy</a></li>
             <li className="mx-2"><a className="custom-footer-text" href="#">Terms & Conditions</a></li>
             <li className="mx-2">

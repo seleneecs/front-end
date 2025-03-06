@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserCotext";
 
 
+
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -39,30 +40,29 @@ const AuthPage = () => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-
+  
     try {
       const response = await axios.post(
         `${baseURL}/api/auth/login`,
         { Email: email, Password: password },
         { headers: { "Content-Type": "application/json" }, withCredentials: true }
       );
-
+  
       if (response.data.user && response.data.user.id) {
         setUserId(response.data.user.id);
         setToken(response.data.token);
         setRole(response.data.user.role || "ordinary_user");
+        navigate("/");
       } else {
         setError("No user ID in response");
       }
-
-      navigate("/");
     } catch (error) {
-      setError(error.response?.data || "Login failed");
+      setError(error.response?.data?.error || "Invalid email or password");
     } finally {
       setLoading(false);
     }
   };
-
+  
   // Handle signup
   const handleSignup = async (e) => {
     e.preventDefault();

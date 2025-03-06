@@ -15,6 +15,7 @@ const DynamicDataDisplay = () => {
     const { data = {}, type, fullURL } = location.state || {};
     const actualData = data.data || [];
 
+
     // Use URLSearchParams to extract tableName and schema from the fullURL
     const urlParams = new URLSearchParams(fullURL.split('?')[1]);
     const tableName = urlParams.get('tableName');
@@ -41,7 +42,7 @@ const DynamicDataDisplay = () => {
 
     const handleDownload = async (row) => {
     // ✅ Validate row and required fields
-    if (!row?.id || !schema || !tableName || !category) {
+    if (!row?.id || !schema || !tableName ) {
         console.error("Error: Missing required parameters for download.");
         return;
     }
@@ -74,14 +75,14 @@ const DynamicDataDisplay = () => {
         let errorMessage = "An error occurred";
         let buttonTitle = "Login"
         if (error.response?.status === 401) {
-            errorMessage = "Login / Register to download";
+            errorMessage = "Login to download";
             buttonTitle = "Login"
         } else if (error.response?.status === 402) {
             buttonTitle = "Subscribe"
-            errorMessage = "Payment required to access this resource";
+            errorMessage = "Subscribe to access this resource";
         } else if (error.response?.status === 403) {
-            buttonTitle = "Renew subscription"
-            errorMessage = "Subscribe to download";
+            buttonTitle = "Subscribe"
+            errorMessage = "Subscription Expired";
         } else if (error.response?.status === 404) {
             errorMessage = "File not found!";
         }
