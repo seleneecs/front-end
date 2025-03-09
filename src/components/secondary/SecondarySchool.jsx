@@ -18,36 +18,57 @@ const SecondarySchool = () => {
       Subjects: {
         "Pure Sciences": ["Biology", "Chemistry", "Physics", "Mathematics"],
         "Applied Science": ["Agriculture", "Computer Science", "Food & Nutrition", "Home Management"],
-        "Technical & Engineering": ["Agriculturaal Technology","Geo Science Technology","Marine & Fisheries Tecnology",
-          "Aviation Technology", "Wood Technology","Electrical Tecnology", "Metal Technology","Power Mechanics", 
-          "Clothing & Textile Technolgy", "Construction Technology", "Media Technology", "Electronic Technology",
-          "Manufucturing Technology", 
+        "Technical & Engineering": [
+          "Agricultural Technology",
+          "Geo Science Technology",
+          "Marine & Fisheries Technology",
+          "Aviation Technology",
+          "Wood Technology",
+          "Electrical Technology",
+          "Metal Technology",
+          "Power Mechanics",
+          "Clothing & Textile Technology",
+          "Construction Technology",
+          "Media Technology",
+          "Electronic Technology",
+          "Manufacturing Technology",
         ]
       },
+      
     },
     {
-      pathway: "Arts & Sport",
+      pathway: "ART AND SPORTS",
       Subjects: {
-        "performing Arts":["Music", "Dance","Theater", "Education" ] , 
-        "Visual and Aplied Arts":["Fine Arts", "Applied Art", "Craft", "Time based media"],  
-    },
-    },
-    {
-      pathway: "Social Sciences",
-      Subjects: {
-        "Humanities": ["History and citizenship", "Geography", "CRE", "Islamic education", "Hindu Religious Education", "Busines Studies Mathemathics"],
-        "Languages": ["English Languages", 
-                      "Litrature in English", 
-                      "Fasishi ya Kiswahili", 
-                      "Kenya sign Languages",
-                      "Indiginous Languages",
-                      "Arabic Languages",
-                      "Germeny Languages",
-                      "French Langiages",
-                      "Mandaline Languages"
-                      
-                    ],
+        "Performing Arts": ["Music", "Dance", "Theater", "Education"],
+        "Visual and Applied Arts": ["Fine Arts", "Applied Art", "Craft", "Time-Based Media"],
       },
+      
+    },
+    {
+      pathway: "SOCIAL SCIENCES",
+      Subjects: {
+        "Humanities": [
+          "History and Citizenship",
+          "Geography",
+          "CRE",
+          "Islamic Education",
+          "Hindu Religious Education",
+          "Business Studies",
+          "Mathematics"
+        ],
+        "Languages": [
+          "English Language",
+          "Literature in English",
+          "Fasihi ya Kiswahili",
+          "Kenya Sign Language",
+          "Indigenous Languages",
+          "Arabic Language",
+          "German Language",
+          "French Language",
+          "Mandarin Language"
+        ],
+      },
+      
     },
   ];
 
@@ -147,33 +168,34 @@ const handleMaterialClick = async (material, category) => {
                   <h6>{category}</h6>
                   <div className="row">
                     {subjects.map((subject, i) => (
-                      <div key={i} className="col-12 col-md-6 col-lg-4 d-flex align-items-start">
-                        <li
-                          className={`list-group-item list-group-item-action ${
-                            selectedSubjects === subject ? "active" : ""
-                          }`}
-                          onClick={() => handleSubjectsClick(pathway, subject, i)}
-                          style={{ cursor: "pointer", minWidth: "150px" }}
-                        >
-                          {subject}
-                        </li>
+                      <div key={i} className="subjects col-12 col-md-6 col-lg-4 d-flex flex-column align-items-center">
+                      <li
+                        className={`list-group-item list-group-item-action ${
+                          selectedSubjects === subject ? "active" : ""
+                        }`}
+                        onClick={() => handleSubjectsClick(pathway, subject, i)}
+                        tabIndex="0" // Allows the element to be focused using Tab key
+                      >
+                        {subject}
+                      </li>
 
-                        {/* Show Materials List beside subject on large screens, below on small screens */}
-                        {selectedSubjects === subject && activeSubjectIndex === i && (
-                          <ul className="list-group ms-md-3 mt-2 mt-md-0 w-100 w-md-auto">
-                            {secondaryMaterials.map((material, index) => (
-                              <li 
-                                key={index} 
-                                className="tables"
-                                onClick={() => handleMaterialClick(material, selectedPathway)}
-                                style={{ cursor: "pointer" }}
-                              >
-                                {material.unit}
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-                      </div>
+                    
+                      {/* Show Materials List below the subject */}
+                      {selectedSubjects === subject && activeSubjectIndex === i && (
+                        <ul className="sec-materials list-group mt-2 w-100 text-center">
+                          {secondaryMaterials.map((material, index) => (
+                            <li 
+                              key={index} 
+                              onClick={() => handleMaterialClick(material, selectedPathway)}
+                              style={{ cursor: "pointer" }}
+                            >
+                              {material.unit}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                    
                     ))}
                   </div>
                 </div>

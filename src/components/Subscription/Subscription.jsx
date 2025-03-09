@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../context/UserCotext";
+import { UserContext } from "../../context/UserContext";
 
 const SubscriptionForm = () => {
 
@@ -89,7 +89,7 @@ const SubscriptionForm = () => {
                   {[
                     "PP1", "PP2", "GRADE 1", "GRADE 2", "GRADE 3", "GRADE 4", "GRADE 5",
                     "GRADE 6", "GRADE 7", "GRADE 8", "GRADE 9", "FORM 2", "FORM 3", "FORM 4",
-                    "STEM", "ARTS AND SPORTS", "SOCIAL SCIENCES"
+                    "STEM", "Arts and Sport", "SOCIAL SCIENCES"
                   ].map((category, index) => (
                     <option key={index} value={category}>{category}</option>
                   ))}

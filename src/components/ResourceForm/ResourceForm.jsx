@@ -29,37 +29,50 @@ const ResourceForm = () => {
     }));
   };
 
+  const toTitleCase = (str) => {
+    return str.replace(/\w\S*/g, (txt) =>
+      txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+    );
+  };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
       const baseURL = import.meta.env.VITE_API_URL;
       const formDataToSend = new FormData();
-
+  
+      // Ensure subject and grade are in Title Case
+      const formattedFormData = {
+        ...formData,
+        subject: toTitleCase(formData.subject),
+        grade: toTitleCase(formData.grade),
+      };
+  
       // Append all other form data
-      Object.keys(formData).forEach((key) => {
+      Object.keys(formattedFormData).forEach((key) => {
         if (key !== "files") {
-          formDataToSend.append(key, formData[key]);
+          formDataToSend.append(key, formattedFormData[key]);
         }
       });
-
+  
       // Append all files correctly
       formData.files.forEach((file) => {
         formDataToSend.append("files", file); // Ensure the key name matches backend
       });
-
+  
       // Debug: Check form data before sending
       console.log("Form Data Being Sent:");
       for (let pair of formDataToSend.entries()) {
         console.log(pair[0], pair[1]);
       }
-
+  
       const response = await axios.post(`${baseURL}/api/upload`, formDataToSend, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-
+  
       console.log("Files uploaded successfully!", response.data);
       alert("All files uploaded successfully!");
     } catch (error) {
@@ -67,7 +80,7 @@ const ResourceForm = () => {
       alert("An error occurred while submitting the form. Please try again.");
     }
   };
-
+  
   return (
     <Layout>
       <div className="form_container container my-5 container-fluid" >

@@ -51,3 +51,33 @@
     border-bottom: 1px solid rgba(119, 6, 211, 0.87);
 }
 
+.sec-materials li{
+    box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.4); /* Stronger shadow on hover */
+    text-align: left;
+    margin-top: 10px;
+    padding-left: 16px;
+    cursor: pointer;
+    color: #92098f;
+    font-weight: bolder;
+}
+
+.subjects{
+   cursor: pointer;
+   min-width: 150px;
+  
+}
+.subjects li {
+    list-style: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.9s ease, transform 0.9s ease;
+}
+
+.subjects li:focus {
+    color: #e9ecef; /* Light gray text */
+    background-color: rgba(119, 6, 211, 0.87); /* Purple background */
+    text-align: center;
+    transform: scale(1.05); /* Slight zoom-in effect */
+}
+
+  
+  

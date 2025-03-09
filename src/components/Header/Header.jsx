@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Header.css";
-import { UserContext } from "../../context/UserCotext";
+import { UserContext } from "../../context/UserContext";
 
 const Header = ({ children }) => {
   const navigate = useNavigate();

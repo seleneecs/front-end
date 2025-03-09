@@ -11,6 +11,6 @@ export default defineConfig({
       origin: ['http://localhost:5173'], // Allow localhost & ngrok
       credentials: true, // Allow cookies & authentication headers
     },
-    allowedHosts: ['8cb0-105-29-166-71.ngrok-free.app'], // Explicitly allow ngrok domain
+    allowedHosts: ['8ff6-154-159-237-44.ngrok-free.app'], // Explicitly allow ngrok domain
   },
 });

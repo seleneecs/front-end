@@ -64,7 +64,7 @@ const Footer = () => {
               <a className="custom-footer-text position-relative" href="#" title="0720 938 209">Contact Us</a>
             </li>
 
-            <li className="mx-2"><a className="custom-footer-text" href="#">Support</a></li>
+            <li className="mx-2"><a className="custom-footer-text" href="/support">Support</a></li>
           </ul>
           <ul className="list-unstyled fs-7 fw-light custom-footer-text d-flex">
             <li>&copy; 2024 seleneECS. All rights reserved.</li>
