@@ -18,7 +18,7 @@ const Support = () => {
     return (
       <div className="container mt-4">
         <h2>Support - Admin Panel</h2>
-        <p>Welcome, Admin! How can we assist you?</p>
+        
         <AdminUserManagement />
       </div>
     );

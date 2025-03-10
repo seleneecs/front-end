@@ -64,7 +64,7 @@ const AdminUserManagement = () => {
       const token = Cookies.get("auth_token");
 
       await axios.put(
-        `${baseURL}/users/${id}`,
+        `${baseURL}/api/users/${id}`,
         editedUser,
         {
           headers: {
