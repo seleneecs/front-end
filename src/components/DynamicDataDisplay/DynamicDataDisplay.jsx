@@ -41,86 +41,58 @@ const DynamicDataDisplay = () => {
     const allowedFields = ["subject", "grade", "file", "fileName", "year"];
 
     const handleDownload = async (row) => {
-    // ✅ Validate row and required fields
-    if (!row?.id || !schema || !tableName ) {
-        console.error("Error: Missing required parameters for download.");
-        return;
-    }
-
-    try {
-        // ✅ Construct API URL with category
-        const baseURL = import.meta.env.VITE_API_URL || "http://localhost:9000/api/file/resource";
-        const downloadURL = `${baseURL}/api/resource/${row.id}/download?schema=${schema}&tableName=${tableName}&category=${encodeURIComponent(category)}`;
-
-        console.log("Full URL for download:", downloadURL);
-
-        // ✅ Fetch file from backend (Cookies will be automatically sent)
-        const response = await axios.get(downloadURL, {
-            responseType: "blob",
-            withCredentials: true, // Ensures cookies are sent with the request
-        });
-
-        console.log("Download response headers:", response.headers);
-
-        // ✅ Extract filename from response headers
-        const fileName = extractFileName(response.headers["content-disposition"]) || "downloaded_file";
-        console.log("Downloaded filename:", fileName);
-
-        // ✅ Handle file download
-        downloadBlob(response.data, fileName);
-        
-    } catch (error) {
-        console.error("Error during download:", error.response?.status, error.response?.data || error.message);
-    
-        let errorMessage = "An error occurred";
-        let buttonTitle = "Login"
-        if (error.response?.status === 401) {
-            errorMessage = "Login to download";
-            buttonTitle = "Login"
-        } else if (error.response?.status === 402) {
-            buttonTitle = "Subscribe"
-            errorMessage = "Subscribe to access this resource";
-        } else if (error.response?.status === 403) {
-            buttonTitle = "Subscribe"
-            errorMessage = "Subscription Expired";
-        } else if (error.response?.status === 404) {
-            errorMessage = "File not found!";
+        if (!row?.id || !schema || !tableName || !category) {
+            console.error("Error: Missing required parameters for download.");
+            return;
         }
-        
-        setModalTitle(errorMessage);
-        setButtonTitle(buttonTitle)
-        setShowModal(true);  // ✅ Always show modal after setting title
-    }
     
-};
-
+        try {
+            // ✅ Correct API URL with the `/download/presigned-url` path
+            const baseURL = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
+            const preSignedUrlEndpoint = `${baseURL}/api/resource/${row.id}/download/presigned-url?schema=${schema}&tableName=${tableName}&category=${category}`;
     
+            console.log("Requesting Pre-Signed URL:", preSignedUrlEndpoint);
     
-    // ✅ Extract filename from 'content-disposition' header
-    const extractFileName = (contentDisposition) => {
-        if (!contentDisposition) return null;
-        const match = contentDisposition.match(/filename\*?=(?:UTF-8'')?["']?([^;"'\n]+)/);
-        return match && match[1] ? decodeURIComponent(match[1]) : null;
+            // ✅ Fetch the pre-signed URL
+            const response = await axios.get(preSignedUrlEndpoint, {
+                withCredentials: true, // Ensure cookies are sent if needed
+            });
+    
+            console.log("Pre-Signed URL Response:", response.data);
+    
+            if (!response.data?.preSignedUrl) {
+                throw new Error("Pre-signed URL not received");
+            }
+    
+            // ✅ Redirect user to download the file from MinIO
+            window.location.href = response.data.preSignedUrl;
+            
+        } catch (error) {
+            console.error("Error during download:", error.response?.status, error.response?.data || error.message);
+            
+            let errorMessage = "An error occurred";
+            let buttonTitle = "Retry";
+    
+            if (error.response?.status === 401) {
+                errorMessage = "Login to download";
+                buttonTitle = "Login";
+            } else if (error.response?.status === 402) {
+                errorMessage = "Subscribe to access this resource";
+                buttonTitle = "Subscribe";
+            } else if (error.response?.status === 403) {
+                errorMessage = "Subscription Expired";
+                buttonTitle = "Subscribe";
+            } else if (error.response?.status === 404) {
+                errorMessage = "File not found!";
+            }
+    
+            setModalTitle(errorMessage);
+            setButtonTitle(buttonTitle);
+            setShowModal(true);
+        }
     };
     
-    // ✅ Handle Blob creation and file download
-    const downloadBlob = (blobData, fileName) => {
-        const blob = new Blob([blobData]);
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = fileName;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
     
-        // ✅ Clean up URL after short delay
-        setTimeout(() => URL.revokeObjectURL(url), 1000);
-    };
-    
-    
-    
-
     return (
         <Layout>
             <div className="data-display-container downloadable-item">
