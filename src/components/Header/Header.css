@@ -1,3 +1,9 @@
+
+.custom-title {
+  color: #007bff; /* Bootstrap primary blue or any shade you prefer */
+  text-decoration: underline;
+}
+
 .logo-small {
     width: 50px; /* Set the desired width */
     height: auto; /* Maintain aspect ratio */

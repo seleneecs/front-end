@@ -3,6 +3,7 @@ import { UserContext } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import ResourceForm from "../ResourceForm/ResourceForm";
 import AdminUserManagement from "./AdminUserManagement";
+import SubscriptionManagement from "./subscriptionManagement";
 
 const Support = () => {
   const { role, loading } = useContext(UserContext);
@@ -18,7 +19,7 @@ const Support = () => {
     return (
       <div className="container mt-4">
         <h2>Support - Admin Panel</h2>
-        
+        <SubscriptionManagement/>
         <AdminUserManagement />
       </div>
     );

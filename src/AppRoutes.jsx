@@ -9,6 +9,7 @@ import ResourceForm from "./components/ResourceForm/ResourceForm";
 import SubscriptionForm from "./components/Subscription/Subscription"; // ✅ Import the component
 import LoginRegister from "./components/Auth/LoginRegister";
 import AdminUserManagement from "./components/Support/Support";
+import SubscriptionManagement from "./components/Support/subscriptionManagement";
 
 
 
@@ -26,6 +27,7 @@ const AppRoutes = () => (
       <Route path="/subscription" element={<SubscriptionForm />} /> {/* ✅ Add this route */}
       <Route path="/admin/user/management" element={<AdminUserManagement />} /> {/* ✅ Add this route */}
       <Route path="/support" element={<AdminUserManagement />} /> {/* ✅ Add this route */}
+      <Route path="/subscription/management" element={<SubscriptionManagement />} /> {/* ✅ Add this route */}
       <Route path="*" element={<div>404 - Page Not Found</div>} />
     
     </Routes>

@@ -57,8 +57,13 @@ const AuthPage = () => {
         setError("No user ID in response");
       }
     } catch (error) {
-      setError(error.response?.data?.error || "Invalid email or password");
-    } finally {
+      if (error.response?.status === 429) {
+          setError("Too many failed login attempts. Try again later.");
+      } else {
+          setError(error.response?.data?.errorMessage || "No Network");
+      }
+    }
+    finally {
       setLoading(false);
     }
   };
@@ -107,35 +112,38 @@ const AuthPage = () => {
           {error && <p className="alert alert-danger">{error}</p>}
           {success && <p className="alert alert-success">{success}</p>}
 
-          {isLogin ? (
-            <form onSubmit={handleLogin}>
-              <div className="mb-3">
-                <label className="form-label">Email</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
+          {isLogin ? <form onSubmit={handleLogin}>
+  <div className="mb-3">
+    <label className="form-label">Email</label>
+    <input
+      type="email"
+      className="form-control"
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
+      required
+    />
+  </div>
 
-              <div className="mb-2">
-                <label className="form-label">Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </div>
+  <div className="mb-2">
+    <label className="form-label">Password</label>
+    <input
+      type="password"
+      className="form-control"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+      required
+    />
+  </div>
 
-              <button type="submit" className="btn btn-primary w-100" disabled={loading}>
-                {loading ? "Logging in..." : "Login"}
-              </button>
-            </form>
-          ) : (
+  <div className="d-flex justify-content-between mb-3">
+    <a href="#" className="text-decoration-none">Forgot Password?</a>
+  </div>
+
+  <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+    {loading ? "Logging in..." : "Login"}
+  </button>
+</form>
+ : (
             <form onSubmit={handleSignup}>
               <div className="mb-2">
                 <label className="form-label">First Name</label>

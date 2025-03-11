@@ -7,6 +7,7 @@ const UserProvider = ({ children }) => {
   const [userId, setUserId] = useState(() => localStorage.getItem("userId") || null);
   const [token, setToken] = useState(() => localStorage.getItem("token") || null);
   const [role, setRole] = useState(() => localStorage.getItem("role") || "ordinary_user");
+  const [email, setEmail] = useState(() => localStorage.getItem("email") || "");
   const [loading, setLoading] = useState(true);
 
   const baseURL = import.meta.env.VITE_API_URL || "http://localhost:9000/api"; // Default for dev
@@ -14,24 +15,21 @@ const UserProvider = ({ children }) => {
   const fetchUser = async () => {
     setLoading(true);
     try {
-      console.log("Fetching user data...");
       const response = await axios.get(`${baseURL}/auth/check-auth`, { withCredentials: true });
 
-      console.log("API Response:", response.data);
-
       if (response.data.user && response.data.user.id) {
-        setUserId(response.data.user.id);
+        const { id, role, email } = response.data.user;
+        setUserId(id);
         setToken(response.data.token);
-        setRole(response.data.user.role || "ordinary_user");
+        setRole(role || "ordinary_user");
+        setEmail(email || "");
 
         // ✅ Save in localStorage for persistence
-        localStorage.setItem("userId", response.data.user.id);
+        localStorage.setItem("userId", id);
         localStorage.setItem("token", response.data.token);
-        localStorage.setItem("role", response.data.user.role || "ordinary_user");
-
-        console.log("✅ User authenticated:", response.data.user);
+        localStorage.setItem("role", role || "ordinary_user");
+        localStorage.setItem("email", email || "");
       } else {
-        console.warn("⚠️ No user ID in response:", response.data);
         resetUser();
       }
     } catch (error) {
@@ -45,10 +43,12 @@ const UserProvider = ({ children }) => {
     setUserId(null);
     setToken(null);
     setRole("ordinary_user");
+    setEmail("");
 
     localStorage.removeItem("userId");
     localStorage.removeItem("token");
     localStorage.removeItem("role");
+    localStorage.removeItem("email");
   };
 
   useEffect(() => {
@@ -56,7 +56,7 @@ const UserProvider = ({ children }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ userId, setUserId, token, setToken, role, setRole, fetchUser, loading }}>
+    <UserContext.Provider value={{ userId, setUserId, token, setToken, role, setRole, email, setEmail, fetchUser, loading }}>
       {children}
     </UserContext.Provider>
   );
