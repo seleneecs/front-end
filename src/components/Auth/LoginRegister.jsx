@@ -3,15 +3,13 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 
-
-
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const navigate = useNavigate();
-  const { setUserId, setToken, setRole } = useContext(UserContext); // ✅ Access context
+  const { setUserId, setToken, setRole } = useContext(UserContext);
 
   // Login State
   const [email, setEmail] = useState("");
@@ -24,7 +22,7 @@ const AuthPage = () => {
     Phone: "",
     Email: "",
     Password: "",
-    Role: "ordinary_user", // Default role
+    Role: "ordinary_user",
   });
 
   const toggleForm = () => {
@@ -35,49 +33,58 @@ const AuthPage = () => {
 
   const baseURL = import.meta.env.VITE_API_URL;
 
-  // Handle login
+  // Handle Login
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-  
+
     try {
       const response = await axios.post(
         `${baseURL}/api/auth/login`,
         { Email: email, Password: password },
         { headers: { "Content-Type": "application/json" }, withCredentials: true }
       );
-  
-      if (response.data.user && response.data.user.id) {
+
+      console.log("Login Response:", response.data);
+
+      if (response.data.user?.id) {
         setUserId(response.data.user.id);
         setToken(response.data.token);
         setRole(response.data.user.role || "ordinary_user");
+
+        console.log("Navigating to home...");
         navigate("/");
       } else {
         setError("No user ID in response");
       }
     } catch (error) {
-      if (error.response?.status === 429) {
-          setError("Too many failed login attempts. Try again later.");
-      } else {
-          setError(error.response?.data?.errorMessage || "No Network");
-      }
-    }
-    finally {
+      setError(
+        error.response?.status === 429
+          ? "Too many failed login attempts. Try again later."
+          : error.response?.data?.errorMessage || "No Network"
+      );
+    } finally {
       setLoading(false);
     }
   };
-  
-  // Handle signup
+
+  // Handle Signup
   const handleSignup = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
     setSuccess(null);
-
+  
     try {
       const response = await axios.post(`${baseURL}/api/signup`, formData);
-      setSuccess(response.data.message);
+  
+      console.log("Signup Response:", response.data);
+  
+      // Show success message
+      setSuccess(response.data.message || "Signup successful! Redirecting...");
+  
+      // Clear form data
       setFormData({
         First_Name: "",
         Last_Name: "",
@@ -86,23 +93,25 @@ const AuthPage = () => {
         Password: "",
         Role: "ordinary_user",
       });
-
+  
+      // Refresh the page after 2 seconds
       setTimeout(() => {
-        navigate("/login/register");
+        console.log("Refreshing page...");
+        window.location.reload();
       }, 2000);
     } catch (err) {
-      setError(err.response?.data?.errorMessage || "Signup failed");
+      setError(err?.response?.data?.errorMessage || "Signup failed. Please try again.");
     } finally {
       setLoading(false);
     }
   };
-
+  
   return (
     <div className="container min-vh-100 d-flex align-items-center justify-content-center">
       <div className="row w-100 shadow-lg rounded p-3">
         {/* Left Side */}
         <div className="col-md-6 d-flex align-items-center justify-content-center bg-light p-3 rounded">
-          <h2 className="text-center">Welcome SeleneECS</h2>
+          <h2 className="text-center">Welcome to SeleneECS</h2>
         </div>
 
         {/* Right Side (Forms) */}
@@ -112,38 +121,41 @@ const AuthPage = () => {
           {error && <p className="alert alert-danger">{error}</p>}
           {success && <p className="alert alert-success">{success}</p>}
 
-          {isLogin ? <form onSubmit={handleLogin}>
-  <div className="mb-3">
-    <label className="form-label">Email</label>
-    <input
-      type="email"
-      className="form-control"
-      value={email}
-      onChange={(e) => setEmail(e.target.value)}
-      required
-    />
-  </div>
+          {isLogin ? (
+            <form onSubmit={handleLogin}>
+              <div className="mb-3">
+                <label className="form-label">Email</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
 
-  <div className="mb-2">
-    <label className="form-label">Password</label>
-    <input
-      type="password"
-      className="form-control"
-      value={password}
-      onChange={(e) => setPassword(e.target.value)}
-      required
-    />
-  </div>
+              <div className="mb-2">
+                <label className="form-label">Password</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
 
-  <div className="d-flex justify-content-between mb-3">
-    <a href="#" className="text-decoration-none">Forgot Password?</a>
-  </div>
+              <div className="d-flex justify-content-between mb-3">
+                <a href="#" className="text-decoration-none">
+                  Forgot Password?
+                </a>
+              </div>
 
-  <button type="submit" className="btn btn-primary w-100" disabled={loading}>
-    {loading ? "Logging in..." : "Login"}
-  </button>
-</form>
- : (
+              <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+                {loading ? "Logging in..." : "Login"}
+              </button>
+            </form>
+          ) : (
             <form onSubmit={handleSignup}>
               <div className="mb-2">
                 <label className="form-label">First Name</label>

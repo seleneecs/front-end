@@ -1,9 +1,10 @@
 .form_container{
-    background-color:#c750fe;
+    background-color:#1c1c1c;
     padding: 6px;
     width: 100%;
     justify-items: center;
     border-radius: 6px;
+    color: #f0f9fd;
 }
 
 form{
@@ -18,6 +19,6 @@ form{
     width: 100%;
     font-size: 1rem;
     font-weight: 200;
-    background-color: #f0f9fd;
+    background-color: #1c1c1c;
    
 }

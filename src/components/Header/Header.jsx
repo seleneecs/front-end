@@ -78,7 +78,7 @@ const Header = ({ children }) => {
               >
                 <i className="bi bi-three-dots-vertical"></i>
               </button>
-              <ul className="dropdown-menu dropdown-menu-end w-auto" data-bs-auto-close="false">                
+              <ul className="mt-2 dropdown-menu dropdown-menu-end w-auto" data-bs-auto-close="false">                
   <li className="px-3 py-2 text-nowrap">
     <h6 className="mb-0 custom-title">{email}</h6>
   </li>

@@ -129,7 +129,7 @@ const ResourceForm = () => {
                 <option value="revision_notes">Revision Notes</option>
                 <option value="assesment_tools">Assessment Tools</option>
                 <option value="trial_examinations">Trial Examinations</option>
-                <option value="curriculum_design">Curriculum Design</option>
+                <option value="curriculum_designs">Curriculum Design</option>
                 <option value="holiday_assignments">Holiday Assignments</option>
                 <option value="play_group_exams">Play Group Exams</option>
                 <option value="pp1_exams">PP1 Exams</option>

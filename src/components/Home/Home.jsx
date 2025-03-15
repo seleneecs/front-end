@@ -88,7 +88,7 @@ const sections = [
 const seleneMaterials = {
   selene_priprimary: [    
     { table: "schemes", unit: "Schemes" },
-    { table: "curriculum_design", unit: "Curriculum Design" },
+    { table: "curriculum_designs", unit: "Curriculum Designs" },
     { table: "revision_notes", unit: "Revision Notes" },
     { table: "holiday_assignments", unit: "holiday Assignments" },   
     { table: "play_group_exams", unit: "Playgroup Exams" },
@@ -201,7 +201,7 @@ const handleSubjectClick = (section, level, subject) => {
   console.log("subject:", subject);
 
   const sectionToTableMap = {
-    "Pre-Primary School": "selene_primaryschool",
+    "Pre-Primary School": "selene_priprimary",
     "Primary School": "selene_primaryschool",
     "Junior School": "selene_jss",
     "Secondary School": "selene_secondary",

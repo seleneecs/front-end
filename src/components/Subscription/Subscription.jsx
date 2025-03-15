@@ -55,7 +55,7 @@ const SubscriptionForm = () => {
     }
 
     try {
-        const response = await axios.post("http://localhost:9000/subscriptions/stk/push", formData, {
+        const response = await axios.post("http://localhost:8000/subscriptions/stk/push", formData, {
             withCredentials: true,
         });
 
