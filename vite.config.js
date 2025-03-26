@@ -8,7 +8,7 @@ export default defineConfig({
     sitemap({
       hostname: 'https://seleneecs.com',
       outDir: 'dist', // Ensure sitemap is placed in dist/
-      routes: ['/', '/about', '/contact', '/dashboard', '/resources'], // Add known routes
+      routes: ['/', '/about', '/contact', '/login/register', '/resources'], // Add known routes
     }),
   ],
   server: {
