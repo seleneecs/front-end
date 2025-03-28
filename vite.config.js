@@ -1,7 +1,3 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import sitemap from 'vite-plugin-sitemap';
-
 export default defineConfig({
   plugins: [
     react(),
@@ -16,10 +12,15 @@ export default defineConfig({
     host: true,
     strictPort: true,
     cors: {
-      origin: ['http://localhost:5173'],
+      origin: ['https://seleneecs.com', 'http://localhost:5173'],  // Update to production front-end URL
       credentials: true,
     },
-    allowedHosts: ['8ff6-154-159-237-44.ngrok-free.app'],
+    allowedHosts: ['8ff6-154-159-237-44.ngrok-free.app'],  // Include your ngrok or production URL if needed
+    proxy: {
+      '/auth': 'https://api.seleneecs.com/auth',          // Proxy /auth routes to your production backend
+      '/api': 'https://api.seleneecs.com/api',            // Proxy /api routes to your production backend
+      '/subscriptions': 'https://api.seleneecs.com/subscriptions',  // Proxy /subscriptions routes to your production backend
+    },
   },
   build: {
     minify: false, // Prevent minification issues
