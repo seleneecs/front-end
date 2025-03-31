@@ -12,18 +12,30 @@ const Header = ({ children }) => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(`${baseURL}/auth/logout`, {}, { withCredentials: true });
+        await axios.post(`${baseURL}/auth/logout`, {}, { withCredentials: true });
 
-      setUserId(null);
-      setToken(null);
-      setRole("ordinary_user");
+        // Ensure cookies are cleared before navigating
+        document.cookie = "auth_token=; Max-Age=0; path=/; domain=.seleneecs.com;";
+        document.cookie = "auth_token=; Max-Age=0; path=/; domain=seleneecs.com;";
+        document.cookie = "auth_token=; Max-Age=0; path=/;";
 
-      navigate("/", { replace: true });
-      window.location.reload();
+        setUserId(null);
+        setToken(null);
+        setRole("ordinary_user");
+
+        navigate("/", { replace: true });
+
+        // Ensure cookie is removed before reloading
+        setTimeout(() => {
+            if (!document.cookie.includes("auth_token")) {
+                window.location.reload();
+            }
+        }, 500);
     } catch (error) {
-      console.error("Logout error:", error);
+        console.error("Logout error:", error);
     }
-  };
+};
+
 
   useEffect(() => {
     console.log("UserId changed in Header:", userId);
