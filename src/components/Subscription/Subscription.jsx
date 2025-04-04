@@ -55,9 +55,10 @@ const SubscriptionForm = () => {
     }
 
     try {
-        const response = await axios.post("http://localhost:8000/subscriptions/stk/push", formData, {
-            withCredentials: true,
-        });
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/subscriptions/stk/push`, formData, {
+        withCredentials: true,
+    });
+    
 
         console.log("Subscription response:", response.data);
         alert("Subscription request sent successfully!");
