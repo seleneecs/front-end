@@ -7,9 +7,11 @@ import DynamicDataDisplay from "./components/DynamicDataDisplay/DynamicDataDispl
 import ResourceForm from "./components/ResourceForm/ResourceForm";
 
 import SubscriptionForm from "./components/Subscription/Subscription"; // ✅ Import the component
-import LoginRegister from "./components/Auth/LoginRegister";
+
 import AdminUserManagement from "./components/Support/Support";
 import SubscriptionManagement from "./components/Support/subscriptionManagement";
+import AuthPage from "./components/Auth/AuthPage";
+
 
 
 
@@ -19,17 +21,16 @@ import SubscriptionManagement from "./components/Support/subscriptionManagement"
 
 const AppRoutes = () => (
   <>
-    <Routes>
+     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/resource/form" element={<ResourceForm/>} />
-      <Route path="/display" element={<DynamicDataDisplay/>}/>          
-      <Route path="/login/register" element={<LoginRegister/>}/>        
-      <Route path="/subscription" element={<SubscriptionForm />} /> {/* ✅ Add this route */}
-      <Route path="/admin/user/management" element={<AdminUserManagement />} /> {/* ✅ Add this route */}
-      <Route path="/support" element={<AdminUserManagement />} /> {/* ✅ Add this route */}
-      <Route path="/subscription/management" element={<SubscriptionManagement />} /> {/* ✅ Add this route */}
+      <Route path="/resource/form" element={<ResourceForm />} />
+      <Route path="/display" element={<DynamicDataDisplay />} />
+      <Route path="/login/register" element={<AuthPage />} /> {/* ✅ Replaced with AuthPage */}
+      <Route path="/subscription" element={<SubscriptionForm />} />
+      <Route path="/admin/user/management" element={<AdminUserManagement />} />
+      <Route path="/support" element={<AdminUserManagement />} />
+      <Route path="/subscription/management" element={<SubscriptionManagement />} />
       <Route path="*" element={<div>404 - Page Not Found</div>} />
-    
     </Routes>
   </>
 );
