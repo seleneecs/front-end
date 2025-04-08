@@ -11,17 +11,19 @@ const AuthPage = () => {
   const navigate = useNavigate();
   const { setUserId, setToken, setRole } = useContext(UserContext);
 
-  // Login State
+  // Form state for login
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // Signup State
+  // Form state for signup
   const [formData, setFormData] = useState({
     First_Name: "",
     Last_Name: "",
     Phone: "",
     Email: "",
     Password: "",
+    security_question: "",
+    security_answer: "",
     Role: "ordinary_user",
   });
 
@@ -75,15 +77,15 @@ const AuthPage = () => {
     setLoading(true);
     setError(null);
     setSuccess(null);
-  
+
     try {
       const response = await axios.post(`${baseURL}/api/signup`, formData);
-  
+
       console.log("Signup Response:", response.data);
-  
+
       // Show success message
       setSuccess(response.data.message || "Signup successful! Redirecting...");
-  
+
       // Clear form data
       setFormData({
         First_Name: "",
@@ -91,9 +93,11 @@ const AuthPage = () => {
         Phone: "",
         Email: "",
         Password: "",
+        security_question: "",
+        security_answer: "",
         Role: "ordinary_user",
       });
-  
+
       // Refresh the page after 2 seconds
       setTimeout(() => {
         console.log("Refreshing page...");
@@ -105,7 +109,7 @@ const AuthPage = () => {
       setLoading(false);
     }
   };
-  
+
   return (
     <div className="container min-vh-100 d-flex align-items-center justify-content-center">
       <div className="row w-100 shadow-lg rounded p-3">
@@ -217,6 +221,31 @@ const AuthPage = () => {
                 <small className="text-muted">
                   Password must be at least 8 characters long and contain an uppercase letter, a lowercase letter, and a number.
                 </small>
+              </div>
+
+              {/* Security Question Fields */}
+              <div className="mb-2">
+                <label className="form-label">Security Question</label>
+                <input
+                  type="text"
+                  name="security_question"
+                  className="form-control"
+                  value={formData.security_question}
+                  onChange={(e) => setFormData({ ...formData, security_question: e.target.value })}
+                  required
+                />
+              </div>
+
+              <div className="mb-2">
+                <label className="form-label">Security Answer</label>
+                <input
+                  type="text"
+                  name="security_answer"
+                  className="form-control"
+                  value={formData.security_answer}
+                  onChange={(e) => setFormData({ ...formData, security_answer: e.target.value })}
+                  required
+                />
               </div>
 
               <button type="submit" className="btn btn-primary w-100" disabled={loading}>
