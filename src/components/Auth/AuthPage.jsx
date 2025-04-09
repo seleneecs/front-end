@@ -189,12 +189,15 @@ const AuthPage = () => {
             />
           )}
 
-          <p className="mt-2 text-center">
-            {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
-            <button className="btn btn-link" onClick={toggleForm}>
-              {isLogin ? "Sign Up" : "Login"}
-            </button>
-          </p>
+          {!showReset && (
+            <p className="mt-2 text-center">
+              {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
+              <button className="btn btn-link" onClick={toggleForm}>
+                {isLogin ? "Sign Up" : "Login"}
+              </button>
+            </p>
+          )}
+
         </div>
       </div>
     </div>
