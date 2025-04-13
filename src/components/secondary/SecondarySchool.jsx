@@ -156,7 +156,7 @@ const handleMaterialClick = async (material, category) => {
 
       {/* Learning Areas */}
       {selectedGrade && (
-        <div className="mt-2 selected-grade">
+        <div className={`mt-2 selected-grade selected-grade-${selectedGrade.replace(/\s+/g, '').toLowerCase()}`}>
           <h5>{selectedGrade}</h5>
           {SubjectsPerPathway.map((pathway, index) => (
             <div key={index} className="mb-4 justify-items-center">

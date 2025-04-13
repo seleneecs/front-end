@@ -37,9 +37,6 @@
 
 }
 
-.selected-grade{
-
-}
 .selected-grade h6{
     color: rgba(119, 6, 211, 0.87);
     width: fit-content;
@@ -106,3 +103,23 @@
     }
   }
   
+  .selected-grade {
+    padding: 10px;
+    color: rgb(211, 210, 216);
+    border-radius: 5px;
+  }
+  
+  .selected-grade-grade11 {
+    background-color: #0558b0; /* Blue */
+    color: #e9ecef;
+  }
+  
+  .selected-grade-grade12 {
+    background-color: #cd018c; /* Green */
+    color: #e9ecef;
+  }
+  
+  .selected-grade-grade10 {
+    background-color: #dddbdb; /* Yellow */
+    color: rgb(16, 15, 15);
+  }
