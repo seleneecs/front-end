@@ -134,7 +134,7 @@ const Renderer = ({ sections, handleSubjectClick, selectedTables, handleUnitClic
   <div className="home-container">
     {sections.map(({ name, levels, subjects, titles }) => (
       <div className="card" key={name}>
-        <div className="section">
+        <div className="title">
           <h5>{name}</h5>
         </div>
         {levels.map((level, index) => (

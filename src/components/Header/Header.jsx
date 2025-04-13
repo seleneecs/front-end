@@ -18,6 +18,7 @@ const Header = ({ children }) => {
         document.cookie = "auth_token=; Max-Age=0; path=/; domain=.seleneecs.com;";
         document.cookie = "auth_token=; Max-Age=0; path=/; domain=seleneecs.com;";
         document.cookie = "auth_token=; Max-Age=0; path=/;";
+        document.cookie = "auth_token=; Max-Age=0;";
 
         setUserId(null);
         setToken(null);

@@ -132,9 +132,9 @@ const handleMaterialClick = async (material, category) => {
   
 
   return (
-    <div className="container-fluid">
-      <div className="title d-flex justify-items-center">
-        <h5 className="">Senior School Section</h5>
+    <div className="">
+      <div className="senior-school-title">
+        <h5 className="moving">Senior School Section</h5>
       </div>
 
       {/* Grade Selection */}

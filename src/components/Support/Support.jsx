@@ -8,6 +8,7 @@ import SubscriptionManagement from "./subscriptionManagement";
 const Support = () => {
   const { role, loading } = useContext(UserContext);
   const navigate = useNavigate();
+  console.log("the user role is:", role)
 
   // Wait for loading to finish before checking access
   if (loading) {

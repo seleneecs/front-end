@@ -1,8 +1,4 @@
-.title {
-    width: 100%;
-    background-color: rgba(119, 6, 211, 0.87);
-    color: #f8f9fa;
-}
+
 
 .grade {
     font-weight: bold;
@@ -80,4 +76,33 @@
 }
 
   
+.senior-school-title {
+    height: 400px;
+    width: 100%;
+    border: 2px solid #1c6fc6;
+    padding: 10px;
+    background-color: #1c6fc6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 6px 0;
+    color: #f8f9fa;
+  }
+
+  .moving {
+    color: white;
+    font-size: 24px;
+    animation: slideIn 2s ease-out forwards;
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
   
