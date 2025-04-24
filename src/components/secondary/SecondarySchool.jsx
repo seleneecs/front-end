@@ -138,8 +138,9 @@ const handleMaterialClick = async (material, category) => {
       </div>
 
       {/* Grade Selection */}
-      <div className="grade">       
-        <ul className="container-fluid d-flex ">
+          
+       <div className="senior-school-grade-selection">
+       <ul>
           {grades.map((grade, index) => (
             <li
               key={index}
@@ -152,16 +153,17 @@ const handleMaterialClick = async (material, category) => {
             </li>
           ))}
         </ul>
-      </div>
+       </div>
+      
 
       {/* Learning Areas */}
       {selectedGrade && (
         <div className={`mt-2 selected-grade selected-grade-${selectedGrade.replace(/\s+/g, '').toLowerCase()}`}>
-          <h5>{selectedGrade}</h5>
+          <h5 className="senior-selected-grade">{selectedGrade}</h5>
           {SubjectsPerPathway.map((pathway, index) => (
             <div key={index} className="mb-4 justify-items-center">
-              <div>
-                <h5>{pathway.pathway}</h5>
+              <div className="senior-pathway">
+                <h5 >{pathway.pathway}</h5>
               </div>
               {Object.entries(pathway.Subjects).map(([category, subjects], idx) => (
                 <div key={idx} className="mb-3">
@@ -176,7 +178,7 @@ const handleMaterialClick = async (material, category) => {
                         onClick={() => handleSubjectsClick(pathway, subject, i)}
                         tabIndex="0" // Allows the element to be focused using Tab key
                       >
-                        {subject}
+                        <h5>{subject}</h5>
                       </li>
 
                     
