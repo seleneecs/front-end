@@ -7,7 +7,7 @@ import axios from "axios";
 const SecondarySchool = () => {
   const navigate = useNavigate()
   const [selectedSubjects, setselectedSubjects] = useState(null);
-  const [selectedGrade, setSelectedGrade] = useState(null);
+  const [selectedGrade, setSelectedGrade] = useState("Grade 10");
   const [selectedMaterial, setSelectedMaterial] = useState(null);
   const [activeSubjectIndex, setActiveSubjectIndex] = useState(null);
   const [selectedPathway, setselectedPathway] = useState(null);
@@ -133,9 +133,10 @@ const handleMaterialClick = async (material, category) => {
 
   return (
     <div className="">
-      <div className="senior-school-title">
-        <h5 className="moving">Senior School Section</h5>
-      </div>
+     <div className="senior-school-title">
+  <h1 className="moving">Senior School Section</h1>
+</div>
+
 
       {/* Grade Selection */}
           
@@ -159,7 +160,7 @@ const handleMaterialClick = async (material, category) => {
       {/* Learning Areas */}
       {selectedGrade && (
         <div className={`mt-2 selected-grade selected-grade-${selectedGrade.replace(/\s+/g, '').toLowerCase()}`}>
-          <h5 className="senior-selected-grade">{selectedGrade}</h5>
+          <h4 className="senior-selected-grade">{selectedGrade}</h4>
           {SubjectsPerPathway.map((pathway, index) => (
             <div key={index} className="mb-4 justify-items-center">
               <div className="senior-pathway">
@@ -178,7 +179,7 @@ const handleMaterialClick = async (material, category) => {
                         onClick={() => handleSubjectsClick(pathway, subject, i)}
                         tabIndex="0" // Allows the element to be focused using Tab key
                       >
-                        <h5>{subject}</h5>
+                        {subject}
                       </li>
 
                     
