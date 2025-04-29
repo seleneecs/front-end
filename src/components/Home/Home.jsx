@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
 import SecondarySchool from "../secondary/SecondarySchool";
+import OtherSchoolResources from "../otherScollResources/OtherSchoolResources";
 
 // Configuration for all sections
 const sections = [
@@ -93,7 +94,9 @@ const seleneMaterials = {
     { table: "holiday_assignments", unit: "holiday Assignments" },   
     { table: "play_group_exams", unit: "Playgroup Exams" },
     { table: "pp1_exams", unit: "PP1 Exams" },
-    { table: "pp2_exams", unit: "PP2 Exams" },
+    { table: "lesson_plans", unit: "Lesson Plans" }, //to add on db
+    { table: "records_of_work", unit: "Records of Work" },// to add on db
+    { table: "teaching_aids", unit: "Teaching Aids" },//to add on db
     
     
   ],
@@ -272,6 +275,7 @@ const handleUnitClick = async (unit, table, database, level, subject) => {
         handleUnitClick={handleUnitClick}
       />
       <SecondarySchool/>
+      <OtherSchoolResources/>
     </Layout>
   );
 };
