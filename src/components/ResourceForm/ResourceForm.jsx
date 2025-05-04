@@ -13,6 +13,8 @@ const ResourceForm = () => {
     tableName: "",
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false); // Track submission state
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -31,59 +33,73 @@ const ResourceForm = () => {
 
   const toTitleCase = (str) => {
     return str.replace(/\w\S*/g, (txt) =>
-      txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+      txt.charAt(0).toUpperCase() + txt.substr(1).toUpperCase()
     );
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+    setIsSubmitting(true); // Disable submit button during submission
+
     try {
       const baseURL = import.meta.env.VITE_API_URL;
       const formDataToSend = new FormData();
-  
+
       // Ensure subject and grade are in Title Case
       const formattedFormData = {
         ...formData,
         subject: toTitleCase(formData.subject),
         grade: toTitleCase(formData.grade),
       };
-  
+
       // Append all other form data
       Object.keys(formattedFormData).forEach((key) => {
         if (key !== "files") {
           formDataToSend.append(key, formattedFormData[key]);
         }
       });
-  
+
       // Append all files correctly
       formData.files.forEach((file) => {
         formDataToSend.append("files", file); // Ensure the key name matches backend
       });
-  
+
       // Debug: Check form data before sending
       console.log("Form Data Being Sent:");
       for (let pair of formDataToSend.entries()) {
         console.log(pair[0], pair[1]);
       }
-  
+
       const response = await axios.post(`${baseURL}/api/upload`, formDataToSend, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-  
+
       console.log("Files uploaded successfully!", response.data);
       alert("All files uploaded successfully!");
+
+      // Reset the form after successful submission
+      setFormData({
+        year: "",
+        subject: "",
+        grade: "",
+        files: [],
+        schema: "",
+        tableName: "",
+      });
+
     } catch (error) {
       console.error("Error submitting form:", error.response?.data || error.message);
       alert("An error occurred while submitting the form. Please try again.");
+    } finally {
+      setIsSubmitting(false); // Enable submit button again after submission attempt
     }
   };
-  
+
   return (
     <Layout>
-      <div className="form_container container my-5 container-fluid" >
+      <div className="form_container container my-5 container-fluid">
         <h2 className="text-center mb-4">Create Resource</h2>
         <form onSubmit={handleSubmit}>
           <div className="row">
@@ -178,16 +194,33 @@ const ResourceForm = () => {
               <label htmlFor="grade" className="form-label">
                 <strong>Grade</strong>
               </label>
-              <input
-                type="text"
+              <select
                 className="form-control"
                 id="grade"
                 name="grade"
                 value={formData.grade}
                 onChange={handleChange}
-                placeholder="Enter the grade (e.g., 7)"
                 required
-              />
+              >
+                <option value="">Select Grade</option>
+                <option value="PP1">PP1</option>
+                <option value="PP2">PP2</option>
+                <option value="GRADE 1">GRADE 1</option>
+                <option value="GRADE 2">GRADE 2</option>
+                <option value="GRADE 3">GRADE 3</option>
+                <option value="GRADE 4">GRADE 4</option>
+                <option value="GRADE 5">GRADE 5</option>
+                <option value="GRADE 6">GRADE 6</option>
+                <option value="GRADE 7">GRADE 7</option>
+                <option value="GRADE 8">GRADE 8</option>
+                <option value="GRADE 9">GRADE 9</option>
+                <option value="GRADE 10">GRADE 10</option>
+                <option value="GRADE 11">GRADE 11</option>
+                <option value="GRADE 12">GRADE 12</option>
+                <option value="FORM 2">FORM 2</option>
+                <option value="FORM 3">FORM 3</option>
+                <option value="FORM 4">FORM 4</option>
+              </select>
             </div>
           </div>
 
@@ -209,10 +242,17 @@ const ResourceForm = () => {
             </div>
           </div>
 
-          {/* Submit Button */}
+          {/* Submit Button with Spinner */}
           <div className="text-center">
-            <button type="submit" className="btn btn-primary">
-              Submit
+            <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
+              {isSubmitting ? (
+                <>
+                  <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  Submitting...
+                </>
+              ) : (
+                "Submit"
+              )}
             </button>
           </div>
         </form>
