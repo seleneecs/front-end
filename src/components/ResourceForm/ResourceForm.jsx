@@ -14,6 +14,7 @@ const ResourceForm = () => {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false); // Track submission state
+  const [uploadProgress, setUploadProgress] = useState(0); // Track upload progress
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,49 +38,105 @@ const ResourceForm = () => {
     );
   };
 
+  
+  const uploadFileToR2 = async (file, presignedUrl) => {
+    try {
+      const response = await axios.put(presignedUrl, file, {
+        headers: { "Content-Type": file.type },
+      });
+  
+      if (response.status === 200) {
+        console.log("✅ Upload completed successfully");
+        return true; // Just return true — no resolve needed
+      } else {
+        console.error(`❌ Upload failed with status: ${response.status}`);
+        throw new Error("Upload failed with status " + response.status);
+      }
+    } catch (error) {
+      console.error("⚠️ Upload error detected:", error.message);
+      throw error; // Throw the error so it can be caught in handleSubmit
+    }
+  };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true); // Disable submit button during submission
-
+    setIsSubmitting(true);
+  
+    const baseURL = import.meta.env.VITE_API_URL;
+  
+    let successfulUploads = 0;
+    let failedUploads = 0;
+  
     try {
-      const baseURL = import.meta.env.VITE_API_URL;
-      const formDataToSend = new FormData();
-
-      // Ensure subject and grade are in Title Case
-      const formattedFormData = {
-        ...formData,
-        subject: toTitleCase(formData.subject),
-        grade: toTitleCase(formData.grade),
-      };
-
-      // Append all other form data
-      Object.keys(formattedFormData).forEach((key) => {
-        if (key !== "files") {
-          formDataToSend.append(key, formattedFormData[key]);
+      for (const file of formData.files) {
+        console.log(`📥 Starting upload for file: ${file.name}`);
+  
+        const presignResponse = await axios.post(`${baseURL}/api/generate-upload-url`, {
+          originalName: file.name,
+          mimeType: file.type,
+        });
+  
+        const { uploadUrl: presignedUrl, fileKey } = presignResponse.data;
+        console.log(`✅ Presigned URL received. File Key: ${fileKey}`);
+  
+        try {
+          const uploadResult = await uploadFileToR2(file, presignedUrl);
+  
+          if (uploadResult) {
+            console.log(`✅ Upload completed for: ${file.name}`);
+            successfulUploads++;
+  
+            const fileUrl = `https://${import.meta.env.VITE_R2_ENDPOINT}/${import.meta.env.VITE_R2_BUCKET_NAME}/${fileKey}`;
+  
+            let metadataSaved = false;
+            let retries = 0;
+            const maxRetries = 3;
+  
+            while (!metadataSaved && retries < maxRetries) {
+              try {
+                await axios.post(`${baseURL}/api/create-resource`, {
+                  grade: toTitleCase(formData.grade),
+                  subject: toTitleCase(formData.subject),
+                  year: formData.year,
+                  schema: formData.schema,
+                  tableName: formData.tableName,
+                  originalName: file.name,
+                  fileKey: fileKey,
+                  fileUrl: fileUrl,
+                });
+                console.log(`✅ Metadata saved for: ${file.name}`);
+                metadataSaved = true;
+              } catch (error) {
+                retries++;
+                console.error(`❌ Failed to save metadata (attempt ${retries}):`, error);
+                if (retries >= maxRetries) {
+                  console.error(`❌ Giving up on saving metadata for: ${file.name}`);
+                } else {
+                  console.log("🔄 Retrying metadata save in 2 seconds...");
+                  await new Promise((resolve) => setTimeout(resolve, 2000));
+                }
+              }
+            }
+          } else {
+            console.error(`❌ Upload failed for: ${file.name}`);
+            failedUploads++;
+          }
+        } catch (error) {
+          console.error(`❌ Upload failed for: ${file.name}. Skipping metadata save.`);
+          failedUploads++;
         }
-      });
-
-      // Append all files correctly
-      formData.files.forEach((file) => {
-        formDataToSend.append("files", file); // Ensure the key name matches backend
-      });
-
-      // Debug: Check form data before sending
-      console.log("Form Data Being Sent:");
-      for (let pair of formDataToSend.entries()) {
-        console.log(pair[0], pair[1]);
       }
-
-      const response = await axios.post(`${baseURL}/api/upload`, formDataToSend, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      console.log("Files uploaded successfully!", response.data);
-      alert("All files uploaded successfully!");
-
-      // Reset the form after successful submission
+  
+      // ✅ Show correct final alert based on results
+      if (successfulUploads > 0 && failedUploads === 0) {
+        alert("✅ All files uploaded and metadata saved!");
+      } else if (successfulUploads > 0 && failedUploads > 0) {
+        alert(`⚠️ Some files uploaded successfully, but ${failedUploads} failed. Please check the logs.`);
+      } else {
+        alert("❌ All uploads failed. Please try again.");
+      }
+  
+      e.target.reset();
       setFormData({
         year: "",
         subject: "",
@@ -88,15 +145,16 @@ const ResourceForm = () => {
         schema: "",
         tableName: "",
       });
-
     } catch (error) {
-      console.error("Error submitting form:", error.response?.data || error.message);
-      alert("An error occurred while submitting the form. Please try again.");
+      console.error("❗ Error during upload process:", error);
+      alert("❗ Unexpected error occurred during upload.");
     } finally {
-      setIsSubmitting(false); // Enable submit button again after submission attempt
+      console.log("🔚 Upload process finished (success or error).");
+      setIsSubmitting(false);
     }
   };
-
+  
+  
   return (
     <Layout>
       <div className="form_container container my-5 container-fluid">
@@ -224,37 +282,57 @@ const ResourceForm = () => {
             </div>
           </div>
 
-          <div className="row">
-            {/* File Upload */}
-            <div className="col-md-12 mb-3">
-              <label htmlFor="files" className="form-label">
-                <strong>Files</strong>
-              </label>
-              <input
-                type="file"
-                className="form-control"
-                id="files"
-                name="files"
-                multiple
-                onChange={handleFileChange}
-                required
-              />
-            </div>
+          <div className="mb-3">
+            {/* File Input */}
+            <label htmlFor="files" className="form-label">
+              <strong>Upload Files</strong>
+            </label>
+            <input
+              type="file"
+              id="files"
+              name="files"
+              onChange={handleFileChange}
+              multiple
+              required
+            />
           </div>
 
-          {/* Submit Button with Spinner */}
-          <div className="text-center">
-            <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
+          <div className="mb-3">
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={isSubmitting}
+            >
               {isSubmitting ? (
-                <>
-                  <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                  Submitting...
-                </>
+                <span>
+                  <span
+                    className="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                  &nbsp; Uploading...
+                </span>
               ) : (
-                "Submit"
+                "Upload Resource"
               )}
             </button>
           </div>
+
+          {uploadProgress > 0 && uploadProgress < 100 && (
+            <div className="progress">
+              <div
+                className="progress-bar progress-bar-striped progress-bar-animated"
+                role="progressbar"
+                style={{ width: `${uploadProgress}%` }}
+                aria-valuenow={uploadProgress}
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                {uploadProgress}%
+              </div>
+            </div>
+          )}
         </form>
       </div>
     </Layout>
