@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./ResourceForm.css";
 import Layout from "../Layout/Layout";
+const baseURL = import.meta.env.VITE_API_URL
 
 const ResourceForm = () => {
+  
   const [formData, setFormData] = useState({
     year: "",
     subject: "",
@@ -37,122 +39,140 @@ const ResourceForm = () => {
       txt.charAt(0).toUpperCase() + txt.substr(1).toUpperCase()
     );
   };
-
+  const uploadSingleFile = async (file) => {
+    // Request a simple presigned URL
+    const response = await axios.post(`${baseURL}/api/generate-upload-url`, {
+      originalName: file.name,
+      mimeType: file.type,
+      fileSize: file.size,
+    });
   
-  const uploadFileToR2 = async (file, presignedUrl) => {
-    try {
-      const response = await axios.put(presignedUrl, file, {
-        headers: { "Content-Type": file.type },
-      });
+    const { uploadUrl, fileKey } = response.data;
   
-      if (response.status === 200) {
-        console.log("✅ Upload completed successfully");
-        return true; // Just return true — no resolve needed
-      } else {
-        console.error(`❌ Upload failed with status: ${response.status}`);
-        throw new Error("Upload failed with status " + response.status);
+    // Upload the file directly
+    const uploadResponse = await fetch(uploadUrl, {
+      method: "PUT",
+      body: file,
+    });
+  
+    if (!uploadResponse.ok) {
+      throw new Error(`Single file upload failed: ${uploadResponse.statusText}`);
+    }
+  
+    return fileKey;
+  };
+  
+  const uploadPartToR2 = async (url, partBlob, retries = 3) => {
+    let attempt = 0;
+    while (attempt < retries) {
+      try {
+        const response = await fetch(url, {
+          method: "PUT",
+          body: partBlob,
+        });
+  
+        if (!response.ok) {
+          throw new Error(`Part upload failed: ${response.statusText}`);
+        }
+  
+        const eTag = response.headers.get("ETag");
+        return eTag.replace(/"/g, ""); // clean quotes
+      } catch (err) {
+        attempt++;
+        console.error(`❌ Part upload failed (attempt ${attempt}): ${err.message}`);
+        if (attempt === retries) {
+          throw new Error(`Failed to upload part after ${retries} attempts.`);
+        }
       }
-    } catch (error) {
-      console.error("⚠️ Upload error detected:", error.message);
-      throw error; // Throw the error so it can be caught in handleSubmit
     }
   };
+  
   
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
   
-    const baseURL = import.meta.env.VITE_API_URL;
-  
-    let successfulUploads = 0;
-    let failedUploads = 0;
-  
     try {
       for (const file of formData.files) {
-        console.log(`📥 Starting upload for file: ${file.name}`);
+        console.log(`📥 Starting upload for: ${file.name}`);
   
-        const presignResponse = await axios.post(`${baseURL}/api/generate-upload-url`, {
+        let fileKey = "";
+  
+        if (file.size <= 5 * 1024 * 1024) {
+          // --- Simple Upload for small files ---
+          console.log(`🔹 Using simple upload for ${file.name}`);
+          fileKey = await uploadSingleFile(file);
+        } else {
+          // --- Multipart Upload for large files ---
+          console.log(`🔹 Using multipart upload for ${file.name}`);
+  
+          // Step 1: Initiate Multipart
+          const initiateResponse = await axios.post(`${baseURL}/api/initiate-multipart-upload`, {
+            originalName: file.name,
+            mimeType: file.type,
+            fileSize: file.size,
+          });
+  
+          const { uploadId, fileKey: initiatedFileKey, uploadUrls } = initiateResponse.data;
+          fileKey = initiatedFileKey;
+  
+          const partSize = 5 * 1024 * 1024; // 5MB
+          const parts = [];
+  
+          // Step 2: Upload each part
+          for (let i = 0; i < uploadUrls.length; i++) {
+            const start = i * partSize;
+            const end = Math.min(start + partSize, file.size);
+            const partBlob = file.slice(start, end);
+  
+            try {
+              const eTag = await uploadPartToR2(uploadUrls[i], partBlob);
+              parts.push({ ETag: eTag, PartNumber: i + 1 });
+              console.log(`✅ Part ${i + 1} uploaded`);
+            } catch (err) {
+              console.error(`❌ Failed to upload part ${i + 1}`, err);
+              throw err;
+            }
+          }
+  
+          // Step 3: Complete Multipart
+          await axios.post(`${baseURL}/api/complete-multipart-upload`, {
+            uploadId,
+            fileKey,
+            parts,
+          });
+  
+          console.log(`✅ Completed multipart upload for: ${file.name}`);
+        }
+  
+        // Step 4: Save metadata (common for both uploads)
+        const fileUrl = `https://${import.meta.env.VITE_R2_ENDPOINT}/${import.meta.env.VITE_R2_BUCKET_NAME}/${fileKey}`;
+        await axios.post(`${baseURL}/api/create-resource`, {
+          grade: toTitleCase(formData.grade),
+          subject: toTitleCase(formData.subject),
+          year: formData.year,
+          schema: formData.schema,
+          tableName: formData.tableName,
           originalName: file.name,
-          mimeType: file.type,
+          fileKey,
+          fileUrl,
         });
   
-        const { uploadUrl: presignedUrl, fileKey } = presignResponse.data;
-        console.log(`✅ Presigned URL received. File Key: ${fileKey}`);
-  
-        try {
-          const uploadResult = await uploadFileToR2(file, presignedUrl);
-  
-          if (uploadResult) {
-            console.log(`✅ Upload completed for: ${file.name}`);
-            successfulUploads++;
-  
-            const fileUrl = `https://${import.meta.env.VITE_R2_ENDPOINT}/${import.meta.env.VITE_R2_BUCKET_NAME}/${fileKey}`;
-  
-            let metadataSaved = false;
-            let retries = 0;
-            const maxRetries = 3;
-  
-            while (!metadataSaved && retries < maxRetries) {
-              try {
-                await axios.post(`${baseURL}/api/create-resource`, {
-                  grade: toTitleCase(formData.grade),
-                  subject: toTitleCase(formData.subject),
-                  year: formData.year,
-                  schema: formData.schema,
-                  tableName: formData.tableName,
-                  originalName: file.name,
-                  fileKey: fileKey,
-                  fileUrl: fileUrl,
-                });
-                console.log(`✅ Metadata saved for: ${file.name}`);
-                metadataSaved = true;
-              } catch (error) {
-                retries++;
-                console.error(`❌ Failed to save metadata (attempt ${retries}):`, error);
-                if (retries >= maxRetries) {
-                  console.error(`❌ Giving up on saving metadata for: ${file.name}`);
-                } else {
-                  console.log("🔄 Retrying metadata save in 2 seconds...");
-                  await new Promise((resolve) => setTimeout(resolve, 2000));
-                }
-              }
-            }
-          } else {
-            console.error(`❌ Upload failed for: ${file.name}`);
-            failedUploads++;
-          }
-        } catch (error) {
-          console.error(`❌ Upload failed for: ${file.name}. Skipping metadata save.`);
-          failedUploads++;
-        }
+        console.log(`✅ Metadata saved for: ${file.name}`);
       }
   
-      // ✅ Show correct final alert based on results
-      if (successfulUploads > 0 && failedUploads === 0) {
-        alert("✅ All files uploaded and metadata saved!");
-      } else if (successfulUploads > 0 && failedUploads > 0) {
-        alert(`⚠️ Some files uploaded successfully, but ${failedUploads} failed. Please check the logs.`);
-      } else {
-        alert("❌ All uploads failed. Please try again.");
-      }
-  
+      alert("🎉 All files uploaded and metadata saved successfully!");
       e.target.reset();
-      setFormData({
-        year: "",
-        subject: "",
-        grade: "",
-        files: [],
-        schema: "",
-        tableName: "",
-      });
+      setFormData({ year: "", subject: "", grade: "", files: [], schema: "", tableName: "" });
     } catch (error) {
-      console.error("❗ Error during upload process:", error);
-      alert("❗ Unexpected error occurred during upload.");
+      console.error("❗ Upload error:", error);
+      alert("❗ Error occurred during upload process.");
     } finally {
-      console.log("🔚 Upload process finished (success or error).");
       setIsSubmitting(false);
     }
   };
+  
+  
   
   
   return (
