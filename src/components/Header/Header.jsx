@@ -67,7 +67,7 @@ const Header = ({ children }) => {
         <div className="d-flex align-items-center gap-3 flex-nowrap w-100 overflow-hidden">
           <img src="/logo.jpg" alt="Logo" className="logo-small flex-shrink-0" />
           <h1 className="fs-5 fs-md-4 mb-0 text-nowrap overflow-hidden text-truncate">
-            Welcome to SeleneECS
+             SeleneECS
           </h1>
         </div>
 
@@ -127,7 +127,7 @@ const Header = ({ children }) => {
           </div>
         ) : (
           <Link to="/login/register">
-            <button className="btn btn-outline-greenish">Get Started</button>
+            <button className="btn btn-outline-greenish">Login</button>
           </Link>
         )}
 

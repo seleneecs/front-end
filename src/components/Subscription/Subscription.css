@@ -1,0 +1,18 @@
+.hero-right {
+  background: white;
+  padding: 40px;
+  border-radius: 6px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  height: 100%; /* Optional if you want it to match hero-left height */
+}
+
+.hero-right form {
+  width: 100%; /* ⬅️ This makes the form fill hero-right */
+}
+
+.hero-right h2 {
+  margin-bottom: 20px;
+  font-size: 32px;
+  font-weight: 600;
+  color: #212529;
+}

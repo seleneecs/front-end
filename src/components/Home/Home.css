@@ -45,14 +45,14 @@
 }
 .card .title{
   width: 100%;
-  background-color: rgba(119, 6, 211, 0.87);
+  background-color: #0e2050;
   color: #f8f9fa;
 }
 .grade {
   font-weight: bold;
   margin-bottom: 15px;
-  color: rgba(119, 6, 211, 0.87);
-  border-bottom: 1px solid rgba(119, 6, 211, 0.87);
+  color: #0e2050;
+  border-bottom: 1px solid #0e2050;
   
 }
 
