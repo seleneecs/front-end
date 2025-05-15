@@ -13,14 +13,15 @@ const SubscriptionForm = () => {
   const [checkoutRequestID, setCheckoutRequestID] = useState(null);
 
   // ✅ Custom hook gives access to WebSocket and accepts callback for payment status
-  const socketRef = usePaymentSocket((data) => {
-    if (data.status === "success") {
-      alert("🎉 Payment confirmed successfully!");
-      navigate("/");
-    } else {
-      alert("❌ Payment failed. Please try again.");
-    }
-  });
+ const socketRef = usePaymentSocket((data) => {
+  if (data?.mpesaReceipt) {
+    alert("🎉 Payment confirmed successfully!");
+    navigate("/");
+  } else {
+    alert("❌ Payment failed. Please try again.");
+  }
+});
+
 
   const [formData, setFormData] = useState({
     subscribed_category: "",
