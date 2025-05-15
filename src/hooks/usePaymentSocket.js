@@ -1,50 +1,36 @@
-import { useEffect } from "react";
+// usePaymentSocket.js
+import { useEffect, useRef } from "react";
 
-const usePaymentSocket = (checkoutRequestID, onMessage) => {
+const usePaymentSocket = (onMessage) => {
+  const socketRef = useRef(null);
+
   useEffect(() => {
-    if (!checkoutRequestID) return;
+    const ws = new WebSocket(import.meta.env.VITE_WS_URL);
+    socketRef.current = ws;
 
-    const wsUrl = import.meta.env.VITE_WS_URL; 
-    if (!wsUrl) {
-      console.error("WebSocket URL is not defined in environment variables");
-      return;
-    }
-
-    // Append the checkoutRequestID as a query param or path if needed:
-    // e.g., `${wsUrl}?checkoutRequestID=${checkoutRequestID}`
-    // or `${wsUrl}/${checkoutRequestID}`
-    // depending on your backend design
-
-    const fullUrl = `${wsUrl}?checkoutRequestID=${checkoutRequestID}`;
-
-    const socket = new WebSocket(fullUrl);
-
-    socket.onopen = () => {
-      console.log("WebSocket connected", fullUrl);
+    ws.onopen = () => {
+      console.log("✅ WebSocket connected");
     };
 
-    socket.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data);
-        onMessage(data);
-      } catch (err) {
-        console.error("Error parsing WebSocket message", err);
-      }
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      onMessage(data);
     };
 
-    socket.onerror = (error) => {
-      console.error("WebSocket error:", error);
+    ws.onerror = (err) => {
+      console.error("❌ WebSocket error:", err);
     };
 
-    socket.onclose = (event) => {
-      console.log(`WebSocket closed: code=${event.code} reason=${event.reason}`);
+    ws.onclose = () => {
+      console.log("❌ WebSocket closed");
     };
 
     return () => {
-      socket.close();
-      console.log("WebSocket closed on cleanup");
+      ws.close();
     };
-  }, [checkoutRequestID, onMessage]);
+  }, []);
+
+  return socketRef;
 };
 
 export default usePaymentSocket;

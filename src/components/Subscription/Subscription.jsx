@@ -7,35 +7,33 @@ import Layout from "../Layout/Layout";
 import usePaymentSocket from "../../hooks/usePaymentSocket";
 
 const SubscriptionForm = () => {
-  const { userId } = useContext(UserContext);
   const navigate = useNavigate();
-
+  const { userId } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
-  const [checkoutRequestID, setCheckoutRequestID] = useState(null); // ✅ for WebSocket
+  const [checkoutRequestID, setCheckoutRequestID] = useState(null);
 
-  const [formData, setFormData] = useState({
-    subscribed_category: "",
-    PhoneNumber: "",
-    Amount: "",     
-    user_id: "",
-  });
-
-  // ✅ use WebSocket hook — listens once checkoutRequestID is set
-  usePaymentSocket(checkoutRequestID, (data) => {
+  // ✅ Custom hook gives access to WebSocket and accepts callback for payment status
+  const socketRef = usePaymentSocket((data) => {
     if (data.status === "success") {
       alert("🎉 Payment confirmed successfully!");
-      navigate("/"); // You can customize where to go
-    } else  {
+      navigate("/");
+    } else {
       alert("❌ Payment failed. Please try again.");
     }
   });
 
+  const [formData, setFormData] = useState({
+    subscribed_category: "",
+    PhoneNumber: "",
+    Amount: "",
+    user_id: "",
+  });
+
   useEffect(() => {
-    if (userId) {     
+    if (userId) {
       setFormData((prevData) => ({
         ...prevData,
-        user_id: userId,       
-        
+        user_id: userId,
       }));
     }
   }, [userId]);
@@ -65,9 +63,16 @@ const SubscriptionForm = () => {
       );
 
       const checkoutId = res.data.CheckoutRequestID?.toString();
-      setCheckoutRequestID(checkoutId); // ✅ Triggers WebSocket listening
-      console.log("Subscription response:", res.data);
-      alert(`Subscription request sent! Waiting for confirmation...`);
+      setCheckoutRequestID(checkoutId); // ✅ Triggers WebSocket hook logic
+
+      if (checkoutId && socketRef.current?.readyState === WebSocket.OPEN) {
+        socketRef.current.send(JSON.stringify({ checkoutRequestID: checkoutId }));
+        console.log("✅ Sent checkoutRequestID to WebSocket");
+      } else {
+        console.warn("⚠️ WebSocket not ready to send checkoutRequestID");
+      }
+
+      alert("Subscription request sent! Waiting for confirmation...");
     } catch (error) {
       console.error("Subscription error:", error.response?.data || error.message);
       alert("Failed to process subscription.");
@@ -112,14 +117,14 @@ const SubscriptionForm = () => {
               <div className="mb-3">
                 <label className="form-label">Phone Number</label>
                 <input
-                      type="tel"
-                      className="form-control"
-                      name="PhoneNumber"
-                      placeholder="07XXXXXXXX"
-                      pattern="^07\d{8}$"
-                      value={formData.PhoneNumber}
-                      onChange={handleChange}
-                      required
+                  type="tel"
+                  className="form-control"
+                  name="PhoneNumber"
+                  placeholder="07XXXXXXXX"
+                  pattern="^07\d{8}$"
+                  value={formData.PhoneNumber}
+                  onChange={handleChange}
+                  required
                 />
               </div>
 
@@ -134,7 +139,7 @@ const SubscriptionForm = () => {
                   onChange={handleChange}
                   required
                 />
-              </div>             
+              </div>
 
               <button
                 type="submit"
