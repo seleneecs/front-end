@@ -6,6 +6,7 @@ import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 import SecurityCheckForm from "./SecurityCheckForm";
 import ResetPasswordForm from "./ResetPasswordForm";
+import { devLog } from "../../utils/devLog";
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -105,7 +106,7 @@ const AuthPage = () => {
     setSuccess(null);
     try {
       const response = await axios.post(`${baseURL}/api/auth/verify-security`, securityData);
-      console.log("data on verification", response.data)
+      devLog("data on verification", response.data)
       if (response.data.message ==='Security question verified successfully') {
         setShowReset("reset-password");
       } else {

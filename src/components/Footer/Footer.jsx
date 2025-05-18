@@ -61,14 +61,21 @@ const Footer = () => {
             <li className="mx-2"><a className="custom-footer-text" href="#">Privacy Policy</a></li>
             <li className="mx-2"><a className="custom-footer-text" href="#">Terms & Conditions</a></li>
             <li className="mx-2">
-              <a className="custom-footer-text position-relative" href="#" title="0720 938 209">Contact Us</a>
+              <a className="custom-footer-text position-relative" href="#" title="0720 938 209">Contact Us: 0720 938 209</a>
+              
             </li>
-
-            <li className="mx-2"><a className="custom-footer-text" href="/support">Support</a></li>
+            <li className="mx-2">
+              <a className="custom-footer-text position-relative" href="#" title="0720 938 209">Email: info@seleneecs.com</a>
+              
+            </li>
+            <li className="mx-2"><a className="custom-footer-text" href="/support">Support</a></li>            
+            
+          
           </ul>
           <ul className="list-unstyled fs-7 fw-light custom-footer-text d-flex">
-            <li>&copy; 2024 seleneECS. All rights reserved.</li>
+            <li>&copy; 2024 seleneECS. All rights reserved.</li>            
           </ul>
+          
         </div>
       </div>
     </footer>
