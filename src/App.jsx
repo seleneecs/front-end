@@ -2,15 +2,19 @@ import React from "react"
 
 import {BrowserRouter} from "react-router-dom"
 import AppRoutes from "./AppRoutes"
-const App=()=> { 
+import ComingSoon from "./components/comingSoon"
 
-  return (
+
+const showComingSoon = true;
+
+const App = () => {
+  return showComingSoon ? (
+    <ComingSoon />
+  ) : (
     <BrowserRouter>
-
-    <AppRoutes/>
-    
+      <AppRoutes />
     </BrowserRouter>
-  )
-}
+  );
+};
 
-export default App
+export default App;

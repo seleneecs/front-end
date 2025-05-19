@@ -8,40 +8,33 @@ const OthersSection = () => {
   
   const categorizedResources = {
     "Pre-Primary School": [
-      "Video Lessons",
-      "Interactive Chats",
-      "Downloadable Worksheets / Notes",
-      "Daily Challenges or Brain Teasers",
-      "Gamified Learning Modules",
-      "Offline Resources (Download for later)",
-      "Parent/Guardian Dashboard"
+      "PREPRIMARY TEACHING AIDS",
+      "PRESCHOOL PRINTABLES AND ACTIVITY BOOKS",
+      "WORKSHEETS",
+      "NURSERY RHYME SONGS",
+      "PREPRIMARY ASSESSMENT BOOKS",
+      "COLOURING PAGES"     
     ],
     "Primary School": [
-      "Live Webinars / Classes",
-      "Quizzes & Practice Tests",
-      "Progress Tracking & Analytics",
-      "Discussion Forums",
-      "Subject Glossary / Dictionary",
-      "Resource Library (PDFs, Slides, etc.)",
-      "Ask a Teacher (Q&A Section)"
+      "ebooks",
+      "KICD COMPETENCY BASED CURRICULUM MATERIALS",
+      "KICD CURRICULUM DESIGNS",
+      "KICD TRAINING TOOLS",
+      "LESSON PLANS",
+      "POWER POINT PRESENTATIONS",
+      "TOPICAL REVISION BOOKLETS",
+      "tips"
     ],
-    "Secondary School": [
-      "Peer Collaboration / Study Groups",
-      "Mentorship / Tutor Connect",
-      "Career Guidance Corner",
-      "Events & Competitions",
-      "Revision Planner / Scheduler",
-      "Offline Resources (Download for later)",
-      "Student Achievements / Badges"
+    "Junior School": [
+      "JUNIOR SCHOOL RECORDS OF WORK",
+      "JUNIOR SCHOOL LESSON PLANS",
+      "JUNIOR SCHOOL QUESTIONS & ANSWERS BOOKLETS"      
     ],
     "Senior School": [
       "Advanced Video Lessons",
       "Exam-Focused Practice Tests",
-      "Career Planning Tools",
-      "Live Tutoring Sessions",
-      "Internship / Volunteer Opportunities",
-      "Mentorship / Tutor Connect",
-      "Scholarship & University Resources"
+      "Career Planning Tools"    
+      
     ]
   };
 
