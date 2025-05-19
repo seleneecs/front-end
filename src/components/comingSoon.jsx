@@ -30,7 +30,8 @@ const ComingSoon = () => {
  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:8000/launch/notify/me', {
+        const baseURL = import.meta.env.VITE_API_URL;
+      const response = await fetch(`${baseURL}/launch/notify/me`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
