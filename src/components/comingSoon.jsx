@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./comingSoon.css";
 
 const ComingSoon = () => {
   const calculateTimeLeft = () => {
@@ -6,141 +7,107 @@ const ComingSoon = () => {
     const now = new Date();
     const difference = targetDate - now;
 
-    let timeLeft = {};
-    if (difference > 0) {
-      timeLeft = {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60),
-      };
-    }
+    if (difference <= 0) return {};
 
-    return timeLeft;
+    return {
+      days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+      hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+      minutes: Math.floor((difference / 1000 / 60) % 60),
+      seconds: Math.floor((difference / 1000) % 60),
+    };
   };
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  const [hasLaunched, setHasLaunched] = useState(Object.keys(timeLeft).length === 0);
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setTimeLeft(calculateTimeLeft()), 1000);
-    return () => clearTimeout(timer);
-  });
+    const interval = setInterval(() => {
+      const remaining = calculateTimeLeft();
+      setTimeLeft(remaining);
+      setHasLaunched(Object.keys(remaining).length === 0);
+    }, 1000);
 
- const handleSubmit = async (e) => {
+    return () => clearInterval(interval);
+  }, []);
+
+  const isValidEmail = (email) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!isValidEmail(email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    setLoading(true);
     try {
-        const baseURL = import.meta.env.VITE_API_URL;
+      const baseURL = import.meta.env.VITE_API_URL;
       const response = await fetch(`${baseURL}/launch/notify/me`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
       const data = await response.json();
       alert(data.message);
-      setEmail('');
+      setEmail("");
     } catch (error) {
-      console.error('Error:', error);
-      alert('There was an error submitting your email.');
+      console.error("Error:", error);
+      alert("There was an error submitting your email.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.heading}>SeleneECS is Coming Soon 🚀</h1>
-      {Object.keys(timeLeft).length > 0 ? (
-        <div style={styles.timer}>
+    <div className="coming-soon-container">
+      <h1 className="coming-soon-heading">SeleneECS is Coming Soon 🚀</h1>
+
+      {!hasLaunched ? (
+        <div className="coming-soon-timer">
           {Object.entries(timeLeft).map(([unit, value]) => (
-            <div key={unit} style={styles.timeBox}>
-              <span style={styles.time}>{value}</span>
+            <div key={unit} className="time-box">
+              <span className="time">{value}</span>
               <span>{unit}</span>
             </div>
           ))}
         </div>
       ) : (
-        <p style={styles.launched}>We're live!</p>
+        <p className="launched-text">We're live!</p>
       )}
 
-      <form onSubmit={handleSubmit} style={styles.form}>
+      <form onSubmit={handleSubmit} className="notify-form">
         <input
           type="email"
           placeholder="Email"
+          aria-label="Email address"
           value={email}
           required
           onChange={(e) => setEmail(e.target.value)}
-          style={styles.input}
+          className="notify-input"
         />
-        <button type="submit" style={styles.button}>Notify Me</button>
+        <button
+          type="submit"
+          className="notify-button"
+          disabled={loading}
+          style={{ opacity: loading ? 0.7 : 1 }}
+        >
+          {loading ? "Submitting..." : "Notify Me"}
+        </button>
       </form>
 
       <a
-        href="https://web.facebook.com/profile.php?id=61556763399546" // replace with actual page
+        href="https://web.facebook.com/profile.php?id=61556763399546"
         target="_blank"
         rel="noopener noreferrer"
-        style={styles.link}
+        className="fb-link"
       >
         Visit us on Facebook
       </a>
     </div>
   );
-};
-
-const styles = {
-  container: {
-    textAlign: "center",
-    padding: "50px 20px",
-    fontFamily: "Arial, sans-serif",
-    backgroundColor: "#f8f9fa",
-    minHeight: "100vh",
-  },
-  heading: {
-    fontSize: "2.5rem",
-    marginBottom: "20px",
-  },
-  timer: {
-    display: "flex",
-    justifyContent: "center",
-    gap: "20px",
-    marginBottom: "30px",
-  },
-  timeBox: {
-    backgroundColor: "#fff",
-    padding: "15px 20px",
-    borderRadius: "8px",
-    boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-  },
-  time: {
-    fontSize: "1.5rem",
-    display: "block",
-    fontWeight: "bold",
-  },
-  form: {
-    marginBottom: "20px",
-  },
-  input: {
-    padding: "10px",
-    width: "200px",
-    marginRight: "10px",
-    borderRadius: "4px",
-    border: "1px solid #ccc",
-  },
-  button: {
-    padding: "10px 15px",
-    border: "none",
-    backgroundColor: "#007bff",
-    color: "#fff",
-    borderRadius: "4px",
-    cursor: "pointer",
-  },
-  link: {
-    color: "#007bff",
-    textDecoration: "none",
-    fontSize: "1rem",
-  },
-  launched: {
-    fontSize: "1.2rem",
-    fontWeight: "bold",
-  },
 };
 
 export default ComingSoon;
