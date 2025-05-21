@@ -1,0 +1,9 @@
+.custom-form{
+    padding: 0px 12px;
+    width: 100%;
+}
+.custom-form form{
+   padding: none;
+   margin: none;
+   box-sizing: border-box;
+}

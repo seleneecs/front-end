@@ -155,7 +155,8 @@ const ResourceForm = () => {
 
   return (
     <Layout>
-      <div className="form_container container my-5">
+      <div className="form_container my-5 custom-form">
+
         <h2 className="text-center mb-4">Create Resource</h2>
 
         <form onSubmit={handleSubmit}>

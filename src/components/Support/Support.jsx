@@ -30,7 +30,7 @@ const Support = () => {
     return (
       <div className="container mt-4">
         <h2>Support - Staff Panel</h2>
-        <ResourceForm />
+        {navigate("/resource/form")}
       </div>
     );
   }
