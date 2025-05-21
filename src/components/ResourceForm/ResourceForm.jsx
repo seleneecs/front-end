@@ -13,6 +13,8 @@ const ResourceForm = () => {
     files: [],
     schema: "",
     tableName: "",
+    term: "",
+    set: set
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -244,6 +246,39 @@ const ResourceForm = () => {
                 value={formData.subject}
                 onChange={handleChange}
                 placeholder="Enter the subject (e.g., Mathematics)"
+                required
+              />
+            </div>
+            {/* Term Input */}
+            <div className="col-md-4 mb-3">
+                <label htmlFor="term" className="form-label">
+                  <strong>Term</strong>
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="term"
+                  name="term"
+                  value={formData.term}
+                  onChange={handleChange}
+                  placeholder="Enter the term (e.g., Term 3)"
+                  required
+                />
+              </div>
+
+            {/* Set Input */}
+            <div className="col-md-4 mb-3">
+              <label htmlFor="subject" className="form-label">
+                <strong>Set</strong>
+              </label>
+              <input
+                type="number"
+                className="form-control"
+                id="set"
+                name="set"
+                value={formData.set}
+                onChange={handleChange}
+                placeholder="Enter the Set (e.g., Set 3)"
                 required
               />
             </div>
