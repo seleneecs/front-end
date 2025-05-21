@@ -27,7 +27,7 @@ const AppRoutes = () => (
       <Route path="/resource/form" element={<ResourceForm />} />
       <Route path="/display" element={<DynamicDataDisplay />} />
       <Route path="/login/register" element={<AuthPage />} /> {/* ✅ Replaced with AuthPage */}
-      <Route path="/subscription" element={<SubscriptionForm />} />
+      <Route path="/subscriptions" element={<SubscriptionForm />} />
       <Route path="/admin/user/management" element={<AdminUserManagement />} />
       <Route path="/support" element={<AdminUserManagement />} />
       <Route path="/subscription/management" element={<SubscriptionManagement />} />

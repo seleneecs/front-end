@@ -1,10 +1,44 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import Select from "react-select";
 import { useNavigate } from "react-router-dom";
 import "./Subscription.css";
 import { UserContext } from "../../context/UserContext";
 import Layout from "../Layout/Layout";
 import usePaymentSocket from "../../hooks/usePaymentSocket";
+
+const categoryOptions = [
+  { value: 'PP1', label: 'PP1', color: '#FF00FF' },
+  { value: 'PP2', label: 'PP2', color: '#FF00FF' },
+  { value: 'GRADE 1', label: 'GRADE 1' },
+  { value: 'GRADE 2', label: 'GRADE 2' },
+  { value: 'GRADE 3', label: 'GRADE 3' },
+  { value: 'GRADE 4', label: 'GRADE 4' },
+  { value: 'GRADE 5', label: 'GRADE 5' },
+  { value: 'GRADE 6', label: 'GRADE 6' },
+  { value: 'GRADE 7', label: 'GRADE 7' },
+  { value: 'GRADE 8', label: 'GRADE 8' },
+  { value: 'GRADE 9', label: 'GRADE 9' },
+  { value: 'FORM 2', label: 'FORM 2' },
+  { value: 'FORM 3', label: 'FORM 3' },
+  { value: 'FORM 4', label: 'FORM 4' },
+  { value: 'STEM', label: 'STEM', color: '#0000FF' },
+  { value: 'Arts and Sport', label: 'Arts and Sport', color: '#0000FF' },
+  { value: 'SOCIAL SCIENCES', label: 'SOCIAL SCIENCES', color: '#0000FF' },
+];
+
+const customSelectStyles = {
+  option: (provided, state) => ({
+    ...provided,
+    color: state.data.color || 'black',
+    backgroundColor: state.isFocused ? '#f0f0f0' : 'white',
+    padding: 10,
+  }),
+  singleValue: (provided, state) => ({
+    ...provided,
+    color: state.data.color || 'black',
+  }),
+};
 
 const SubscriptionForm = () => {
   const navigate = useNavigate();
@@ -12,16 +46,14 @@ const SubscriptionForm = () => {
   const [loading, setLoading] = useState(false);
   const [checkoutRequestID, setCheckoutRequestID] = useState(null);
 
-  // ✅ Custom hook gives access to WebSocket and accepts callback for payment status
- const socketRef = usePaymentSocket((data) => {
-  if (data?.mpesaReceipt) {
-    alert("🎉 Payment confirmed successfully!");
-    navigate("/");
-  } else {
-    alert("❌ Payment failed. Please try again.");
-  }
-});
-
+  const socketRef = usePaymentSocket((data) => {
+    if (data?.mpesaReceipt) {
+      alert("🎉 Payment confirmed successfully!");
+      navigate("/");
+    } else {
+      alert("❌ Payment failed. Please try again.");
+    }
+  });
 
   const [formData, setFormData] = useState({
     subscribed_category: "",
@@ -32,17 +64,18 @@ const SubscriptionForm = () => {
 
   useEffect(() => {
     if (userId) {
-      setFormData((prevData) => ({
-        ...prevData,
+      setFormData((prev) => ({
+        ...prev,
         user_id: userId,
       }));
     }
   }, [userId]);
 
-  const handleChange = (e) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [e.target.name]: e.target.value,
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
     }));
   };
 
@@ -64,7 +97,7 @@ const SubscriptionForm = () => {
       );
 
       const checkoutId = res.data.CheckoutRequestID?.toString();
-      setCheckoutRequestID(checkoutId); // ✅ Triggers WebSocket hook logic
+      setCheckoutRequestID(checkoutId);
 
       if (checkoutId && socketRef.current?.readyState === WebSocket.OPEN) {
         socketRef.current.send(JSON.stringify({ checkoutRequestID: checkoutId }));
@@ -94,27 +127,28 @@ const SubscriptionForm = () => {
           <div className="col-md-6 hero-right">
             <h2>Subscribe Now</h2>
             <form onSubmit={handleSubmit}>
+              {/* Category Selection */}
               <div className="mb-3">
                 <label className="form-label">Subscription Category</label>
-                <select
-                  className="form-select"
+                <Select
                   name="subscribed_category"
-                  value={formData.subscribed_category}
-                  onChange={handleChange}
+                  options={categoryOptions}
+                  styles={customSelectStyles}
+                  value={categoryOptions.find(
+                    (option) => option.value === formData.subscribed_category
+                  )}
+                  onChange={(selected) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      subscribed_category: selected.value,
+                    }))
+                  }
+                  isDisabled={loading}
                   required
-                  disabled={loading}
-                >
-                  <option value="">Select a Category</option>
-                  {[
-                    "PP1", "PP2", "GRADE 1", "GRADE 2", "GRADE 3", "GRADE 4", "GRADE 5",
-                    "GRADE 6", "GRADE 7", "GRADE 8", "GRADE 9", "FORM 2", "FORM 3", "FORM 4",
-                    "STEM", "Arts and Sport", "SOCIAL SCIENCES"
-                  ].map((category, index) => (
-                    <option key={index} value={category}>{category}</option>
-                  ))}
-                </select>
+                />
               </div>
 
+              {/* Phone Number */}
               <div className="mb-3">
                 <label className="form-label">Phone Number</label>
                 <input
@@ -124,11 +158,12 @@ const SubscriptionForm = () => {
                   placeholder="07XXXXXXXX"
                   pattern="^07\d{8}$"
                   value={formData.PhoneNumber}
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                   required
                 />
               </div>
 
+              {/* Amount */}
               <div className="mb-3">
                 <label className="form-label">Amount (Ksh)</label>
                 <input
@@ -137,11 +172,12 @@ const SubscriptionForm = () => {
                   name="Amount"
                   placeholder="Enter amount"
                   value={formData.Amount}
-                  onChange={handleChange}
+                  onChange={handleInputChange}
                   required
                 />
               </div>
 
+              {/* Submit Button */}
               <button
                 type="submit"
                 className="btn btn-primary w-100"
