@@ -5,7 +5,7 @@ import AppRoutes from "./AppRoutes"
 import ComingSoon from "./components/comingSoon"
 
 
-const showComingSoon = true;
+let showComingSoon = false;
 
 const App = () => {
   return showComingSoon ? (
