@@ -14,7 +14,7 @@ const ResourceForm = () => {
     schema: "",
     tableName: "",
     term: "",
-    set: set
+    set: "", // fixed: initialized as empty string
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -95,6 +95,7 @@ const ResourceForm = () => {
 
         if (file.size <= 5 * 1024 * 1024) {
           fileKey = await uploadSingleFile(file);
+          setUploadProgress(100);
         } else {
           const initiateResponse = await axios.post(`${baseURL}/api/initiate-multipart-upload`, {
             originalName: file.name,
@@ -116,7 +117,6 @@ const ResourceForm = () => {
             const eTag = await uploadPartToR2(uploadUrls[i], partBlob);
             parts.push({ ETag: eTag, PartNumber: i + 1 });
 
-            // Update progress
             const progress = Math.round(((i + 1) / uploadUrls.length) * 100);
             setUploadProgress(progress);
           }
@@ -129,6 +129,7 @@ const ResourceForm = () => {
         }
 
         const fileUrl = `https://${import.meta.env.VITE_R2_ENDPOINT}/${import.meta.env.VITE_R2_BUCKET_NAME}/${fileKey}`;
+
         await axios.post(`${baseURL}/api/create-resource`, {
           grade: toTitleCase(formData.grade),
           subject: toTitleCase(formData.subject),
@@ -138,6 +139,8 @@ const ResourceForm = () => {
           originalName: file.name,
           fileKey,
           fileUrl,
+          term: formData.term,
+          set: formData.set,
         });
 
         setUploadProgress(100);
@@ -145,7 +148,16 @@ const ResourceForm = () => {
 
       alert("🎉 All files uploaded and metadata saved successfully!");
       e.target.reset();
-      setFormData({ year: "", subject: "", grade: "", files: [], schema: "", tableName: "" });
+      setFormData({
+        year: "",
+        subject: "",
+        grade: "",
+        files: [],
+        schema: "",
+        tableName: "",
+        term: "",
+        set: "",
+      });
     } catch (error) {
       console.error("❗ Upload error:", error);
       alert("❗ Error occurred during upload.");
@@ -158,191 +170,110 @@ const ResourceForm = () => {
   return (
     <Layout>
       <div className="form_container my-5 custom-form">
-
         <h2 className="text-center mb-4">Create Resource</h2>
 
         <form onSubmit={handleSubmit}>
           <fieldset disabled={isSubmitting}>
-          <div className="row">
-            {/* Schema Dropdown */}
-            <div className="col-md-6 mb-3">
-              <label htmlFor="schema" className="form-label">
-                <strong>Schema/Database</strong>
-              </label>
-              <select
-                className="form-select"
-                id="schema"
-                name="schema"
-                value={formData.schema}
-                onChange={handleChange}
-                required
-              >
-                <option value="" disabled>Select a schema</option>
-                <option value="selene_primaryschool">Primary School</option>
-                <option value="selene_secondary">Secondary School</option>
-                <option value="selene_jss">Junior Secondary School</option>
-                <option value="selene_seniorschool">Senior Secondary School</option>
-                <option value="selene_priprimary">Preprimary</option>
-              </select>
-            </div>
-
-            {/* Table Name Dropdown */}
-            <div className="col-md-6 mb-3">
-              <label htmlFor="tableName" className="form-label">
-                <strong>Table Name</strong>
-              </label>
-              <select
-                className="form-select"
-                id="tableName"
-                name="tableName"
-                value={formData.tableName}
-                onChange={handleChange}
-                required
-              >
-                <option value="" disabled>Select a table</option>
-                <option value="fullset_examinations">Fullset Examinations</option>
-                <option value="ksce_past_papers">KCSE Past Papers</option>
-                <option value="schemes">Schemes</option>
-                <option value="revision_notes">Revision Notes</option>
-                <option value="assesment_tools">Assessment Tools</option>
-                <option value="trial_examinations">Trial Examinations</option>
-                <option value="curriculum_designs">Curriculum Design</option>
-                <option value="holiday_assignments">Holiday Assignments</option>
-                <option value="play_group_exams">Play Group Exams</option>
-                <option value="pp1_exams">PP1 Exams</option>
-                <option value="pp2_exams">PP2 Exams</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="row">
-            {/* Year Input */}
-            <div className="col-md-4 mb-3">
-              <label htmlFor="year" className="form-label">
-                <strong>Year</strong>
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="year"
-                name="year"
-                value={formData.year}
-                onChange={handleChange}
-                placeholder="Enter the year (e.g., 2024)"
-                required
-              />
-            </div>
-
-            {/* Subject Input */}
-            <div className="col-md-4 mb-3">
-              <label htmlFor="subject" className="form-label">
-                <strong>Subject</strong>
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="subject"
-                name="subject"
-                value={formData.subject}
-                onChange={handleChange}
-                placeholder="Enter the subject (e.g., Mathematics)"
-                required
-              />
-            </div>
-            {/* Term Input */}
-            <div className="col-md-4 mb-3">
-                <label htmlFor="term" className="form-label">
-                  <strong>Term</strong>
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="term"
-                  name="term"
-                  value={formData.term}
-                  onChange={handleChange}
-                  placeholder="Enter the term (e.g., Term 3)"
-                  required
-                />
+            <div className="row">
+              <div className="col-md-6 mb-3">
+                <label htmlFor="schema" className="form-label"><strong>Schema/Database</strong></label>
+                <select className="form-select" id="schema" name="schema" value={formData.schema} onChange={handleChange} required>
+                  <option value="" disabled>Select a schema</option>
+                  <option value="selene_primaryschool">Primary School</option>
+                  <option value="selene_secondary">Secondary School</option>
+                  <option value="selene_jss">Junior Secondary School</option>
+                  <option value="selene_seniorschool">Senior Secondary School</option>
+                  <option value="selene_priprimary">Preprimary</option>
+                </select>
               </div>
 
-            {/* Set Input */}
-            <div className="col-md-4 mb-3">
-              <label htmlFor="subject" className="form-label">
-                <strong>Set</strong>
-              </label>
-              <input
-                type="number"
-                className="form-control"
-                id="set"
-                name="set"
-                value={formData.set}
-                onChange={handleChange}
-                placeholder="Enter the Set (e.g., Set 3)"
-                required
-              />
-            </div>
-
-            {/* Grade Input */}
-            <div className="col-md-4 mb-3">
-              <label htmlFor="grade" className="form-label">
-                <strong>Grade</strong>
-              </label>
-              <select
-                className="form-select"
-                id="grade"
-                name="grade"
-                value={formData.grade}
-                onChange={handleChange}
-                required
-              >
-                <option value="">Select Grade</option>
-                {[
-                  "PP1", "PP2", "GRADE 1", "GRADE 2", "GRADE 3", "GRADE 4", "GRADE 5",
-                  "GRADE 6", "GRADE 7", "GRADE 8", "GRADE 9", "GRADE 10", "GRADE 11", "GRADE 12",
-                  "FORM 1", "FORM 2", "FORM 3", "FORM 4"
-                ].map((grade) => (
-                  <option key={grade} value={grade}>{grade}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          {/* File Input */}
-          <div className="mb-3">
-            <label htmlFor="files" className="form-label">
-              <strong>Upload Files</strong>
-            </label>
-            <input
-              type="file"
-              className="form-control"
-              id="files"
-              name="files"
-              multiple
-              onChange={handleFileChange}
-              required
-            />
-          </div>
-
-          {/* Progress Bar */}
-          {isSubmitting && (
-            <div className="progress mb-3">
-              <div
-                className="progress-bar progress-bar-striped progress-bar-animated"
-                role="progressbar"
-                style={{ width: `${uploadProgress}%` }}
-              >
-                {uploadProgress}%
+              <div className="col-md-6 mb-3">
+                <label htmlFor="tableName" className="form-label"><strong>Table Name</strong></label>
+                <select className="form-select" id="tableName" name="tableName" value={formData.tableName} onChange={handleChange} required>
+                  <option value="" disabled>Select a table</option>
+                  <option value="fullset_examinations">Fullset Examinations</option>
+                  <option value="ksce_past_papers">KCSE Past Papers</option>
+                  <option value="schemes">Schemes</option>
+                  <option value="revision_notes">Revision Notes</option>
+                  <option value="assesment_tools">Assessment Tools</option>
+                  <option value="trial_examinations">Trial Examinations</option>
+                  <option value="curriculum_designs">Curriculum Design</option>
+                  <option value="holiday_assignments">Holiday Assignments</option>
+                  <option value="play_group_exams">Play Group Exams</option>
+                  <option value="pp1_exams">PP1 Exams</option>
+                  <option value="pp2_exams">PP2 Exams</option>
+                </select>
               </div>
             </div>
-          )}
 
-          <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
-            {isSubmitting ? "Uploading..." : "Submit"}
-          </button>
+            <div className="row">
+              <div className="col-md-4 mb-3">
+                <label htmlFor="year" className="form-label"><strong>Year</strong></label>
+                <input type="text" className="form-control" id="year" name="year" value={formData.year} onChange={handleChange} placeholder="Enter year (e.g., 2024)" required />
+              </div>
+
+              <div className="col-md-4 mb-3">
+                <label htmlFor="subject" className="form-label"><strong>Subject</strong></label>
+                <input type="text" className="form-control" id="subject" name="subject" value={formData.subject} onChange={handleChange} placeholder="Enter subject (e.g., Mathematics)" required />
+              </div>
+
+              <div className="col-md-4 mb-3">
+                <label htmlFor="term" className="form-label"><strong>Term</strong></label>
+                <input type="text" className="form-control" id="term" name="term" value={formData.term} onChange={handleChange} placeholder="Enter term (e.g., Term 3)" required />
+              </div>
+
+              <div className="col-md-4 mb-3">
+                <label htmlFor="set" className="form-label"><strong>Set</strong></label>
+                <input type="number" className="form-control" id="set" name="set" value={formData.set} onChange={handleChange} placeholder="Enter set (e.g., 2)" required />
+              </div>
+
+              <div className="col-md-4 mb-3">
+                <label htmlFor="grade" className="form-label"><strong>Grade</strong></label>
+                <select className="form-select" id="grade" name="grade" value={formData.grade} onChange={handleChange} required>
+                  <option value="">Select Grade</option>
+                  {[
+                    "PP1", "PP2", "GRADE 1", "GRADE 2", "GRADE 3", "GRADE 4", "GRADE 5",
+                    "GRADE 6", "GRADE 7", "GRADE 8", "GRADE 9", "GRADE 10", "GRADE 11", "GRADE 12",
+                    "FORM 1", "FORM 2", "FORM 3", "FORM 4"
+                  ].map((grade) => (
+                    <option key={grade} value={grade}>{grade}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="mb-3">
+              <label htmlFor="files" className="form-label"><strong>Upload Files</strong></label>
+              <input type="file" className="form-control" id="files" name="files" multiple onChange={handleFileChange} required />
+            </div>
+
+            {uploadProgress > 0 && (
+              <div className="progress mb-3">
+                <div
+                  className="progress-bar"
+                  role="progressbar"
+                  style={{ width: `${uploadProgress}%` }}
+                  aria-valuenow={uploadProgress}
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  {uploadProgress}%
+                </div>
+              </div>
+            )}
+
+            <div className="d-flex justify-content-center">
+  <button
+    type="submit"
+    className="btn btn-primary w-auto px-4"
+    disabled={isSubmitting}
+  >
+    {isSubmitting ? "Uploading..." : "Submit"}
+  </button>
+</div>
+
           </fieldset>
         </form>
-        
       </div>
     </Layout>
   );
