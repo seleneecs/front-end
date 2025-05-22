@@ -220,9 +220,22 @@ const ResourceForm = () => {
               </div>
 
               <div className="col-md-4 mb-3">
-                <label htmlFor="term" className="form-label"><strong>Term</strong></label>
-                <input type="text" className="form-control" id="term" name="term" value={formData.term} onChange={handleChange} placeholder="Enter term (e.g., Term 3)" required />
-              </div>
+              <label htmlFor="term" className="form-label"><strong>Term</strong></label>
+              <select
+                className="form-control"
+                id="term"
+                name="term"
+                value={formData.term}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select  Term</option>
+                <option value="Term 1">Term 1</option>
+                <option value="Term 2">Term 2</option>
+                <option value="Term 3">Term 3</option>
+              </select>
+            </div>
+
 
               <div className="col-md-4 mb-3">
                 <label htmlFor="set" className="form-label"><strong>Set</strong></label>
