@@ -22,12 +22,12 @@ const ResourceForm = () => {
 
   const handleChange = (e) => {
   const { name, value } = e.target;
-
   setFormData((prevData) => ({
     ...prevData,
-    [name]: name === "set" ? `[set] ${value.replace(/^\[set\]\s*/i, '')}` : value,
+    [name]: value,
   }));
 };
+
 
 
   const handleFileChange = (e) => {
@@ -142,7 +142,7 @@ const ResourceForm = () => {
           fileKey,
           fileUrl,
           term: formData.term,
-          set: formData.set,
+          set: formData.set ? `[set] ${formData.set}` : "",
         });
 
         setUploadProgress(100);
