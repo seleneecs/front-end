@@ -142,7 +142,7 @@ const ResourceForm = () => {
           fileKey,
           fileUrl,
           term: formData.term,
-          set: formData.set ? `[set] ${formData.set}` : "",
+          set: formData.set ? `[set${formData.set}] ` : "",
         });
 
         setUploadProgress(100);
