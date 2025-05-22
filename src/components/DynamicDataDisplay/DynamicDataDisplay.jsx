@@ -16,6 +16,8 @@ const DynamicDataDisplay = () => {
   const [selectedYear, setSelectedYear] = useState("All");
   const [selectedSubject, setSelectedSubject] = useState("All");
   const [selectedGrade, setSelectedGrade] = useState("All");
+  const [selectedTerm, setSelectedTerm] = useState("All");
+  const [selectedSet, setSelectedSet] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -46,6 +48,8 @@ const DynamicDataDisplay = () => {
       if (selectedYear !== "All" && item.year !== selectedYear) return false;
       if (selectedSubject !== "All" && item.subject !== selectedSubject) return false;
       if (selectedGrade !== "All" && item.grade !== selectedGrade) return false;
+      if (selectedTerm !== "All" && item.term !== selectedTerm) return false;
+      if (selectedSet !== "All" && item.set !== selectedSet) return false;
 
       if (searchTerm.trim() !== "") {
         const lowerSearch = searchTerm.toLowerCase();
@@ -58,7 +62,7 @@ const DynamicDataDisplay = () => {
       }
       return true;
     });
-  }, [actualData, selectedYear, selectedSubject, selectedGrade, searchTerm]);
+  }, [actualData, selectedYear, selectedSubject, selectedGrade,selectedTerm, selectedSet, searchTerm]);
 
   // --- Pagination ---
   const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
@@ -142,6 +146,14 @@ const DynamicDataDisplay = () => {
     return Array.from(new Set(actualData.map((item) => item.grade).filter(Boolean))).sort();
   }, [actualData]);
 
+  const uniqueTerm = useMemo(() => {
+    return Array.from(new Set(actualData.map((item) => item.term).filter(Boolean))).sort();
+  }, [actualData]);
+
+  const uniqueSet = useMemo(() => {
+    return Array.from(new Set(actualData.map((item) => item.set).filter(Boolean))).sort();
+  }, [actualData]);
+
   // Pagination Controls
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
@@ -206,6 +218,40 @@ const DynamicDataDisplay = () => {
                   {uniqueGrades.map((grade) => (
                     <option key={grade} value={grade}>
                       {grade}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="col-md-2 mb-2">
+                <select
+                  className="form-select"
+                  value={selectedTerm}
+                  onChange={(e) => {
+                    setSelectedTerm(e.target.value);
+                    setCurrentPage(1);
+                  }}
+                >
+                  <option value="All">All Term</option>
+                  {uniqueTerm.map((term) => (
+                    <option key={term} value={term}>
+                      {term}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="col-md-2 mb-2">
+                <select
+                  className="form-select"
+                  value={selectedSet}
+                  onChange={(e) => {
+                    setSelectedSet(e.target.value);
+                    setCurrentPage(1);
+                  }}
+                >
+                  <option value="All">All Sets</option>
+                  {uniqueSet.map((set) => (
+                    <option key={set} value={set}>
+                      {set}
                     </option>
                   ))}
                 </select>
@@ -315,7 +361,7 @@ const DynamicDataDisplay = () => {
           show={showModal}
           onClose={() => setShowModal(false)}
           onLogin={() =>
-            buttonTitle === "Login" ? navigate("/login") : navigate("/subscriptions")
+            buttonTitle === "Login" ? navigate("/login/register") : navigate("/subscriptions")
           }
           title={modalTitle}
           buttonTitle={buttonTitle}
