@@ -21,12 +21,14 @@ const ResourceForm = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+  const { name, value } = e.target;
+
+  setFormData((prevData) => ({
+    ...prevData,
+    [name]: name === "set" ? `[set] ${value.replace(/^\[set\]\s*/i, '')}` : value,
+  }));
+};
+
 
   const handleFileChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
@@ -224,7 +226,7 @@ const ResourceForm = () => {
 
               <div className="col-md-4 mb-3">
                 <label htmlFor="set" className="form-label"><strong>Set</strong></label>
-                <input type="number" className="form-control" id="set" name="set" value={formData.set} onChange={handleChange} placeholder="Enter set (e.g., 2)" required />
+                <input type="number" className="form-control" id="set" name="set" value={formData.set} onChange={handleChange} placeholder="Enter set (e.g., 2)"/>
               </div>
 
               <div className="col-md-4 mb-3">

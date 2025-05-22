@@ -40,7 +40,7 @@ const DynamicDataDisplay = () => {
   const schema = urlParams.get("schema");
   const category = urlParams.get("category");
 
-  const allowedFields = ["subject", "grade", "file", "fileName", "year"];
+  const allowedFields = ["subject", "grade", "file", "fileName", "year", "term", "set"];
 
   // --- Filtering ---
   const filteredData = useMemo(() => {

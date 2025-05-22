@@ -116,7 +116,7 @@ const seleneMaterials = {
     { table: "grade7_examinations", unit: "Grade 7 Examinations" },
     { table: "grade8_examinations", unit: "Grade 8 Examinations" },
     { table: "holiday_assignments", unit: "Holiday Assignments" },
-    { table: "notes", unit: "Notes" },
+    { table: "revision_notes", unit: "revision_notes" },
     { table: "schemes", unit: "Schemes" },
   ],
   selene_secondary: [
