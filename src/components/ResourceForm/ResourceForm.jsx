@@ -236,6 +236,7 @@ const ResourceForm = () => {
                   <option value="">-- Select --</option>
                   <option value="Question Paper">Question Paper</option>
                   <option value="Marking Scheme">Marking Scheme</option>
+                  <option value="Marking Scheme">Question & Answers</option>
                 </select>
               </div>
 
