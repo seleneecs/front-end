@@ -231,8 +231,7 @@ const ResourceForm = () => {
                   id="QPMS"
                   name="QPMS"
                   value={formData.QPMS}
-                  onChange={handleChange}
-                  required
+                  onChange={handleChange}                  
                 >
                   <option value="">-- Select --</option>
                   <option value="Question Paper">Question Paper</option>
