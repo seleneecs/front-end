@@ -225,8 +225,19 @@ const ResourceForm = () => {
                 <input type="text" className="form-control" id="subject" name="subject" value={formData.subject} onChange={handleChange} placeholder="Enter subject (e.g., Mathematics)" required />
               </div>
               <div className="col-md-4 mb-3">
-                <label htmlFor="QPMS" className="form-label"><strong>QPMS</strong></label>
-                <input type="text" className="form-control" id="QPMS" name="QPMS" value={formData.QPMS} onChange={handleChange} placeholder="Enter Question Paper/ Marking Scheme" />
+                <label htmlFor="QPMS" className="form-label"><strong>Marking Scheme / Question Paper</strong></label>
+                <select
+                  className="form-select"
+                  id="QPMS"
+                  name="QPMS"
+                  value={formData.QPMS}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">-- Select --</option>
+                  <option value="Question Paper">Question Paper</option>
+                  <option value="Marking Scheme">Marking Scheme</option>
+                </select>
               </div>
 
               <div className="col-md-4 mb-3">
