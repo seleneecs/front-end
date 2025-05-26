@@ -94,9 +94,7 @@ const seleneMaterials = {
     { table: "holiday_assignments", unit: "holiday Assignments" },   
     { table: "play_group_exams", unit: "Playgroup Exams" },
     { table: "pp1_exams", unit: "PP1 Exams" },
-    { table: "lesson_plans", unit: "Lesson Plans" }, //to add on db
-    { table: "records_of_work", unit: "Records of Work" },// to add on db
-    { table: "teaching_aids", unit: "Teaching Aids" },//to add on db
+    
     
     
   ],

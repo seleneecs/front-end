@@ -9,6 +9,7 @@ const ResourceForm = () => {
   const [formData, setFormData] = useState({
     year: "",
     subject: "",
+    QPMS: "",
     grade: "",
     files: [],
     schema: "",
@@ -38,11 +39,10 @@ const ResourceForm = () => {
     }));
   };
 
-  const toTitleCase = (str) => {
-    return str.replace(/\w\S*/g, (txt) =>
-      txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-    );
-  };
+ const toUpperCase = (str) => {
+  return str.toUpperCase();
+};
+
 
   const uploadSingleFile = async (file) => {
     const response = await axios.post(`${baseURL}/api/generate-upload-url`, {
@@ -133,8 +133,9 @@ const ResourceForm = () => {
         const fileUrl = `https://${import.meta.env.VITE_R2_ENDPOINT}/${import.meta.env.VITE_R2_BUCKET_NAME}/${fileKey}`;
 
         await axios.post(`${baseURL}/api/create-resource`, {
-          grade: toTitleCase(formData.grade),
-          subject: toTitleCase(formData.subject),
+          grade: toUpperCase(formData.grade),
+          subject: toUpperCase(formData.subject),
+          QPMS: formData.QPMS,
           year: formData.year,
           schema: formData.schema,
           tableName: formData.tableName,
@@ -153,6 +154,7 @@ const ResourceForm = () => {
       setFormData({
         year: "",
         subject: "",
+        QPMS: "",
         grade: "",
         files: [],
         schema: "",
@@ -204,6 +206,10 @@ const ResourceForm = () => {
                   <option value="play_group_exams">Play Group Exams</option>
                   <option value="pp1_exams">PP1 Exams</option>
                   <option value="pp2_exams">PP2 Exams</option>
+                  <option value="teaching_aids">Teaching Aids</option>
+                  <option value="lesson_plans"> Lesson Plans</option> 
+                  <option value="records_of_work"> Records of Work</option>              
+   
                 </select>
               </div>
             </div>
@@ -218,6 +224,10 @@ const ResourceForm = () => {
                 <label htmlFor="subject" className="form-label"><strong>Subject</strong></label>
                 <input type="text" className="form-control" id="subject" name="subject" value={formData.subject} onChange={handleChange} placeholder="Enter subject (e.g., Mathematics)" required />
               </div>
+              <div className="col-md-4 mb-3">
+                <label htmlFor="QPMS" className="form-label"><strong>QPMS</strong></label>
+                <input type="text" className="form-control" id="QPMS" name="QPMS" value={formData.QPMS} onChange={handleChange} placeholder="Enter Question Paper/ Marking Scheme" />
+              </div>
 
               <div className="col-md-4 mb-3">
               <label htmlFor="term" className="form-label"><strong>Term</strong></label>
@@ -230,6 +240,7 @@ const ResourceForm = () => {
                 required
               >
                 <option value="">Select  Term</option>
+                <option value="All">All</option>
                 <option value="Term 1">Term 1</option>
                 <option value="Term 2">Term 2</option>
                 <option value="Term 3">Term 3</option>
@@ -247,7 +258,7 @@ const ResourceForm = () => {
                 <select className="form-select" id="grade" name="grade" value={formData.grade} onChange={handleChange} required>
                   <option value="">Select Grade</option>
                   {[
-                    "PP1", "PP2", "GRADE 1", "GRADE 2", "GRADE 3", "GRADE 4", "GRADE 5",
+                    "All", "PP1", "PP2", "GRADE 1", "GRADE 2", "GRADE 3", "GRADE 4", "GRADE 5",
                     "GRADE 6", "GRADE 7", "GRADE 8", "GRADE 9", "GRADE 10", "GRADE 11", "GRADE 12",
                     "FORM 1", "FORM 2", "FORM 3", "FORM 4"
                   ].map((grade) => (
