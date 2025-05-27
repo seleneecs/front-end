@@ -64,6 +64,13 @@ const ComingSoon = () => {
   return (
     <div className="coming-soon-container">
       <h1 className="coming-soon-heading">SeleneECS is Coming Soon 🚀</h1>
+      <div className="highlighted-paragraph">
+  <p>
+    Access a wide range of educational materials, past exams, and
+    study resources to excel in your academic journey.
+  </p>
+</div>
+
 
       {!hasLaunched ? (
         <div className="coming-soon-timer">

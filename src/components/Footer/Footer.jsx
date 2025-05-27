@@ -20,11 +20,7 @@ const Footer = () => {
           {/* Column 2 */}
           <div className="col-12 col-md-2 mb-4">
             <a className="footer-link-bold text-light mb-3" href="#">PROFESIONAL DEVELOPMENT AND SUPPORT </a>
-            <ul className="list-unstyled custom-footer-text py-2">
-              <li><a className="custom-footer-text" href="#">Online Courses & Training Modules</a></li>
-              <li><a className="custom-footer-text" href="#">Certifications and Badges</a></li>
-              <li><a className="custom-footer-text" href="#">Mentorship Programs</a></li>
-              <li><a className="custom-footer-text" href="#">Virtual Workshops and Webinars</a></li>
+            <ul className="list-unstyled custom-footer-text py-2"> 
               <li><a className="custom-footer-text" href="#">Discussion Forums and Communities</a></li>
               <li><a className="custom-footer-text" href="#">Access to External Resources (Research, Articles, Books)</a></li>
             </ul>
@@ -35,8 +31,7 @@ const Footer = () => {
             <a className="footer-link-bold text-light mb-3" href="#">ABOUT</a>
             <ul className="list-unstyled custom-footer-text py-2">
               <li><a className="custom-footer-text" href="#">Meet the Team</a></li>
-              <li><a className="custom-footer-text" href="#">Careers at Our Company</a></li>
-              <li><a className="custom-footer-text" href="#">Customer Testimonials</a></li>
+              <li><a className="custom-footer-text" href="#">Careers at Our Company</a></li>              
               <li><a className="custom-footer-text" href="#">Our Partners</a></li>
               <li><a className="custom-footer-text" href="#">Our Offices & Locations</a></li>
               <li><a className="custom-footer-text" href="#">Contact Us</a></li>
@@ -46,11 +41,10 @@ const Footer = () => {
           <div className="col-12 col-md-2 mb-4">
             <a className="footer-link-bold text-light mb-3" href="#">CONNECT WITH seleneECS</a>
             <ul className="list-unstyled custom-footer-text py-2">
-              <li><a className="custom-footer-text" href="#">Follow Us on Facebook</a></li>
+              <li><a className="custom-footer-text" href="https://web.facebook.com/profile.php?id=61556763399546">Follow Us on Facebook</a></li>
               <li><a className="custom-footer-text" href="#">Follow Us on Instagram</a></li>
               <li><a className="custom-footer-text" href="#">Contact Our Support Team</a></li>
-              <li><a className="custom-footer-text" href="#">Connect with Us on WhatsApp</a></li>
-              <li><a className="custom-footer-text" href="#">Schedule a Consultation</a></li>
+              <li><a className="custom-footer-text" href="#">Connect with Us on WhatsApp</a></li>              
               <li><a className="custom-footer-text" href="#">Connect via Phone or SMS</a></li>
             </ul>
           </div>
@@ -61,7 +55,7 @@ const Footer = () => {
             <li className="mx-2"><a className="custom-footer-text" href="#">Privacy Policy</a></li>
             <li className="mx-2"><a className="custom-footer-text" href="#">Terms & Conditions</a></li>
             <li className="mx-2">
-              <a className="custom-footer-text position-relative" href="#" title="0720 938 209">Contact Us: 0720 938 209</a>
+              <a className="custom-footer-text position-relative" href="#" title="0720 938 209">Contact Us: 0748 98 01 78</a>
               
             </li>
             <li className="mx-2">
