@@ -114,7 +114,7 @@ const ComingSoon = () => {
         Visit us on Facebook
       </a>
       <p>Call us on: 0748 99 67 31</p>
-      <a href="/"> Home</a>
+      
     </div>
   );
 };
