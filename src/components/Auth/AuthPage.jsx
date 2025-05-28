@@ -59,6 +59,7 @@ const AuthPage = () => {
         setToken(response.data.token);
         setRole(response.data.user.role || "ordinary_user");
         navigate("/");
+        window.location.reload();
       } else {
         setError("No user ID in response");
       }

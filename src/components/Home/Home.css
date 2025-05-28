@@ -8,6 +8,7 @@
   width: 100%;
   overflow: hidden;
   z-index: 0;
+  margin-bottom: 12px;
 }
 
 .home-container::before {
@@ -16,12 +17,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  background: 
-    linear-gradient(rgba(227, 227, 227, 0.5), rgba(227, 227, 227, 0.5)), /* bright grey overlay */
-    url("../../assets/images/AdobeStock_320947940_Preview.jpeg");
-  background-size: cover;
-  background-position: center;
+
   z-index: -1;
 }
 
@@ -123,5 +119,225 @@ font-size: 14px;
 }
 
 
+.main-layout {
+  display: flex;
+  height: 100vh; /* Adjust as needed based on your layout */
+  gap: 1rem;
+  overflow: hidden; /* Prevent layout overflow */
+}
+
+.column {
+  flex: 1;
+  min-width: 0;
+  
+  overflow: hidden; /* Prevent internal scroll unless specified */
+}
+
+.center-column {
+  overflow-y: auto;
+  background-color: #f8f9fa;
+}
+
+.left-column {
+  overflow-y: scroll;              /* Enables scrolling */
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f8f9fa;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  padding: 16px;
+
+  /* Hide scrollbar */
+  scrollbar-width: none;          /* Firefox */
+  -ms-overflow-style: none;       /* Internet Explorer 10+ */
+}
+
+.left-column::-webkit-scrollbar {
+  display: none;                  /* Chrome, Safari, Opera */
+}
 
 
+
+
+.email-info {
+  margin-top: 10px;
+  display: flex;
+  
+  gap: 8px;
+  font-size: 16px;
+  color: #879fff;
+}
+
+.email-icon {
+  width: 18px;
+  height: 18px;
+  color: #879fff;
+}
+
+.subscribed-section {
+  margin-top: 12px;
+}
+
+.subscribed-section h4 {
+  margin: 0;
+  font-size: 18px;
+  color: #222;
+}
+
+
+
+
+.right-column {
+  padding: 16px;
+  background-color: #fefefe;
+  border-left: 1px solid #e0e0e0;
+  overflow-y: auto;
+  height: 100vh;
+  width: 280px;
+}
+
+.right-column h2 {
+  font-size: 20px;
+  margin-bottom: 16px;
+  color: #1c6fc6;
+}
+
+.social-widget,
+.news-widget {
+  margin-bottom: 24px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(6px);
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.social-widget h5,
+.news-widget h5 {
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.news-widget ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.news-widget ul li {
+  margin-bottom: 8px;
+}
+
+.news-widget ul li a {
+  color: #1c6fc6;
+  text-decoration: none;
+}
+
+.news-widget ul li a:hover {
+  text-decoration: underline;
+}
+
+
+@media (max-width: 768px) {
+  .left-column,
+  .right-column {
+    display: none;
+  }
+
+  .center-column {
+    flex: 1 1 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .main-layout {
+    height: auto;
+    flex-direction: column;
+  }
+}
+
+
+
+.sidebar-content-wrapper{
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.category-group {
+  width: calc(100% + 20px);  /* increases width by 20px */
+  margin-left: -10px;        /* shift it back to center */ 
+  margin-top: 12px;
+  border-bottom: 2px solid rgb(239, 243, 255);
+ 
+}
+
+
+
+
+.category-group ul {
+  list-style: none;        /* remove default bullets */
+  padding: 0;
+  margin: 0;
+}
+
+.category-group li {
+  padding: 6px 0; 
+  font-size: 14px;
+  color: #000000;
+}
+
+.category-group li:last-child {
+  border-bottom: none;     /* remove last item border */
+}
+.category-group h5 {
+  position: relative;
+  padding-left: 24px; /* Space for the icon */
+  margin-bottom: 8px;
+  font-size: 17px;  
+  font-weight: 600;
+  color: #1c6fc6;
+}
+
+.category-group h5::before {
+  content: "📘"; /* Emoji or Unicode icon */
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 16px;
+}
+
+
+.subscription-intro {
+  text-align: center;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+
+  background: rgba(255, 255, 255, 0.25);       /* Smooth glass tint */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+
+  color: #1c6fc6;                             /* Calming blue */
+  font-size: 15.5px;
+  line-height: 1.6;
+}
+
+
+.subscription-intro p {
+  color: #1c6fc6; /* Same soft blue */
+  font-size: 17px;
+  line-height: 1.6;
+  margin-top: 10px;
+  font-weight: 700;
+}
+
+.subscription-categories ul li {
+  color: #1c6fc6;
+}

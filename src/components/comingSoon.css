@@ -17,6 +17,7 @@
   font-size: 6vw;
   max-width: 90%;
   margin: 0 auto 20px;
+  color: #007bff;
 }
 
 .coming-soon-timer {
@@ -81,24 +82,59 @@
   margin-top: 15px;
 }
 
-/* Highlighted paragraph section */
 .highlighted-paragraph {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 16px;
-  width: 100%;
-  max-width: 600px;
-  margin: 30px auto; /* Centered and spaced from other elements */
-  background: radial-gradient(circle, #f1f8ff 0%, transparent 100%);
+   background: radial-gradient(circle, #f1f8ff 0%, transparent 100%);
   box-shadow: 0 0 15px rgba(31, 31, 31, 0.2);
+  padding: 30px 20px;
+  max-width: 750px;
+  margin: 40px auto;
+  border-radius: 12px;
+  color: #2c2c2c;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.highlighted-paragraph .intro {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 25px;
+  text-align: center;
+  color: #007bff;
+}
+
+.highlighted-paragraph .section {
+  margin-bottom: 20px;
+}
+
+.highlighted-paragraph h6 {
+  font-size: 1.1rem;
+  color: #004080;
+  margin-bottom: 8px;
+  font-weight: bold;
 }
 
 .highlighted-paragraph p {
-  color: #000000;
-  font-weight: 600;
-  font-size: 1.1rem;
-  letter-spacing: 0.5px;
-  text-align: center;
+  font-size: 1rem;
+  line-height: 1.5;
   margin: 0;
+}
+
+.features-list {
+  list-style: disc;
+  padding-left: 25px;
+  margin: 10px 0 0 0;
+  text-align: left;
+  justify-items: center;
+}
+
+.features-list li {
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.cta {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 1.15rem;
+  color: #007bff;
+  font-weight: 700;
 }

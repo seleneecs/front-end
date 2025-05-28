@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { Mail } from "lucide-react";
 import Layout from "../Layout/Layout";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../context/UserContext";
 import "./Home.css";
 import SecondarySchool from "../secondary/SecondarySchool";
 import OtherSchoolResources from "../otherScollResources/OtherSchoolResources";
@@ -82,21 +84,17 @@ const sections = [
       },
     ],
   },
-
 ];
 
 // Table names mapping
 const seleneMaterials = {
-  selene_priprimary: [    
+  selene_priprimary: [
     { table: "schemes", unit: "Schemes" },
     { table: "curriculum_designs", unit: "Curriculum Designs" },
     { table: "revision_notes", unit: "Revision Notes" },
-    { table: "holiday_assignments", unit: "holiday Assignments" },   
+    { table: "holiday_assignments", unit: "Holiday Assignments" },
     { table: "play_group_exams", unit: "Playgroup Exams" },
     { table: "pp1_exams", unit: "PP1 Exams" },
-    
-    
-    
   ],
   selene_primaryschool: [
     { table: "schemes", unit: "Schemes" },
@@ -104,7 +102,7 @@ const seleneMaterials = {
     { table: "revision_notes", unit: "Revision Notes" },
     { table: "curriculum_designs", unit: "Curriculum Designs" },
     { table: "fullset_examinations", unit: "Fullset Examinations" },
-    { table: "holiday_assignments", unit: "Holiday Assignments" },   
+    { table: "holiday_assignments", unit: "Holiday Assignments" },
     { table: "trial_examinations", unit: "Trial Examinations" },
   ],
   selene_jss: [
@@ -114,27 +112,27 @@ const seleneMaterials = {
     { table: "grade7_examinations", unit: "Grade 7 Examinations" },
     { table: "grade8_examinations", unit: "Grade 8 Examinations" },
     { table: "holiday_assignments", unit: "Holiday Assignments" },
-    { table: "revision_notes", unit: "revision_notes" },
+    { table: "revision_notes", unit: "Revision Notes" },
     { table: "schemes", unit: "Schemes" },
   ],
   selene_secondary: [
     { table: "schemes", unit: "Schemes" },
-    { table: "assesment_tools", unit: "Assesment Tools" },
+    { table: "assesment_tools", unit: "Assessment Tools" },
     { table: "fullset_examinations", unit: "Fullset Examinations" },
-    { table: "holiday_assignments", unit: "Holiday Assignments" },    
+    { table: "holiday_assignments", unit: "Holiday Assignments" },
     { table: "ksce_past_papers", unit: "KCSE Past Papers" },
-    { table: "revision_notes", unit: "Revision Notes" },    
+    { table: "revision_notes", unit: "Revision Notes" },
     { table: "trial_examinations", unit: "Trial Examinations" },
   ],
 };
 
-
-
 // Renderer component
 const Renderer = ({ sections, handleSubjectClick, selectedTables, handleUnitClick }) => (
   <div className="home-container">
+    <h1>Download files below</h1>
     {sections.map(({ name, levels, subjects, titles }) => (
       <div className="card" key={name}>
+        
         <div className="title">
           <h5>{name}</h5>
         </div>
@@ -152,15 +150,14 @@ const Renderer = ({ sections, handleSubjectClick, selectedTables, handleUnitClic
                           {subject}
                         </span>
                         {selectedTables
-  .filter((table) => table.label === `${level} ${subject}`)
-  .map(({ unit, table, database, level, subject }) => (
-    <ul className="nested-list" key={table}>
-      <li onClick={() => handleUnitClick(unit, table, database, level, subject)}>
-        {unit}
-      </li>
-    </ul>
-  ))}
-
+                          .filter((table) => table.label === `${level} ${subject}`)
+                          .map(({ unit, table, database, level, subject }) => (
+                            <ul className="nested-list" key={table}>
+                              <li onClick={() => handleUnitClick(unit, table, database, level, subject)}>
+                                {unit}
+                              </li>
+                            </ul>
+                          ))}
                       </li>
                     ))}
                   </ul>
@@ -175,7 +172,7 @@ const Renderer = ({ sections, handleSubjectClick, selectedTables, handleUnitClic
                     </span>
                     {selectedTables
                       .filter((table) => table.label === `${level} ${subject}`)
-                      .map(({unit,  table, database, level, subject }) => (
+                      .map(({ unit, table, database, level, subject }) => (
                         <ul className="nested-list" key={table}>
                           <li onClick={() => handleUnitClick(unit, table, database, level, subject)}>{unit}</li>
                         </ul>
@@ -192,88 +189,221 @@ const Renderer = ({ sections, handleSubjectClick, selectedTables, handleUnitClic
 );
 
 const Home = () => {
+  const { userId, setUserId, token, setToken, role, setRole, email, setEmail } = useContext(UserContext);
+  const navigate = useNavigate();
+  const [selectedTables, setSelectedTables] = useState([]);
 
-  const navigate= useNavigate()
-const [selectedTables, setSelectedTables] = useState([]);
-console.log("selected tables",selectedTables)
-const handleSubjectClick = (section, level, subject) => {
-  console.log("section:", section);
-  console.log("level:", level);
-  console.log("subject:", subject);
+  // On mount, initialize context state from localStorage if available
+  useEffect(() => {
+    const storedUserId = localStorage.getItem("userId");
+    const storedToken = localStorage.getItem("token");
+    const storedRole = localStorage.getItem("role");
+    const storedEmail = localStorage.getItem("email");
 
-  const sectionToTableMap = {
-    "Pre-Primary School": "selene_priprimary",
-    "Primary School": "selene_primaryschool",
-    "Junior School": "selene_jss",
-    "Secondary School": "selene_secondary",
-    "Senior Secondary School": "selene_secondary",
-  };
+    if (storedUserId) setUserId(storedUserId);
+    if (storedToken) setToken(storedToken);
+    if (storedRole) setRole(storedRole);
+    if (storedEmail) setEmail(storedEmail);
+  }, [setUserId, setToken, setRole, setEmail]);
 
-  const database = sectionToTableMap[section];
-  if (!database) return;
+  // Sync changes in context to localStorage
+  useEffect(() => {
+    if (userId) localStorage.setItem("userId", userId);
+    else localStorage.removeItem("userId");
 
-  const tables = seleneMaterials[database] || [];
-  setSelectedTables(
-    tables.map((table) => ({
-      ...table,
-      database,
-      level,  // Ensure "Grade 7" or "Form 2" remains separate
-      subject,
-      label: `${level} ${subject}`, // Only used for filtering, not API calls
-    }))
-  );
-};
+    if (token) localStorage.setItem("token", token);
+    else localStorage.removeItem("token");
 
+    if (role) localStorage.setItem("role", role);
+    else localStorage.removeItem("role");
 
+    if (email) localStorage.setItem("email", email);
+    else localStorage.removeItem("email");
+  }, [userId, token, role, email]);
 
-const handleUnitClick = async (unit, table, database, level, subject) => {
- 
-  console.log("CLICKED DETAILS", "table:", table, "database:", database, "Grade/Form:", level, "subject:", subject);
-  console.log("Category (level) before building URL:", level);
-
-  // Ensure `level` remains unchanged and does not include `subject`
-  const formattedGrade = level.trim(); // Keeps "Grade 7" or "Form 2" as-is
-
-  try {
-    const baseURL = import.meta.env.VITE_API_URL;
-  
-
-    // Send correct parameters
-    const queryParams = {
-      grade: formattedGrade, // Ensure "Form 2" or "Grade 7", no subject concatenation
-      tableName: table,
-      subject: subject, // Pass subject separately
-      schema: database,
-      category:level
+  const handleSubjectClick = (section, level, subject) => {
+    const sectionToTableMap = {
+      "Pre-Primary School": "selene_priprimary",
+      "Primary School": "selene_primaryschool",
+      "Junior School": "selene_jss",
+      "Secondary School": "selene_secondary",
+      "Senior Secondary School": "selene_secondary",
     };
 
-    const fullURL = `${baseURL}/api/resource?${new URLSearchParams(queryParams).toString()}`;
-    console.log("Corrected Full URL:", fullURL);
+    const database = sectionToTableMap[section];
+    if (!database) return;
 
-    const response = await axios.get(fullURL, {
-      withCredentials: true, // ✅ Ensure cookies are sent with the request
-    });
+    const tables = seleneMaterials[database] || [];
+    setSelectedTables(
+      tables.map((table) => ({
+        ...table,
+        database,
+        level,
+        subject,
+        label: `${level} ${subject}`,
+      }))
+    );
+  };
 
+  const handleUnitClick = async (unit, table, database, level, subject) => {
+    const formattedGrade = level.trim();
+    try {
+      const baseURL = import.meta.env.VITE_API_URL;
+      const queryParams = {
+        grade: formattedGrade,
+        tableName: table,
+        subject: subject,
+        schema: database,
+        category: level,
+      };
 
-    navigate("/display", { state: { data: response.data, type: "table", fullURL } });
-  } catch (error) {
-    console.error("Error fetching data:", error.response ? error.response.data : error.message);
-  }
-};
+      const fullURL = `${baseURL}/api/resource?${new URLSearchParams(queryParams).toString()}`;
+      const response = await axios.get(fullURL, { withCredentials: true });
 
-
-
+      navigate("/display", { state: { data: response.data, type: "table", fullURL } });
+    } catch (error) {
+      console.error("Error fetching data:", error.response ? error.response.data : error.message);
+    }
+  };
 
   return (
     <Layout>
-      <Renderer
-        sections={sections}
-        handleSubjectClick={handleSubjectClick}
-        selectedTables={selectedTables}
-        handleUnitClick={handleUnitClick}
-      />
-      <SecondarySchool/>
-      <OtherSchoolResources/>
+      <div className="main-layout">
+        <div className="column left-column">          
+          <div className="sidebar-content-wrapper">
+             <div className="subscription-intro">
+              <h4>Subscriptions Choices</h4>
+              <p>Explore our carefully structured learning categories designed to align with 
+                Kenya’s Competency-Based Education (CBE). From early foundational levels to 
+                specialized senior school pathways, you can subscribe to resources that match your academic needs:
+              </p>
+             </div>
+              <div className="subscription-categories">                       
+                  <div className="category-group">                  
+                    <h5>Preprimary</h5>
+                    <ul>
+                      <li>PP1</li>
+                      <li>PP2</li>
+                    </ul>
+                  </div>
+                
+                  <div className="category-group">
+                    <h5>Primary</h5>
+                    <ul>
+                      <li>GRADE 1</li>
+                      <li>GRADE 2</li>
+                      <li>GRADE 3</li>
+                      <li>GRADE 4</li>
+                      <li>GRADE 5</li>
+                      <li>GRADE 6</li>
+                      
+                    </ul>
+                  </div>
+                  <div className="category-group">
+                    <h5>Junior School</h5>
+                    <ul>                    
+                      <li>GRADE 7</li>
+                      <li>GRADE 8</li>
+                      <li>GRADE 9</li>
+                    </ul>
+                  </div>
+                  <div className="category-group">
+                    <h5>Secondary School</h5>
+                    <ul>                    
+                      <li>GRADE 7</li>
+                      <li>GRADE 8</li>
+                      <li>GRADE 9</li>
+                    </ul>
+                  </div>
+                  <div className="category-group">
+                    <h5>Senior School </h5>
+                    <ul>                    
+                      <li>STEM</li>
+                      <li>ART & SPORTS</li>
+                      <li>SOCIAL SCIENCES</li>
+                    </ul>
+                  </div>
+                  <div className="category-group">
+                    <h5>Senior School </h5>
+                    <ul>                    
+                      <li>STEM</li>
+                      <li>ART & SPORTS</li>
+                      <li>SOCIAL SCIENCES</li>
+                    </ul>
+                  </div>
+                  <div className="category-group">
+                    <h5>Senior School </h5>
+                    <ul>                    
+                      <li>STEM</li>
+                      <li>ART & SPORTS</li>
+                      <li>SOCIAL SCIENCES</li>
+                    </ul>
+                  </div>
+                  <div className="category-group">
+                    <h5>Senior School </h5>
+                    <ul>                    
+                      <li>STEM</li>
+                      <li>ART & SPORTS</li>
+                      <li>SOCIAL SCIENCES</li>
+                    </ul>
+                  </div>
+          </div>
+          </div>
+
+        </div>
+
+
+        {/* Main Content */}
+        <div className="column center-column">
+          <Renderer
+            sections={sections}
+            handleSubjectClick={handleSubjectClick}
+            selectedTables={selectedTables}
+            handleUnitClick={handleUnitClick}
+          />
+        </div>
+
+        {/* Right Sidebar */}
+        <div className="column right-column">
+      <h2>Education News & Social</h2>
+
+      {/* Twitter Embed */}
+      <div className="social-widget">
+        <h5>Latest from Twitter</h5>
+        <a
+          className="twitter-timeline"
+          data-height="400"
+          href="https://twitter.com/KICDKenya?ref_src=twsrc%5Etfw"
+        >
+          Tweets by KICDKenya
+        </a>
+      </div>
+
+      {/* News Feed */}
+      <div className="news-widget">
+        <h5>Recent Education Updates</h5>
+        <ul>
+         <li>
+  <a href="https://www.kicd.ac.ke/cbc-guidelines" >
+    Ministry releases new CBC guidelines
+  </a>
+</li>          
+<li>
+  <a href="https://www.knec.ac.ke/exams-schedule-2025" >
+    National exams schedule 2025
+  </a>
+</li>
+
+
+        </ul>
+      </div>
+    </div>
+
+      </div>
+
+      {/* Components below the main layout */}
+      <SecondarySchool />
+      <OtherSchoolResources />
     </Layout>
   );
 };
