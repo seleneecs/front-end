@@ -129,7 +129,7 @@ const seleneMaterials = {
 // Renderer component
 const Renderer = ({ sections, handleSubjectClick, selectedTables, handleUnitClick }) => (
   <div className="home-container">
-    <h1>Download files below</h1>
+    <h6>Download files below</h6>
     {sections.map(({ name, levels, subjects, titles }) => (
       <div className="card" key={name}>
         
