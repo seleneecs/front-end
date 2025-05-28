@@ -325,14 +325,14 @@ font-size: 14px;
   border: 1px solid rgba(255, 255, 255, 0.3);
 
   color: #1c6fc6;                             /* Calming blue */
-  font-size: 15.5px;
+  font-size: 12px;
   line-height: 1.6;
 }
 
 
 .subscription-intro p {
   color: #1c6fc6; /* Same soft blue */
-  font-size: 17px;
+  font-size: 14px;
   line-height: 1.6;
   margin-top: 10px;
   font-weight: 700;
@@ -340,4 +340,38 @@ font-size: 14px;
 
 .subscription-categories ul li {
   color: #1c6fc6;
+}
+
+.more-resources-container {
+  height: 300px;
+  margin-top: 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+.more-resources-intro {
+  font-size: 1.125rem; /* about 18px */
+  color: #1c6fc6;
+  max-width: 480px;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.more-resources-button {
+  margin-top: 30px;
+  padding: 0.75rem 2.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  border-radius: 0.4rem;
+  transition: background-color 0.3s ease;
+}
+
+.more-resources-button:hover {
+  background-color: #004085; /* darker blue on hover */
+  text-decoration: none;
 }
