@@ -25,6 +25,7 @@ const categoryOptions = [
   { value: 'STEM', label: 'STEM', color: '#0000FF' },
   { value: 'Arts and Sport', label: 'Arts and Sport', color: '#0000FF' },
   { value: 'SOCIAL SCIENCES', label: 'SOCIAL SCIENCES', color: '#0000FF' },
+  { value: 'OTHERS RESOURCES', label: 'OTHER RESOURCES', color: '#0000FF' },
 ];
 
 const customSelectStyles = {

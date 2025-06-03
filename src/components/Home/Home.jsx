@@ -108,9 +108,7 @@ const seleneMaterials = {
   selene_jss: [
     { table: "assessment_tools", unit: "Assessment Tools" },
     { table: "curriculum_designs", unit: "Curriculum Designs" },
-    { table: "fullset_examinations", unit: "Fullset Examinations" },
-    { table: "grade7_examinations", unit: "Grade 7 Examinations" },
-    { table: "grade8_examinations", unit: "Grade 8 Examinations" },
+    { table: "fullset_examinations", unit: "Fullset Examinations" },    
     { table: "holiday_assignments", unit: "Holiday Assignments" },
     { table: "revision_notes", unit: "Revision Notes" },
     { table: "schemes", unit: "Schemes" },

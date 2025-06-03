@@ -73,6 +73,13 @@ const DynamicDataDisplay = () => {
   }, [filteredData, currentPage]);
 
   const handleDownload = async (row) => {
+    devLog("Download requested for row ID:", row?.id);
+  devLog("Checking download prerequisites:", {
+    rowId: row?.id,
+    schema,
+    tableName,
+    category,
+  });
     if (!row?.id || !schema || !tableName || !category) {
       devLog("Missing required parameters for download.");
       return;
@@ -283,9 +290,15 @@ const DynamicDataDisplay = () => {
                         className="me-2 cursor-pointer d-flex flex-wrap gap-3"
                         title={`Click to download ${row.fileName || "file"}`}
                       >
-                        {allowedFields.map((key) => (
-                          <span key={key}>{row[key] ? ` ${row[key]}` : ""}</span>
-                        ))}
+                        {allowedFields
+                          .filter((key) => row[key])
+                          .map((key, index, array) => (
+                            <span key={key}>
+                              {row[key]}
+                              {index < array.length - 1 ? ", " : ""}
+                            </span>
+                          ))}
+
                       </div>
 
                       {/* Trash Icon for Admin/Staff */}

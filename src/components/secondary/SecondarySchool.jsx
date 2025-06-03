@@ -16,8 +16,15 @@ const SecondarySchool = () => {
     {
       pathway: "STEM",
       Subjects: {
-        "Pure Sciences": ["Biology", "Chemistry", "Physics", "Mathematics"],
-        "Applied Science": ["Agriculture", "Computer Science", "Food & Nutrition", "Home Management"],
+       
+        "Pure Sciences": 
+                    ["Biology", 
+                    "Chemistry", 
+                    "Physics", 
+                    "Mathematics"
+                    ],
+        "Applied Science": 
+        ["Agriculture", "Computer Science", "Food & Nutrition", "Home Management"],
         "Technical & Engineering": [
           "Agricultural Technology",
           "Geo Science Technology",
@@ -32,14 +39,52 @@ const SecondarySchool = () => {
           "Media Technology",
           "Electronic Technology",
           "Manufacturing Technology",
+        ],
+        "Career and Technology Studies": [
+          "Garment Making and Interior Design",
+          "Leather Work",
+          "Culinary Arts",
+          "Hair Dressing and Beauty Theraby",
+          "Plumbing Ceramics",
+          "Welding Fabrication",
+          "Tourism and Travel",
+          "Air Conditioning and Refregiration",
+          "Animal Keeping",
+          "Exterior Design and Landcaping",
+          "Building and Construction",
+          "Photography",
+          "Graphic Designing and Animation",
+          "Food and Bevarages",
+          "Capentry and Joining",
+          "Fire figthing",
+          "Metal Work",
+          "Electricity",
+          "Land Surveying",
+          "Science Labaratory Technology",
+          "Electronics",
+          "Printing Technology",
+          "Crop Production"
         ]
       },
       
     },
     {
-      pathway: "ART AND SPORTS",
+      pathway: "ART AND SPORT SCIENCES PATHWAY",
       Subjects: {
-        "Performing Arts": ["Music", "Dance", "Theater", "Education"],
+         "Sports Sciences": [
+                        "Ball Games",
+                        "Atthletics", 
+                        "Gymnastics",
+                        "Water Sports", 
+                        "Boxing", 
+                        "Martial Arts", 
+                        "Outdoor Persuits", 
+                        "Indoor Games", 
+                        "Advance Physical Education", 
+                        
+                        ],
+        "Performing Arts": 
+                      ["Music", "Dance", "Theatre and Elocution"],
         "Visual and Applied Arts": ["Fine Arts", "Applied Art", "Craft", "Time-Based Media"],
       },
       
@@ -51,12 +96,12 @@ const SecondarySchool = () => {
           "History and Citizenship",
           "Geography",
           "CRE",
-          "Islamic Education",
+          "IRE",
           "Hindu Religious Education",
           "Business Studies",
           "Mathematics"
         ],
-        "Languages": [
+        "Languages and Litrature": [
           "English Language",
           "Literature in English",
           "Fasihi ya Kiswahili",
