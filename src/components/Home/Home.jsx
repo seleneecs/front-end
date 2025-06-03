@@ -76,7 +76,7 @@ const sections = [
       },
       {
         category: "Languages",
-        subjects: ["English", "Literature", "Kiswahili", "Fasihi", "French", "German", "Chinese"],
+        subjects: ["English & Literature", "Kiswahili & Fasihi",  "French", "German", "Chinese"],
       },
       {
         category: "Humanities",

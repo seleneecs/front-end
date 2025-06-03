@@ -102,7 +102,7 @@ const SecondarySchool = () => {
           "Mathematics"
         ],
         "Languages and Litrature": [
-          "English Language",
+          "English & Litrature",
           "Literature in English",
           "Fasihi ya Kiswahili",
           "Kenya Sign Language",
