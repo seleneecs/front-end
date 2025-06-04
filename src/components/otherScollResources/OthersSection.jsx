@@ -28,7 +28,7 @@ const handleItemClick = async (DB, tableName) => {
     const queryParams = {
       schema: DB,
       tableName: tableName,
-      category: DB, // ✅ use DB directly
+      category: "OTHERS RESOURCES", // ✅ use DB directly
     };
 
     const fullURL = `${baseURL}/api/resource?${new URLSearchParams(queryParams).toString()}`;
@@ -60,9 +60,8 @@ console.log("full URL IS:", fullURL)
   const categorizedResources = {
     "Pre-Primary School": {
       value: "selene_priprimary",
-      subjects: {
-        "PREPRIMARY TEACHING AIDS": { table: "teaching_aids" },
-        "PRESCHOOL PRINTABLES AND ACTIVITY BOOKS": { table: "activity_books" },
+      subjects: {        
+        "PRE SCHOOL PRINTABLES AND ACTIVITY BOOKS": { table: "activity_books" },
         "WORKSHEETS": { table: "worksheets" },
         "NURSERY RHYME SONGS": { table: "nursery_rhymes" },
         "PREPRIMARY ASSESSMENT BOOKS": { table: "assessment_books" },
