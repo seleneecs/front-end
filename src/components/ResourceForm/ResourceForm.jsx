@@ -196,19 +196,35 @@ const ResourceForm = () => {
                 <select className="form-select" id="tableName" name="tableName" value={formData.tableName} onChange={handleChange} required>
                   <option value="" disabled>Select a table</option>
                   <option value="fullset_examinations">Fullset Examinations</option>
-                  <option value="ksce_past_papers">KCSE Past Papers</option>
-                  <option value="schemes">Schemes</option>
-                  <option value="revision_notes">Revision Notes</option>
-                  <option value="assesment_tools">Assessment Tools</option>
-                  <option value="trial_examinations">Trial Examinations</option>
-                  <option value="curriculum_designs">Curriculum Design</option>
-                  <option value="holiday_assignments">Holiday Assignments</option>
-                  <option value="play_group_exams">Play Group Exams</option>
-                  <option value="pp1_exams">PP1 Exams</option>
-                  <option value="pp2_exams">PP2 Exams</option>
-                  <option value="teaching_aids">Teaching Aids</option>
-                  <option value="lesson_plans"> Lesson Plans</option> 
-                  <option value="records_of_work"> Records of Work</option>              
+                    <option value="ksce_past_papers">KCSE Past Papers</option>
+                    <option value="schemes">Schemes</option>
+                    <option value="revision_notes">Revision Notes</option>
+                    <option value="assesment_tools">Assessment Tools</option>
+                    <option value="trial_examinations">Trial Examinations</option>
+                    <option value="curriculum_designs">Curriculum Designs</option>
+                    <option value="holiday_assignments">Holiday Assignments</option>
+                    <option value="play_group_exams">Play Group Exams</option>
+                    <option value="pp1_exams">PP1 Exams</option>
+                    <option value="pp2_exams">PP2 Exams</option>
+                    <option value="teaching_aids">Teaching Aids</option>
+                    <option value="lesson_plans">Lesson Plans</option>
+                    <option value="records_of_work">Records of Work</option>
+                    <option value="topical_revision_booklets">Topical Revision Booklets</option>
+                    <option value="power_presentations">Power Presentations</option>
+                    <option value="kicd_training_tools">KICD Training Tools</option>
+                    <option value="ebooks">eBooks</option>
+                    <option value="study_tips">Study Tips</option>
+                    <option value="kpsea_reports">KPSEA Reports</option>
+                    <option value="printables_activity_books">Printables & Activity Books</option>
+                    <option value="worksheets">Worksheets</option>
+                    <option value="nursery_rhymes">Nursery Rhymes</option>
+                    <option value="assessment_books">Assessment Books</option>
+                    <option value="questions_answers_booklets">Q&A Booklets</option>
+                    <option value="video_lessons">Video Lessons</option>
+                    <option value="syllabus">Syllabus</option>
+                    <option value="kicd_litrature_fasihi">KICD Literature/Fasihi</option>
+                    <option value="exam_focused_practice_tests">Exam-Focused Practice Tests</option>
+             
    
                 </select>
               </div>
