@@ -219,7 +219,7 @@ const ResourceForm = () => {
                     <option value="worksheets">Worksheets</option>
                     <option value="nursery_rhymes">Nursery Rhymes</option>
                     <option value="assessment_books">Assessment Books</option>
-                    <option value="questions_answers_booklets">Q&A Booklets</option>
+                    <option value="questions_answers_booklets">Q & A Booklets</option>
                     <option value="video_lessons">Video Lessons</option>
                     <option value="syllabus">Syllabus</option>
                     <option value="kicd_litrature_fasihi">KICD Literature/Fasihi</option>
