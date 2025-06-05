@@ -76,6 +76,7 @@ console.log("full URL IS:", fullURL)
         ebooks: { table: "ebooks" },        
         "KICD COMPETENCY BASED CURRICULUM MATERIALS": { table: "kicd_cbcm" },
         "KICD CURRICULUM DESIGNS": { table: "kicd_designs" },
+         "WORKSHEETS": { table: "worksheets" },
         "KICD TRAINING TOOLS": { table: "kicd_training_tools" },
         "LESSON PLANS": { table: "lesson_plans" },
         "RECORDS OF WORK": { table: "records_of_work" },
