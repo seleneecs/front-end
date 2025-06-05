@@ -61,7 +61,7 @@ console.log("full URL IS:", fullURL)
     "Pre-Primary School": {
       value: "selene_priprimary",
       subjects: {        
-        "PRE SCHOOL PRINTABLES AND ACTIVITY BOOKS": { table: "activity_books" },
+        "PRE SCHOOL PRINTABLES AND ACTIVITY BOOKS": { table: "printables_activity_books" },
         "WORKSHEETS": { table: "worksheets" },
         "NURSERY RHYME SONGS": { table: "nursery_rhymes" },
         "PREPRIMARY ASSESSMENT BOOKS": { table: "assessment_books" },
@@ -76,11 +76,13 @@ console.log("full URL IS:", fullURL)
         ebooks: { table: "ebooks" },        
         "KICD COMPETENCY BASED CURRICULUM MATERIALS": { table: "kicd_cbcm" },
         "KICD CURRICULUM DESIGNS": { table: "kicd_designs" },
-        "KICD TRAINING TOOLS": { table: "kicd_training" },
+        "KICD TRAINING TOOLS": { table: "kicd_training_tools" },
         "LESSON PLANS": { table: "lesson_plans" },
-        "POWER POINT PRESENTATIONS": { table: "presentations" },
-        "TOPICAL REVISION BOOKLETS": { table: "revision_booklets" },
-        tips: { table: "tips" },
+        "RECORDS OF WORK": { table: "records_of_work" },
+        "KPSEA REPORTS": { table: "kpsea_reports" },
+        "POWER POINT PRESENTATIONS": { table: "power_presentations" },
+        "TOPICAL REVISION BOOKLETS": { table: "topical_revision_booklets" },
+        tips: { table: "study_tips" },
       },
     },
     "Junior School": {
@@ -88,7 +90,7 @@ console.log("full URL IS:", fullURL)
       subjects: {
         "JUNIOR SCHOOL RECORDS OF WORK": { table: "records_of_work" },
         "JUNIOR SCHOOL LESSON PLANS": { table: "lesson_plans" },
-        "JUNIOR SCHOOL QUESTIONS & ANSWERS BOOKLETS": { table: "qa_booklets" },
+        "JUNIOR SCHOOL QUESTIONS & ANSWERS BOOKLETS": { table: "questions_answers_booklets" },
       },
     },
     "Secondary School": {
@@ -97,11 +99,11 @@ console.log("full URL IS:", fullURL)
         "Advanced Video Lessons": { table: "video_lessons" },
         "Syllabus": { table: "syllabus" },
         "Lesson Plans & Records of Work": { table: "lesson_plans" },
-        "Topical Questions Per subject": { table: "topical_questions" },
-        "Powerpoint Charts": { table: "powerpoint_charts" },
+        "Topical Revision Booklets": { table: "topical_revision_booklets" },
+        "POWER POINT PRESENTATIONS": { table: "power_presentations" },
         "Study Tips": { table: "study_tips" },
         "KICD Litrature & Fasihi Set Books": { table: "kicd_litrature_fasihi" },
-        "STAREHE BOYS' CENTRE EXAMS": { table: "kicd_litrature_fasihi" },
+        
       },
     },
     "Senior School": {
