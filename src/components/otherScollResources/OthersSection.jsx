@@ -110,7 +110,7 @@ console.log("full URL IS:", fullURL)
       value: "selene_seniorschool",
       subjects: {
         "Advanced Video Lessons": { table: "video_lessons" },
-        "Exam-Focused Practice Tests": { table: "practice_tests" },
+        "Exam-Focused Practice Tests": { table: "exam_focused_practice_tests" },
         "Career Planning Tools": { table: "career_tools" },
       },
     },
