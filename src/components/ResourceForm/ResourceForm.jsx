@@ -108,7 +108,7 @@ const ResourceForm = () => {
           const { uploadId, fileKey: initiatedFileKey, uploadUrls } = initiateResponse.data;
           fileKey = initiatedFileKey;
 
-          const partSize = 5 * 1024 * 1024;
+          const partSize = 100 * 1024 * 1024;
           const parts = [];
 
           for (let i = 0; i < uploadUrls.length; i++) {
