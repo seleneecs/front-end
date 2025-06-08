@@ -44,14 +44,21 @@ const ResourceForm = () => {
 };
 
 
-  const uploadSingleFile = async (file) => {
-    const response = await axios.post(`${baseURL}/api/generate-upload-url`, {
+ const uploadSingleFile = async (file) => {
+  if (!file) throw new Error("No file provided for upload.");
+
+  try {
+    const { data } = await axios.post(`${baseURL}/api/generate-upload-url`, {
       originalName: file.name,
       mimeType: file.type,
       fileSize: file.size,
     });
 
-    const { uploadUrl, fileKey } = response.data;
+    const { uploadUrl, fileKey } = data;
+
+    if (typeof uploadUrl !== "string") {
+      throw new Error("Invalid upload URL received from server.");
+    }
 
     const uploadResponse = await fetch(uploadUrl, {
       method: "PUT",
@@ -59,31 +66,50 @@ const ResourceForm = () => {
     });
 
     if (!uploadResponse.ok) {
-      throw new Error(`Single file upload failed: ${uploadResponse.statusText}`);
+      throw new Error(`Single file upload failed: ${uploadResponse.status} ${uploadResponse.statusText}`);
     }
 
     return fileKey;
-  };
+  } catch (error) {
+    console.error("🚨 Error in uploadSingleFile:", error);
+    throw error;
+  }
+};
 
   const uploadPartToR2 = async (url, partBlob, retries = 3) => {
-    let attempt = 0;
-    while (attempt < retries) {
-      try {
-        const response = await fetch(url, {
-          method: "PUT",
-          body: partBlob,
-        });
+  if (typeof url !== "string") {
+    console.error("❌ Invalid URL passed to uploadPartToR2:", url);
+    throw new Error("Invalid URL: expected a string.");
+  }
 
-        if (!response.ok) throw new Error(`Part upload failed: ${response.statusText}`);
+  let attempt = 0;
 
-        const eTag = response.headers.get("ETag");
-        return eTag.replace(/"/g, "");
-      } catch (err) {
-        attempt++;
-        if (attempt === retries) throw new Error("Failed to upload part after multiple attempts.");
+  while (attempt < retries) {
+    try {
+      const response = await fetch(url, {
+        method: "PUT",
+        body: partBlob,
+      });
+
+      if (!response.ok) {
+        throw new Error(`Part upload failed: ${response.status} ${response.statusText}`);
+      }
+
+      const eTag = response.headers.get("ETag");
+      if (!eTag) {
+        throw new Error("Missing ETag in upload response.");
+      }
+
+      return eTag.replace(/"/g, "");
+    } catch (error) {
+      attempt++;
+      console.warn(`⚠️ Attempt ${attempt} failed for part upload.`, error);
+      if (attempt === retries) {
+        throw new Error("Failed to upload part after multiple attempts.");
       }
     }
-  };
+  }
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -108,7 +134,7 @@ const ResourceForm = () => {
           const { uploadId, fileKey: initiatedFileKey, uploadUrls } = initiateResponse.data;
           fileKey = initiatedFileKey;
 
-          const partSize = 100 * 1024 * 1024;
+          const partSize = 5 * 1024 * 1024;
           const parts = [];
 
           for (let i = 0; i < uploadUrls.length; i++) {
@@ -116,7 +142,7 @@ const ResourceForm = () => {
             const end = Math.min(start + partSize, file.size);
             const partBlob = file.slice(start, end);
 
-            const eTag = await uploadPartToR2(uploadUrls[i], partBlob);
+            const eTag = await uploadPartToR2(uploadUrls[i].url, partBlob);
             parts.push({ ETag: eTag, PartNumber: i + 1 });
 
             const progress = Math.round(((i + 1) / uploadUrls.length) * 100);
