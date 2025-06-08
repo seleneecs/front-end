@@ -73,7 +73,8 @@ console.log("full URL IS:", fullURL)
     "Primary School": {
       value: "selene_primaryschool",
       subjects: {
-        ebooks: { table: "ebooks" },        
+        ebooks: { table: "ebooks" }, 
+        "Holiday Assignments": { "table": "holiday_assignments" },       
         "KICD COMPETENCY BASED CURRICULUM MATERIALS": { table: "kicd_cbcm" },
         "KICD CURRICULUM DESIGNS": { table: "kicd_designs" },
          "WORKSHEETS": { table: "worksheets" },
