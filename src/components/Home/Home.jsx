@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Mail } from "lucide-react";
 import Layout from "../Layout/Layout";
 import axios from "axios";
+import { Download } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import "./Home.css";
@@ -126,7 +127,26 @@ const seleneMaterials = {
 // Renderer component
 const Renderer = ({ sections, handleSubjectClick, selectedTables, handleUnitClick }) => (
   <div className="home-container">
-    <h6>Download files below</h6>
+    <div>  
+  <div style={{
+  backgroundColor: '#e6f4ff',
+  border: '1px solid #91d5ff',
+  padding: '16px',
+  borderRadius: '8px',
+  marginBottom: '20px',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '10px',
+}}>
+  <Download size={24} color="#1890ff" />
+  <div>
+    <strong>Download Available:</strong><br />
+    Browse list below the headings to download files relevant to your grade and subject.
+  </div>
+</div>
+
+</div>
+    
     {sections.map(({ name, levels, subjects, titles }) => (
       <div className="card" key={name}>
         
