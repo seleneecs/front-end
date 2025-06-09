@@ -120,10 +120,8 @@ const SecondarySchool = () => {
   const secondaryMaterials = [
     { table: "schemes", unit: "Schemes", database: "selene_seniorschool" },
     { table: "revision_notes", unit: "Revision Notes", database: "selene_seniorschool" },
-    { table: "trial_examinations", unit: "Trial Examinations", database: "selene_seniorschool" },    
-    { table: "assesment_tools", unit: "Assesment Tools", database: "selene_seniorschool" },
-    { table: "fullset_examinations", unit: "Fullset Examinations", database: "selene_seniorschool" },
-    { table: "holiday_assignments", unit: "Holiday Assignments", database: "selene_seniorschool" },    
+    { table: "trial_examinations", unit: "Trial Examinations", database: "selene_seniorschool" },        
+    { table: "fullset_examinations", unit: "Fullset Examinations", database: "selene_seniorschool" },      
     { table: "ksce_past_papers", unit: "KCSE Past Papers", database: "selene_seniorschool" },      
     { table: "curriculum_designs", unit: "Curriculum Designs", database: "selene_seniorschool" },      
   ];

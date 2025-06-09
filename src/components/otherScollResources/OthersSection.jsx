@@ -77,6 +77,7 @@ console.log("full URL IS:", fullURL)
     "Primary School": {
       value: "selene_primaryschool",
       subjects: {
+       "assesment_tools": {table: "Assessment Tools" },
         ebooks: { table: "ebooks" }, 
         "Holiday Assignments": { "table": "holiday_assignments" },       
         "KICD COMPETENCY BASED CURRICULUM MATERIALS": { table: "kicd_cbcm" },
@@ -94,6 +95,8 @@ console.log("full URL IS:", fullURL)
     "Junior School": {
       value: "selene_jss",
       subjects: {
+       "assessment_tools": {table: "Assessment Tools" },
+        "holiday_assignments": {table:"Holiday Assignments"} ,
         "JUNIOR SCHOOL RECORDS OF WORK": { table: "records_of_work" },
         "JUNIOR SCHOOL LESSON PLANS": { table: "lesson_plans" },
         "JUNIOR SCHOOL QUESTIONS & ANSWERS BOOKLETS": { table: "questions_answers_booklets" },
@@ -102,6 +105,7 @@ console.log("full URL IS:", fullURL)
     "Secondary School": {
       value: "selene_secondary",
       subjects: {
+         "assesment_tools":{ table: "Assessment Tools"} ,
         "Advanced Video Lessons": { table: "video_lessons" },
         "Syllabus": { table: "syllabus" },
         "Lesson Plans & Records of Work": { table: "lesson_plans" },

@@ -98,23 +98,23 @@ const seleneMaterials = {
   ],
   selene_primaryschool: [
     { table: "schemes", unit: "Schemes" },
-    { table: "assesment_tools", unit: "Assessment Tools" },
+    
     { table: "revision_notes", unit: "Revision Notes" },
     { table: "curriculum_designs", unit: "Curriculum Designs" },
     { table: "fullset_examinations", unit: "Fullset Examinations" },    
     { table: "trial_examinations", unit: "Trial Examinations" },
   ],
   selene_jss: [
-    { table: "assessment_tools", unit: "Assessment Tools" },
+    
     { table: "curriculum_designs", unit: "Curriculum Designs" },
     { table: "fullset_examinations", unit: "Fullset Examinations" },    
-    { table: "holiday_assignments", unit: "Holiday Assignments" },
+   
     { table: "revision_notes", unit: "Revision Notes" },
     { table: "schemes", unit: "Schemes" },
   ],
   selene_secondary: [
     { table: "schemes", unit: "Schemes" },
-    { table: "assesment_tools", unit: "Assessment Tools" },
+   
     { table: "fullset_examinations", unit: "Fullset Examinations" },
     { table: "holiday_assignments", unit: "Holiday Assignments" },
     { table: "ksce_past_papers", unit: "KCSE Past Papers" },
