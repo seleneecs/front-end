@@ -77,7 +77,7 @@ console.log("full URL IS:", fullURL)
     "Primary School": {
       value: "selene_primaryschool",
       subjects: {
-       "Assesment Tools": {table: "assesment_tools" },
+       "Assesment Tools": {table: "assessment_tools " },
         ebooks: { table: "ebooks" }, 
         "Holiday Assignments": { "table": "holiday_assignments" },       
         "KICD COMPETENCY BASED CURRICULUM MATERIALS": { table: "kicd_cbcm" },
