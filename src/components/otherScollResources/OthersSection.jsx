@@ -95,8 +95,8 @@ console.log("full URL IS:", fullURL)
     "Junior School": {
       value: "selene_jss",
       subjects: {
-       "assessment_tools": {table: "Assessment Tools" },
-        "holiday_assignments": {table:"Holiday Assignments"} ,
+       "Assesment Tools": {table: "assessment_tools" },
+        "Holiday Assignments": {table:"holiday_assignments"} ,
         "JUNIOR SCHOOL RECORDS OF WORK": { table: "records_of_work" },
         "JUNIOR SCHOOL LESSON PLANS": { table: "lesson_plans" },
         "JUNIOR SCHOOL QUESTIONS & ANSWERS BOOKLETS": { table: "questions_answers_booklets" },
@@ -105,7 +105,7 @@ console.log("full URL IS:", fullURL)
     "Secondary School": {
       value: "selene_secondary",
       subjects: {
-         "assesment_tools":{ table: "Assessment Tools"} ,
+         "Assesment Tools":{ table: "assesment_tools"} ,
         "Advanced Video Lessons": { table: "video_lessons" },
         "Syllabus": { table: "syllabus" },
         "Lesson Plans & Records of Work": { table: "lesson_plans" },
