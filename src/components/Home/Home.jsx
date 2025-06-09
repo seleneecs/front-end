@@ -96,6 +96,7 @@ const seleneMaterials = {
     { table: "holiday_assignments", unit: "Holiday Assignments" },
     { table: "play_group_exams", unit: "Playgroup Exams" },
     { table: "pp1_exams", unit: "PP1 Exams" },
+    { table: "pp2_exams", unit: "PP2 Exams" },
   ],
   selene_primaryschool: [
     { table: "schemes", unit: "Schemes" },
