@@ -49,7 +49,8 @@ console.log("full URL IS:", fullURL)
       console.warn("No data returned or error:", response.data.message);
     }
   } catch (error) {
-  const errorMessage = error.response?.data?.message || error.message || "An unexpected error occurred.";
+  const errorMessage = error.response?.data?.message || error.message || "Unexpected error. If this continues, contact support at infot@seleneecs.com. or Tel: 0748 996 731"
+;
   console.error("Error fetching data:", errorMessage);
   window.alert(`Error: ${errorMessage}`);
 }

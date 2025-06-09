@@ -259,7 +259,7 @@ const Home = () => {
 
       navigate("/display", { state: { data: response.data, type: "table", fullURL } });
     } catch (error) {
-      const errorMessage = error.response?.data?.message || "An unexpected error occurred.";
+      const errorMessage = error.response?.data?.message || "Unexpected error. If this continues, contact support at infot@seleneecs.com. or Tel: 0748 996 731";
       console.error("Error fetching data:", errorMessage);
       window.alert(`Error: ${errorMessage}`);
     }
