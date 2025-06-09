@@ -49,8 +49,11 @@ console.log("full URL IS:", fullURL)
       console.warn("No data returned or error:", response.data.message);
     }
   } catch (error) {
-    console.error("Error fetching data:", error.response ? error.response.data : error.message);
-  }
+  const errorMessage = error.response?.data?.message || error.message || "An unexpected error occurred.";
+  console.error("Error fetching data:", errorMessage);
+  window.alert(`Error: ${errorMessage}`);
+}
+
 };
 
 

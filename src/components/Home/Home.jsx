@@ -259,7 +259,9 @@ const Home = () => {
 
       navigate("/display", { state: { data: response.data, type: "table", fullURL } });
     } catch (error) {
-      console.error("Error fetching data:", error.response ? error.response.data : error.message);
+      const errorMessage = error.response?.data?.message || "An unexpected error occurred.";
+      console.error("Error fetching data:", errorMessage);
+      window.alert(`Error: ${errorMessage}`);
     }
   };
 
