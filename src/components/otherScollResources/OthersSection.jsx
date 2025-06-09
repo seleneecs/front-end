@@ -95,7 +95,7 @@ console.log("full URL IS:", fullURL)
     "Junior School": {
       value: "selene_jss",
       subjects: {
-       "ASSESMENT TOOLS": {table: "assessment_tools" },
+       "ASSESMENT TOOLS": {table: "assesment_tools" },
         "HOLIDAY ASSIGNMENTS": {table:"holiday_assignments"} ,
         "JUNIOR SCHOOL RECORDS OF WORK": { table: "records_of_work" },
         "JUNIOR SCHOOL LESSON PLANS": { table: "lesson_plans" },
