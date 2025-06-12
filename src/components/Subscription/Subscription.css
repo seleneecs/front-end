@@ -16,3 +16,11 @@
   font-weight: 600;
   color: #212529;
 }
+
+.hero-section.container {
+  display: flex;
+  flex-direction: column; /* or row if you want horizontal layout */
+  justify-content: center; /* vertical alignment */
+  min-height: 100vh; /* full viewport height */
+  padding: 2rem; /* optional padding */
+}

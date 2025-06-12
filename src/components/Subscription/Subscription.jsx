@@ -26,7 +26,7 @@ const categoryOptions = [
   { value: 'ARTS & SPORTS', label: 'ARTS & SPORTS', color: '#0000FF' },
   { value: 'SOCIAL SCIENCES', label: 'SOCIAL SCIENCES', color: '#0000FF' },
   { value: 'OTHERS RESOURCES', label: 'OTHER RESOURCES', color: '#0000FF' },
-  { value: 'ALL', label: 'ALL', color: '#944D6E' },
+  
 ];
 
 const customSelectStyles = {
@@ -123,7 +123,38 @@ const SubscriptionForm = () => {
         <div className="row align-items-start">
           <div className="col-md-6 hero-left">
             <h1>seleneECS</h1>
-            <p>Empowering Education Through Seamless Subscriptions</p>
+           <div className="d-none bg-light p-4 rounded mb-4">
+  <h2 className="mb-3">📚 Curriculum-Based Education Subscriptions</h2>
+  <p className="mb-4">
+    Access quality <strong>curriculum-based education</strong> resources tailored for every learner level:
+  </p>
+  
+  <ul className="list-group mb-4">
+    <li className="list-group-item">🧒 PP1</li>
+    <li className="list-group-item">🧒 PP2</li>
+    <li className="list-group-item">📘 GRADE 1</li>
+    <li className="list-group-item">📘 GRADE 2</li>
+    <li className="list-group-item">📘 GRADE 3</li>
+    <li className="list-group-item">📘 GRADE 4</li>
+    <li className="list-group-item">📘 GRADE 5</li>
+    <li className="list-group-item">📘 GRADE 6</li>
+    <li className="list-group-item">📘 GRADE 7</li>
+    <li className="list-group-item">📘 GRADE 8</li>
+    <li className="list-group-item">🧠 GRADE 9</li>
+    <li className="list-group-item">🧠 FORM 2</li>
+    <li className="list-group-item">🧠 FORM 3</li>
+    <li className="list-group-item">🧠 FORM 4</li>
+    <li className="list-group-item">🔬 STEM</li>
+    <li className="list-group-item">🎨 ARTS & SPORTS</li>
+    <li className="list-group-item">🌍 SOCIAL SCIENCES</li>
+    <li className="list-group-item">📦 OTHER RESOURCES (worksheets, lesson plans, videos)</li>
+  </ul>
+  
+  <p>
+    All materials are carefully designed to support <strong>curriculum-based education</strong>, ensuring consistent, reliable learning for students and educators.
+  </p>
+</div>
+
           </div>
 
           <div className="col-md-6 hero-right">
