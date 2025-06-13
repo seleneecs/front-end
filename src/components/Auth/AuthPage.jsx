@@ -9,7 +9,7 @@ import ResetPasswordForm from "./ResetPasswordForm";
 import { devLog } from "../../utils/devLog";
 
 const AuthPage = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const [showReset, setShowReset] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
