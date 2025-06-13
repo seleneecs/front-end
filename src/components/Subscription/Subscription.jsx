@@ -83,19 +83,7 @@ const SubscriptionForm = () => {
 
   const handleSubmit = async (e) => {
   e.preventDefault();
-
-  // ✅ Validate User ID
-  if (!formData.user_id) {
-    alert("User ID is missing. Please refresh and try again.");
-    return;
-  }
-
-  // ✅ Validate Amount
-  const numericAmount = Number(formData.Amount);
-  if (!formData.Amount || isNaN(numericAmount) || numericAmount < 20) {
-    alert("Amount must be at least 20 Ksh.");
-    return;
-  }
+ 
 
   setLoading(true);
 
@@ -215,9 +203,19 @@ const SubscriptionForm = () => {
                   placeholder="Enter amount"
                   value={formData.Amount}
                   onChange={handleInputChange}
+                  onInvalid={(e) => {
+                    if (!e.target.value) {
+                      e.target.setCustomValidity("Please enter the amount.");
+                    } else if (e.target.validity.rangeUnderflow) {
+                      e.target.setCustomValidity("Amount must be at least 20 Ksh.");
+                    }
+                  }}
+                  onInput={(e) => e.target.setCustomValidity("")}
                   required
+                  min="20"
                 />
               </div>
+
 
               {/* Submit Button */}
               <button
