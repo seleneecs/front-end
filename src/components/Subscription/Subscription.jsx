@@ -82,40 +82,49 @@ const SubscriptionForm = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!formData.user_id) {
-      alert("User ID is missing. Please refresh and try again.");
-      return;
+  // ✅ Validate User ID
+  if (!formData.user_id) {
+    alert("User ID is missing. Please refresh and try again.");
+    return;
+  }
+
+  // ✅ Validate Amount
+  const numericAmount = Number(formData.Amount);
+  if (!formData.Amount || isNaN(numericAmount) || numericAmount < 20) {
+    alert("Amount must be at least 20 Ksh.");
+    return;
+  }
+
+  setLoading(true);
+
+  try {
+    const res = await axios.post(
+      `${import.meta.env.VITE_API_URL}/subscriptions/stk/push`,
+      formData,
+      { withCredentials: true }
+    );
+
+    const checkoutId = res.data.CheckoutRequestID?.toString();
+    setCheckoutRequestID(checkoutId);
+
+    if (checkoutId && socketRef.current?.readyState === WebSocket.OPEN) {
+      socketRef.current.send(JSON.stringify({ checkoutRequestID: checkoutId }));
+      console.log("✅ Sent checkoutRequestID to WebSocket");
+    } else {
+      console.warn("⚠️ WebSocket not ready to send checkoutRequestID");
     }
 
-    setLoading(true);
+    alert("Subscription request sent! Waiting for confirmation...");
+  } catch (error) {
+    console.error("Subscription error:", error.response?.data || error.message);
+    alert("Failed to process subscription.");
+  } finally {
+    setLoading(false);
+  }
+};
 
-    try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/subscriptions/stk/push`,
-        formData,
-        { withCredentials: true }
-      );
-
-      const checkoutId = res.data.CheckoutRequestID?.toString();
-      setCheckoutRequestID(checkoutId);
-
-      if (checkoutId && socketRef.current?.readyState === WebSocket.OPEN) {
-        socketRef.current.send(JSON.stringify({ checkoutRequestID: checkoutId }));
-        console.log("✅ Sent checkoutRequestID to WebSocket");
-      } else {
-        console.warn("⚠️ WebSocket not ready to send checkoutRequestID");
-      }
-
-      alert("Subscription request sent! Waiting for confirmation...");
-    } catch (error) {
-      console.error("Subscription error:", error.response?.data || error.message);
-      alert("Failed to process subscription.");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <Layout>

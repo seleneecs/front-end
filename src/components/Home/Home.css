@@ -377,3 +377,18 @@ font-size: 14px;
 }
 
 
+.ad {
+  background-color: #e6f4ff;
+  border: 1px solid #91d5ff;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+ 
+.ad h6{
+  margin-top: 6px;
+  color: #1c6fc6;
+}
