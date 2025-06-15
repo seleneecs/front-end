@@ -81,7 +81,7 @@ console.log("full URL IS:", fullURL)
         ebooks: { table: "ebooks" }, 
         "Holiday Assignments": { "table": "holiday_assignments" },       
         "KICD COMPETENCY BASED CURRICULUM MATERIALS": { table: "kicd_cbcm" },
-        "KICD CURRICULUM DESIGNS": { table: "kicd_designs" },
+        "KICD CURRICULUM DESIGNS": { table: "kicd_curriculum_design" },
          "WORKSHEETS": { table: "worksheets" },
         "KICD TRAINING TOOLS": { table: "kicd_training_tools" },
         "LESSON PLANS": { table: "lesson_plans" },
