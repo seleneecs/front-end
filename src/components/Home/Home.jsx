@@ -91,8 +91,7 @@ const sections = [
 const seleneMaterials = {
   selene_priprimary: [
     { table: "schemes", unit: "Schemes" },
-    { table: "curriculum_designs", unit: "Curriculum Designs" },
-    { table: "revision_notes", unit: "Revision Notes" },
+    { table: "curriculum_designs", unit: "Curriculum Designs" },    
     { table: "holiday_assignments", unit: "Holiday Assignments" },
     { table: "play_group_exams", unit: "Playgroup Exams" },
     { table: "pp1_exams", unit: "PP1 Exams" },
