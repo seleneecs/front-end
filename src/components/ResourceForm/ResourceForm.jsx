@@ -237,6 +237,7 @@ const ResourceForm = () => {
                     <option value="records_of_work">Records of Work</option>
                     <option value="topical_revision_booklets">Topical Revision Booklets</option>
                     <option value="power_presentations">Power Presentations</option>
+                    <option value="kicd_curriculum_design">KICD Curriculum Design</option>
                     <option value="kicd_training_tools">KICD Training Tools</option>
                     <option value="ebooks">eBooks</option>
                     <option value="study_tips">Study Tips</option>
