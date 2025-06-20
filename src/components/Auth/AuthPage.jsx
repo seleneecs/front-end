@@ -74,31 +74,29 @@ const AuthPage = () => {
     }
   };
 
-  const handleSignup = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-    setSuccess(null);
-    try {
-      const response = await axios.post(`${baseURL}/api/signup`, formData);
-      setSuccess(response.data.message || "Signup successful! Redirecting...");
-      setFormData({
-        First_Name: "",
-        Last_Name: "",
-        Phone: "",
-        Email: "",
-        Password: "",
-        security_question: "",
-        security_answer: "",
-        Role: "ordinary_user",
-      });
-      setTimeout(() => window.location.reload(), 2000);
-    } catch (err) {
-      setError(err?.response?.data?.errorMessage || "Signup failed.");
-    } finally {
-      setLoading(false);
-    }
-  };
+const handleSignup = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  setError(null);
+  setSuccess(null);
+
+  try {
+    const res = await axios.post(`${baseURL}/api/signup`, formData);
+    setSuccess(res.data.message || "Signup successful! Please login.");
+
+    setFormData({ /* reset form fields */ });
+
+    // After 2 seconds, switch to login form
+    setTimeout(() => {
+      setSuccess(null);
+      setIsLogin(true);
+    }, 2000);
+  } catch (err) {
+    setError(err.response?.data?.errorMessage || "Signup failed.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleSecurityCheck = async (e) => {
     e.preventDefault();
