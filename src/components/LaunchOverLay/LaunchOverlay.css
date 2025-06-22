@@ -1,0 +1,137 @@
+.launch-overlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #1890ff, #0050b3);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 9999;
+  
+}
+
+.fade-out {
+  animation: fadeOutSmooth 0.8s ease forwards;
+}
+
+@keyframes fadeOutSmooth {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.launch-content {
+  text-align: center;
+  z-index: 2;
+  animation: slideUp 1s ease-out;
+}
+
+.launch-title {
+  font-size: 2.8rem;
+  font-weight: bold;
+  animation: popIn 0.6s ease;
+}
+
+.launch-subtitle {
+  font-size: 1.3rem;
+  margin-top: 10px;
+  opacity: 0.95;
+}
+
+.launch-date {
+  margin-top: 10px;
+  font-size: 1.1rem;
+  color: #d4f0ff;
+}
+
+.launch-loader {
+  margin: 24px auto 0;
+  width: 50px;
+  height: 50px;
+  border: 5px solid white;
+  border-top: 5px solid #e6f4ff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Floating animation */
+.floating-objects {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.float-object {
+  position: absolute;
+  bottom: -50px;
+  width: 12px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  animation-name: floatUp;
+  animation-timing-function: ease-in;
+  animation-iteration-count: infinite;
+  opacity: 0.7;
+}
+
+.float-object:nth-child(even) {
+  background: #d2eaff;
+  width: 8px;
+  height: 8px;
+}
+
+/* Keyframes */
+@keyframes popIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; visibility: hidden; }
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(-120vh) scale(1.4);
+    opacity: 0;
+  }
+}
+
+.continue-btn {
+  margin-top: 30px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: #ffffff;
+  color: #1890ff;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.continue-btn:hover {
+  background-color: #e6f7ff;
+  transform: scale(1.05);
+}

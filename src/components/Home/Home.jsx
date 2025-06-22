@@ -128,14 +128,17 @@ const seleneMaterials = {
 const Renderer = ({ sections, handleSubjectClick, selectedTables, handleUnitClick }) => (
   <div className="home-container">
     <div>  
-  <div className="ad">
-  <Download size={24} color="#1890ff" />
+<div className="ad">
+  <Download size={28} color="#1890ff" />
   <div>
-    <strong>Download Available:</strong><br />
-    Browse list below the headings to download files relevant to your grade and subject.
-    <h6>With as little as 20/- access unlimited resources</h6>
+    <h6>🎯 <strong>Individuals:</strong> Access your favorite category for a full day — only <strong>KES 20</strong>!</h6>
+    <h6>🎓 <strong>Schools:</strong> Unlock unlimited access to one category for a full month — just <strong>KES 200</strong>!</h6>
+    <p className="ad-contact">
+      📞 For discounts or inquiries, call us at <strong>0748 98 01 78</strong>.
+    </p>
   </div>
 </div>
+
 
 </div>
     

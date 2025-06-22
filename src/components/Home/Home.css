@@ -376,7 +376,6 @@ font-size: 14px;
   text-decoration: none;
 }
 
-
 .ad {
   background-color: #e6f4ff;
   border: 1px solid #91d5ff;
@@ -384,11 +383,18 @@ font-size: 14px;
   border-radius: 8px;
   margin-bottom: 20px;
   display: flex;
-  align-items: center;
-  gap: 10px;
+  align-items: flex-start;
+  gap: 12px;
 }
- 
-.ad h6{
-  margin-top: 6px;
+
+.ad h6 {
+  margin: 4px 0;
   color: #1c6fc6;
+  font-weight: 500;
+}
+
+.ad-contact {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #0c4a8b;
 }
