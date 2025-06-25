@@ -30,9 +30,10 @@ const LaunchOverlay = ({ onContinue }) => {
 
       {/* Launch content */}
       <div className="launch-content">
-        <h1 className="launch-title">🚀 Welcome to Selene ECS</h1>
-        <p className="launch-subtitle">Empowering Education — Anytime, Anywhere</p>
-        <p className="launch-date">📅 Official Launch: <strong>25th June 2025</strong></p>
+       <h1 className="launch-title">🎉 Selene ECS Has Officially Launched!</h1>
+<p className="launch-subtitle">Empowering Education — Anytime, Anywhere</p>
+<p className="launch-date">🚀 Launched on: <strong>25th June 2025</strong></p>
+
         <div className="launch-loader"></div>
 
         <button className="continue-btn" onClick={handleContinue}>
