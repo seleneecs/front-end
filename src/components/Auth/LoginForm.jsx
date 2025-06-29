@@ -1,14 +1,14 @@
 import React from "react";
 
-const LoginForm = ({ email, password, setEmail, setPassword, handleSubmit, loading, onForgotPassword }) => (
+const LoginForm = ({ phone, password, setPhone, setPassword, handleSubmit, loading, onForgotPassword }) => (
   <form onSubmit={handleSubmit}>
     <div className="mb-3">
-      <label>Email</label>
+      <label>Phone</label>
       <input
-        type="email"
+        type="tel"
         className="form-control"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
         required
       />
     </div>

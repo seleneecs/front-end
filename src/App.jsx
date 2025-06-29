@@ -4,7 +4,7 @@ import AppRoutes from "./AppRoutes";
 import LaunchOverlay from "./components/LaunchOverLay/LaunchOverlay";
 
 const App = () => {
-  const [showOverlay, setShowOverlay] = useState(true);
+  const [showOverlay, setShowOverlay] = useState(false);
 
   return showOverlay ? (
     <LaunchOverlay onContinue={() => setShowOverlay(false)} />
