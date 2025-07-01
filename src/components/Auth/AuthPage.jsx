@@ -13,6 +13,7 @@ const AuthPage = () => {
   const [success, setSuccess] = useState(null);
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [requirePassword, setRequirePassword] = useState(false);
 
   const [formData, setFormData] = useState({
     Name: "",
@@ -36,7 +37,60 @@ const AuthPage = () => {
     setLoading(true);
     setError(null);
 
+    if (!phone) {
+      setError("Phone number is required.");
+      setLoading(false);
+      return;
+    }
+
     try {
+      if (!requirePassword) {
+        // Phase 1: Role check
+        const res = await axios.post(
+          `${baseURL}/api/auth/check-role`,
+          { Phone: phone },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        const role = res.data.role;
+
+        if (role === "ordinary_user") {
+          // Direct login without password
+          const loginRes = await axios.post(
+            `${baseURL}/api/auth/login`,
+            { Phone: phone },
+            {
+              headers: { "Content-Type": "application/json" },
+              withCredentials: true,
+            }
+          );
+
+          const user = loginRes.data.user;
+          setUserId(user.id);
+          setToken(loginRes.data.token);
+          setRole(user.role);
+          navigate("/");
+          window.location.reload();
+          return;
+        } else {
+          // Require password for staff/admin
+          setRequirePassword(true);
+          setError("Password required for staff or admin.");
+          return;
+        }
+      }
+
+      // Phase 2: Staff/admin login with password
+      if (!password) {
+        setError("Password is required.");
+        setLoading(false);
+        return;
+      }
+
       const response = await axios.post(
         `${baseURL}/api/auth/login`,
         { Phone: phone, Password: password },
@@ -46,21 +100,22 @@ const AuthPage = () => {
         }
       );
 
-      if (response.data.user?.id) {
-        setUserId(response.data.user.id);
-        setToken(response.data.token);
-        setRole(response.data.user.role || "ordinary_user");
-        navigate("/");
-        window.location.reload();
-      } else {
-        setError("No user ID in response");
-      }
+      const user = response.data.user;
+      setUserId(user.id);
+      setToken(response.data.token);
+      setRole(user.role);
+      navigate("/");
+      window.location.reload();
     } catch (error) {
-      setError(
-        error.response?.status === 429
-          ? "Too many failed login attempts. Try again later."
-          : error.response?.data?.errorMessage || "No Network"
-      );
+      console.error("Login Error:", error);
+
+      if (error.response) {
+        setError(error.response.data?.errorMessage || "Login failed.");
+      } else if (error.request) {
+        setError("No response from server. Check your network or backend.");
+      } else {
+        setError("Unexpected error occurred.");
+      }
     } finally {
       setLoading(false);
     }
@@ -115,6 +170,7 @@ const AuthPage = () => {
               setPassword={setPassword}
               handleSubmit={handleLogin}
               loading={loading}
+              requirePassword={requirePassword}
             />
           ) : (
             <SignupForm
@@ -128,7 +184,7 @@ const AuthPage = () => {
           <p className="mt-2 text-center">
             {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
             <button className="btn btn-link" onClick={toggleForm}>
-              {isLogin ? "Sign Up" : "Login"}
+              {isLogin ? "Sign Up / Register" : "Login"}
             </button>
           </p>
         </div>
