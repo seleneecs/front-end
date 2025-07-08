@@ -185,8 +185,8 @@ const SubscriptionForm = () => {
                   type="tel"
                   className="form-control"
                   name="PhoneNumber"
-                  placeholder="07XXXXXXXX"
-                  pattern="^07\d{8}$"
+                  placeholder="07/1XXXXXXXX"
+                  pattern="^(07|01)\d{8}$"
                   value={formData.PhoneNumber}
                   onChange={handleInputChange}
                   required
