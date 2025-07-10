@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Subscription.css";
@@ -9,11 +9,12 @@ import usePaymentSocket from "../../hooks/usePaymentSocket";
 const SubscriptionForm = () => {
   const [pricingType, setPricingType] = useState("Monthly");
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [view, setView] = useState("table"); // 👈 controls view mode: 'table' or 'form'
+  const [view, setView] = useState("table"); // 'table' or 'form'
   const navigate = useNavigate();
   const { userId } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [checkoutRequestID, setCheckoutRequestID] = useState(null);
+  const formRef = useRef(null); // 👈 scroll target
 
   const socketRef = usePaymentSocket((data) => {
     if (data?.mpesaReceipt) {
@@ -40,6 +41,15 @@ const SubscriptionForm = () => {
     }
   }, [userId]);
 
+  // Scroll to form when view switches
+  useEffect(() => {
+    if (view === "form") {
+      setTimeout(() => {
+        formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    }
+  }, [view]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -50,7 +60,6 @@ const SubscriptionForm = () => {
 
   const handleCategoryClick = (category) => {
     const cleanCategory = category.replace(/[^A-Z0-9 &]/gi, "").toUpperCase();
-
     const pricingMap = {
       Daily: "20",
       Monthly: "300",
@@ -63,7 +72,7 @@ const SubscriptionForm = () => {
       subscribed_category: cleanCategory,
       Amount: pricingMap[pricingType],
     }));
-    setView("form"); // 👈 switch to form view
+    setView("form");
   };
 
   const handleSubmit = async (e) => {
@@ -117,25 +126,25 @@ const SubscriptionForm = () => {
                   </thead>
                   <tbody>
                     {[
-                      ["🧒 PP1", "20", "300", "1800"],
-                      ["🧒 PP2", "20", "300", "1800"],
-                      ["📘 GRADE 1", "20", "300", "1800"],
-                      ["📘 GRADE 2", "20", "300", "1800"],
-                      ["📘 GRADE 3", "20", "300", "1800"],
-                      ["📘 GRADE 4", "20", "300", "1800"],
-                      ["📘 GRADE 5", "20", "300", "1800"],
-                      ["📘 GRADE 6", "20", "300", "1800"],
-                      ["📘 GRADE 7", "20", "300", "1800"],
-                      ["📘 GRADE 8", "20", "300", "1800"],
-                      ["🧠 GRADE 9", "20", "300", "1800"],
-                      ["🧠 FORM 2", "20", "300", "1800"],
-                      ["🧠 FORM 3", "20", "300", "1800"],
-                      ["🧠 FORM 4", "20", "300", "1800"],
-                      ["🔬 STEM", "20", "300", "1800"],
-                      ["🎨 ARTS & SPORTS", "20", "300", "1800"],
-                      ["🌍 SOCIAL SCIENCES", "20", "300", "1800"],
-                      ["📦 MORE RESOURCES (worksheets, lesson plans, videos)", "20", "300", "1800"],
-                    ].map(([label, d, m, y], i) => (
+                      "🧒 PP1",
+                      "🧒 PP2",
+                      "📘 GRADE 1",
+                      "📘 GRADE 2",
+                      "📘 GRADE 3",
+                      "📘 GRADE 4",
+                      "📘 GRADE 5",
+                      "📘 GRADE 6",
+                      "📘 GRADE 7",
+                      "📘 GRADE 8",
+                      "🧠 GRADE 9",
+                      "🧠 FORM 2",
+                      "🧠 FORM 3",
+                      "🧠 FORM 4",
+                      "🔬 STEM",
+                      "🎨 ARTS & SPORTS",
+                      "🌍 SOCIAL SCIENCES",
+                      "📦 MORE RESOURCES ",
+                    ].map((label, i) => (
                       <tr
                         key={i}
                         className="clickable-row"
@@ -143,9 +152,9 @@ const SubscriptionForm = () => {
                         role="button"
                       >
                         <td className="text-start">{label}</td>
-                        <td>{d}</td>
-                        <td>{m}</td>
-                        <td>{y}</td>
+                        <td>20</td>
+                        <td>300</td>
+                        <td>1800</td>
                       </tr>
                     ))}
                   </tbody>
@@ -159,7 +168,7 @@ const SubscriptionForm = () => {
 
           {/* Subscription Form View */}
           {view === "form" && (
-            <div className="col-md-6 offset-md-3 hero-right">
+            <div className="col-md-6 offset-md-3 hero-right" ref={formRef}>
               <h2>Subscribe Now</h2>
               <button
                 className="btn btn-link mb-3"
@@ -207,7 +216,7 @@ const SubscriptionForm = () => {
                     type="tel"
                     className="form-control"
                     name="PhoneNumber"
-                    placeholder="07/01xxxxxx"
+                    placeholder="07XXXXXXXX or 01XXXXXXXX"
                     
                     value={formData.PhoneNumber}
                     onChange={handleInputChange}
