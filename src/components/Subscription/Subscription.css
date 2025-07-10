@@ -62,3 +62,16 @@
   font-weight: 500;
   color: #212529;
 }
+
+.clickable-row {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.clickable-row:hover {
+  background-color: #f0f8ff !important;
+}
+
+.table-success {
+  background-color: #d1e7dd !important;
+}
