@@ -25,7 +25,7 @@ const categoryOptions = [
   { value: 'STEM', label: 'STEM', color: '#0000FF' },
   { value: 'ARTS & SPORTS', label: 'ARTS & SPORTS', color: '#0000FF' },
   { value: 'SOCIAL SCIENCES', label: 'SOCIAL SCIENCES', color: '#0000FF' },
-  { value: 'OTHERS RESOURCES', label: 'OTHER RESOURCES', color: '#0000FF' },
+  { value: 'OTHERS RESOURCES', label: 'MORE RESOURCES', color: '#0000FF' },
   
 ];
 
@@ -118,41 +118,56 @@ const SubscriptionForm = () => {
     <Layout>
       <div className="hero-section container">
         <div className="row align-items-start">
-          <div className="col-md-6 hero-left">
-            <h1>seleneECS</h1>
-           <div className="d-none bg-light p-4 rounded mb-4">
-  <h2 className="mb-3">📚 Curriculum-Based Education Subscriptions</h2>
-  <p className="mb-4">
-    Access quality <strong>curriculum-based education</strong> resources tailored for every learner level:
-  </p>
-  
-  <ul className="list-group mb-4">
-    <li className="list-group-item">🧒 PP1</li>
-    <li className="list-group-item">🧒 PP2</li>
-    <li className="list-group-item">📘 GRADE 1</li>
-    <li className="list-group-item">📘 GRADE 2</li>
-    <li className="list-group-item">📘 GRADE 3</li>
-    <li className="list-group-item">📘 GRADE 4</li>
-    <li className="list-group-item">📘 GRADE 5</li>
-    <li className="list-group-item">📘 GRADE 6</li>
-    <li className="list-group-item">📘 GRADE 7</li>
-    <li className="list-group-item">📘 GRADE 8</li>
-    <li className="list-group-item">🧠 GRADE 9</li>
-    <li className="list-group-item">🧠 FORM 2</li>
-    <li className="list-group-item">🧠 FORM 3</li>
-    <li className="list-group-item">🧠 FORM 4</li>
-    <li className="list-group-item">🔬 STEM</li>
-    <li className="list-group-item">🎨 ARTS & SPORTS</li>
-    <li className="list-group-item">🌍 SOCIAL SCIENCES</li>
-    <li className="list-group-item">📦 OTHER RESOURCES (worksheets, lesson plans, videos)</li>
-  </ul>
-  
-  <p>
-    All materials are carefully designed to support <strong>curriculum-based education</strong>, ensuring consistent, reliable learning for students and educators.
+          <div className="col-md-6 hero-left">            
+  <h2 className="mb-3">📚 Curriculum-Based Education Subscriptions</h2> 
+<div className="bg-white p-4 rounded shadow-sm subscription-card">
+  <h4 className="text-primary fw-semibold mb-3">Subscription Pricing</h4>
+  <table className="table table-hover text-center subscription-table">
+    <thead className="table-primary">
+      <tr>
+        <th scope="col">Category</th>
+        <th scope="col">Daily<br /><small>(KES 20)</small></th>
+        <th scope="col">Monthly<br /><small>(KES 300)</small></th>
+        <th scope="col">Yearly<br /><small>(KES 1800)</small></th>
+      </tr>
+    </thead>
+    <tbody>
+      {[
+        ["🧒 PP1", "20", "300", "1800"],
+        ["🧒 PP2", "20", "300", "1800"],
+        ["📘 GRADE 1", "20", "300", "1800"],
+        ["📘 GRADE 2", "20", "300", "1800"],
+        ["📘 GRADE 3", "20", "300", "1800"],
+        ["📘 GRADE 4", "20", "300", "1800"],
+        ["📘 GRADE 5", "20", "300", "1800"],
+        ["📘 GRADE 6", "20", "300", "1800"],
+        ["📘 GRADE 7", "20", "300", "1800"],
+        ["📘 GRADE 8", "20", "300", "1800"],
+        ["🧠 GRADE 9", "20", "300", "1800"],
+        ["🧠 FORM 2", "20", "300", "1800"],
+        ["🧠 FORM 3", "20", "300", "1800"],
+        ["🧠 FORM 4", "20", "300", "1800"],
+        ["🔬 STEM", "20", "300", "1800"],
+        ["🎨 ARTS & SPORTS", "20", "300", "1800"],
+        ["🌍 SOCIAL SCIENCES", "20", "300", "1800"],
+        ["📦 MORE RESOURCES (worksheets, lesson plans, videos)", "20", "300", "1800"],
+      ].map(([label, d, m, y], i) => (
+        <tr key={i}>
+          <td className="text-start">{label}</td>
+          <td>{d}</td>
+          <td>{m}</td>
+          <td>{y}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  <p className="text-muted text-center small mt-2">
+    Gain full access to educational resources aligned with Kenya’s curriculum.
   </p>
 </div>
 
-          </div>
+</div>
+
 
           <div className="col-md-6 hero-right">
             <h2>Subscribe Now</h2>

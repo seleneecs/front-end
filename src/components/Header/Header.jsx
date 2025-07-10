@@ -127,7 +127,7 @@ const Header = ({ children }) => {
           </div>
         ) : (
           <Link to="/login/register">
-            <button className="btn btn-outline-greenish">Login</button>
+            <button className="btn btn-outline-greenish">Register/Login</button>
           </Link>
         )}
 

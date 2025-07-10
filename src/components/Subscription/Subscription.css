@@ -1,3 +1,11 @@
+.hero-section.container {
+  display: flex;
+  flex-direction: column; /* or row if you want horizontal layout */
+  justify-content: center; /* vertical alignment */
+  min-height: 100vh; /* full viewport height */
+  padding: 2rem; /* optional padding */
+}
+
 .hero-right {
   background: white;
   padding: 40px;
@@ -16,11 +24,41 @@
   font-weight: 600;
   color: #212529;
 }
+.hero-left {
+  background-color: #f9fafb;
+  border-radius: 12px;
+  padding: 20px;
+}
 
-.hero-section.container {
-  display: flex;
-  flex-direction: column; /* or row if you want horizontal layout */
-  justify-content: center; /* vertical alignment */
-  min-height: 100vh; /* full viewport height */
-  padding: 2rem; /* optional padding */
+.subscription-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  background: #fff;
+  transition: box-shadow 0.3s ease;
+}
+
+.subscription-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.1);
+}
+
+.subscription-table thead th {
+  background-color: #007bff !important;
+  color: #fff;
+  vertical-align: middle;
+}
+
+.subscription-table td,
+.subscription-table th {
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+.subscription-table tbody tr:hover {
+  background-color: #f1f9ff;
+  transition: background 0.2s ease;
+}
+
+.subscription-table td:first-child {
+  font-weight: 500;
+  color: #212529;
 }
