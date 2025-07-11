@@ -14,7 +14,7 @@ const SubscriptionForm = () => {
   const { userId } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const [checkoutRequestID, setCheckoutRequestID] = useState(null);
-  const formRef = useRef(null); // 👈 scroll target
+  const formRef = useRef(null); // For scroll target
 
   const socketRef = usePaymentSocket((data) => {
     if (data?.mpesaReceipt) {
@@ -111,55 +111,63 @@ const SubscriptionForm = () => {
         <div className="row align-items-start">
           {/* Pricing Table View */}
           {view === "table" && (
-            <div className="col-md-12">
+            <div className="col-12">
               <h2 className="mb-3">📚 Curriculum-Based Education Subscriptions</h2>
+              <p className="text-center mt-3 p-3 bg-primary text-white rounded shadow-sm fw-semibold">
+                  Click a category to subscribe and gain access to curriculum-aligned resources.
+                </p>
               <div className="bg-white p-4 rounded shadow-sm subscription-card">
                 <h4 className="text-primary fw-semibold mb-3">Subscription Pricing</h4>
-                <table className="table table-hover text-center subscription-table">
-                  <thead className="table-primary">
-                    <tr>
-                      <th>Category</th>
-                      <th>Daily<br /><small>(KES 20)</small></th>
-                      <th>Monthly<br /><small>(KES 300)</small></th>
-                      <th>Yearly<br /><small>(KES 1800)</small></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {[
-                      "🧒 PP1",
-                      "🧒 PP2",
-                      "📘 GRADE 1",
-                      "📘 GRADE 2",
-                      "📘 GRADE 3",
-                      "📘 GRADE 4",
-                      "📘 GRADE 5",
-                      "📘 GRADE 6",
-                      "📘 GRADE 7",
-                      "📘 GRADE 8",
-                      "🧠 GRADE 9",
-                      "🧠 FORM 2",
-                      "🧠 FORM 3",
-                      "🧠 FORM 4",
-                      "🔬 STEM",
-                      "🎨 ARTS & SPORTS",
-                      "🌍 SOCIAL SCIENCES",
-                      "📦 MORE RESOURCES ",
-                    ].map((label, i) => (
-                      <tr
-                        key={i}
-                        className="clickable-row"
-                        onClick={() => handleCategoryClick(label)}
-                        role="button"
-                      >
-                        <td className="text-start">{label}</td>
-                        <td>20</td>
-                        <td>300</td>
-                        <td>1800</td>
+
+                {/* Responsive Table */}
+                <div className="table-responsive">
+                  <table className="table table-hover text-center subscription-table">
+                    <thead className="table-primary">
+                      <tr>
+                        <th>Category</th>
+                        <th>Daily<br /><small>(KES 20)</small></th>
+                        <th>Monthly<br /><small>(KES 300)</small></th>
+                        <th>Yearly<br /><small>(KES 1800)</small></th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-                <p className="text-muted text-center small mt-2">
+                    </thead>
+                    <tbody>
+                      {[
+                        "🧒 PP1",
+                        "🧒 PP2",
+                        "📘 GRADE 1",
+                        "📘 GRADE 2",
+                        "📘 GRADE 3",
+                        "📘 GRADE 4",
+                        "📘 GRADE 5",
+                        "📘 GRADE 6",
+                        "📘 GRADE 7",
+                        "📘 GRADE 8",
+                        "🧠 GRADE 9",
+                        "🧠 FORM 2",
+                        "🧠 FORM 3",
+                        "🧠 FORM 4",
+                        "🔬 STEM",
+                        "🎨 ARTS & SPORTS",
+                        "🌍 SOCIAL SCIENCES",
+                        "📦 MORE RESOURCES ",
+                      ].map((label, i) => (
+                        <tr
+                          key={i}
+                          className="clickable-row"
+                          onClick={() => handleCategoryClick(label)}
+                          role="button"
+                        >
+                          <td className="text-start">{label}</td>
+                          <td>20</td>
+                          <td>300</td>
+                          <td>1800</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                <p className="text-center mt-3 p-3 bg-primary text-white rounded shadow-sm fw-semibold">
                   Click a category to subscribe and gain access to curriculum-aligned resources.
                 </p>
               </div>
