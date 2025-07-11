@@ -74,6 +74,12 @@ const Header = ({ children }) => {
         {/* User Section */}
         {userId ? (
           <div className="d-flex align-items-center gap-3">
+            {/* Subscribe Button */}
+        <Link to="/subscriptions">
+          <button className="btn btn-primary btn-sm px-3 w-auto">
+            Subscribe
+          </button>
+        </Link>
             {/* Logout Button (Visible) */}
             <button
               className="btn btn-outline-danger btn-sm px-3 w-auto"
