@@ -59,7 +59,7 @@ const SubscriptionForm = () => {
   };
 
   const handleCategoryClick = (category) => {
-    const cleanCategory = category.replace(/[^A-Z0-9 &]/gi, "").toUpperCase();
+    const cleanCategory = category.replace(/[^A-Z0-9 &]/gi, ).toUpperCase();
     const pricingMap = {
       Daily: "20",
       Monthly: "300",
