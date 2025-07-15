@@ -132,38 +132,39 @@ const SubscriptionForm = () => {
                     </thead>
                     <tbody>
                       {[
-                        "🧒 PP1",
-                        "🧒 PP2",
-                        "📘 GRADE 1",
-                        "📘 GRADE 2",
-                        "📘 GRADE 3",
-                        "📘 GRADE 4",
-                        "📘 GRADE 5",
-                        "📘 GRADE 6",
-                        "📘 GRADE 7",
-                        "📘 GRADE 8",
-                        "🧠 GRADE 9",
-                        "🧠 FORM 2",
-                        "🧠 FORM 3",
-                        "🧠 FORM 4",
-                        "🔬 STEM",
-                        "🎨 ARTS & SPORTS",
-                        "🌍 SOCIAL SCIENCES",
-                        "📦 MORE RESOURCES ",
-                      ].map((label, i) => (
+                        { label: "🧒 PP1", value: "PP1" },
+                        { label: "🧒 PP2", value: "PP2" },
+                        { label: "📘 GRADE 1", value: "GRADE 1" },
+                        { label: "📘 GRADE 2", value: "GRADE 2" },
+                        { label: "📘 GRADE 3", value: "GRADE 3" },
+                        { label: "📘 GRADE 4", value: "GRADE 4" },
+                        { label: "📘 GRADE 5", value: "GRADE 5" },
+                        { label: "📘 GRADE 6", value: "GRADE 6" },
+                        { label: "📘 GRADE 7", value: "GRADE 7" },
+                        { label: "📘 GRADE 8", value: "GRADE 8" },
+                        { label: "🧠 GRADE 9", value: "GRADE 9" },
+                        { label: "🧠 FORM 2", value: "FORM 2" },
+                        { label: "🧠 FORM 3", value: "FORM 3" },
+                        { label: "🧠 FORM 4", value: "FORM 4" },
+                        { label: "🔬 STEM", value: "STEM" },
+                        { label: "🎨 ARTS & SPORTS", value: "ARTS AND SPORTS" },
+                        { label: "🌍 SOCIAL SCIENCES", value: "SOCIAL SCIENCES" },
+                        { label: "📦 MORE RESOURCES", value: "OTHERS RESOURCES" },
+                      ].map((item, i) => (
                         <tr
                           key={i}
                           className="clickable-row"
-                          onClick={() => handleCategoryClick(label)}
+                          onClick={() => handleCategoryClick(item.value)}
                           role="button"
                         >
-                          <td className="text-start">{label}</td>
+                          <td className="text-start">{item.label}</td>
                           <td>20</td>
                           <td>300</td>
                           <td>1800</td>
                         </tr>
                       ))}
                     </tbody>
+
                   </table>
                 </div>
 
