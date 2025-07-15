@@ -152,7 +152,7 @@ const cleanCategory = category
                         <tr
                           key={i}
                           className="clickable-row"
-                          onClick={() => handleCategoryClick(item.value)}
+                          onClick={() => handleCategoryClick(item.value.trim())}
                           role="button"
                         >
                           <td className="text-start">{item.label}</td>
