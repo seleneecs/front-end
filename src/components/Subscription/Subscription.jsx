@@ -124,8 +124,7 @@ const SubscriptionForm = () => {
                   <table className="table table-hover text-center subscription-table">
                     <thead className="table-primary">
                       <tr>
-                        <th>Category</th>
-                        <th>Daily<br /><small>(KES 20)</small></th>
+                        <th>Category</th>                        
                         <th>Monthly<br /><small>(KES 300)</small></th>
                         <th>Yearly<br /><small>(KES 1800)</small></th>
                       </tr>
@@ -157,8 +156,7 @@ const SubscriptionForm = () => {
                           onClick={() => handleCategoryClick(item.value.trim())}
                           role="button"
                         >
-                          <td className="text-start">{item.label}</td>
-                          <td>20</td>
+                          <td className="text-start">{item.label}</td>                          
                           <td>300</td>
                           <td>1800</td>
                         </tr>

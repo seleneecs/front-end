@@ -127,20 +127,7 @@ const seleneMaterials = {
 // Renderer component
 const Renderer = ({ sections, handleSubjectClick, selectedTables, handleUnitClick }) => (
   <div className="home-container">
-    <div>  
-<div className="ad">
-  <Download size={28} color="#1890ff" />
-  <div>
-    <h6>🎯 <strong>Individuals:</strong> Access your favorite category for a full day — only <strong>KES 20</strong>!</h6>
-    <h6>🎓 <strong>Schools:</strong> Unlock unlimited access to one category for a full month — just <strong>KES 200</strong>!</h6>
-    <p className="ad-contact">
-      📞 For discounts or inquiries, call us at <strong>0748 99 67 31</strong>.
-    </p>
-  </div>
-</div>
-
-
-</div>
+   
     
     {sections.map(({ name, levels, subjects, titles }) => (
       <div className="card" key={name}>
