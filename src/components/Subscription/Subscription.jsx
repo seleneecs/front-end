@@ -201,7 +201,7 @@ const SubscriptionForm = () => {
                       const selected = e.target.value;
                       setPricingType(selected);
                       const pricingMap = {
-                        
+                        Daily: "",
                         Monthly: "300",
                         Yearly: "1800",
                       };
@@ -212,6 +212,7 @@ const SubscriptionForm = () => {
                     }}
                   >
                     
+                    <option value="Monthly">Daily - (Min 2 days- 40/-) </option>
                     <option value="Monthly">Monthly - KES 300</option>
                     <option value="Yearly">Yearly - KES 1800</option>
                   </select>
@@ -238,9 +239,9 @@ const SubscriptionForm = () => {
                     className="form-control"
                     name="Amount"
                     value={formData.Amount}
-                    readOnly
+                    
                     required
-                    min="20"
+                    min="40"
                   />
                 </div>
 
