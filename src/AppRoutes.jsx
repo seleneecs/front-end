@@ -14,6 +14,7 @@ import AuthPage from "./components/Auth/AuthPage";
 import OthersSection from "./components/otherScollResources/OthersSection";
 import ComingSoon from "./components/comingSoon";
 import LoginForm from "./components/Auth/LoginForm";
+import SubjectListPage from "./components/SubjectListPage";
 
 
 
@@ -35,6 +36,7 @@ const AppRoutes = () => (
       <Route path="/support" element={<AdminUserManagement />} />
       <Route path="/subscription/management" element={<SubscriptionManagement />} />
       <Route path="/others" element={<OthersSection />} />
+       <Route path="/subjects/:sectionName" element={<SubjectListPage />} />
       <Route path="/coming/soon" element={<ComingSoon />} />
       <Route path="*" element={<div>404 - Page Not Found</div>} />
     </Routes>

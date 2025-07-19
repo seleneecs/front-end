@@ -125,7 +125,7 @@ const seleneMaterials = {
 };
 
 // Renderer component
-const Renderer = ({ sections, handleSubjectClick, selectedTables, handleUnitClick }) => (
+const Renderer = ({ sections, handleSubjectClick, selectedTables, handleUnitClick, handleSectionClick }) => (
   <div className="home-container">
    
     
@@ -133,8 +133,14 @@ const Renderer = ({ sections, handleSubjectClick, selectedTables, handleUnitClic
       <div className="card" key={name}>
         
         <div className="title">
-          <h5>{name}</h5>
+          <h5
+            onClick={() => handleSectionClick(name)}
+            style={{ cursor: "pointer" }}
+          >
+            {name}
+          </h5>
         </div>
+
         {levels.map((level, index) => (
           <div className="subjectList" key={level}>
             <p className="grade">{level}</p>
@@ -219,6 +225,56 @@ const Home = () => {
     if (email) localStorage.setItem("email", email);
     else localStorage.removeItem("email");
   }, [userId, token, role, email]);
+
+  const handleSectionClick = (sectionName) => {
+  const selectedSection = sections.find((section) => section.name === sectionName);
+
+  if (!selectedSection) {
+    console.warn("Section not found:", sectionName);
+    return;
+  }
+
+  console.log(`\n📚 Section: ${selectedSection.name}`);
+
+  // 🟨 Handle Pre-Primary School with individual subject lists per level
+  if (selectedSection.name === "Pre-Primary School" && selectedSection.levels) {
+    selectedSection.levels.forEach((level) => {
+      console.log(`🔸 Subjects for ${level}:`);
+      selectedSection.subjects.forEach((subject) => {
+        console.log(`   - ${subject}`);
+      });
+    });
+    console.log("------------");
+    return;
+  }
+
+  // 🟩 Handle Primary School: dynamic subjects by level index
+  if (typeof selectedSection.subjects === "function") {
+    selectedSection.levels.forEach((level, index) => {
+      const levelSubjects = selectedSection.subjects(index);
+      console.log(`🔸 Subjects for ${level}: ${levelSubjects.join(", ")}`);
+    });
+  }
+
+  // 🟦 Handle other sections with flat subjects array
+  if (Array.isArray(selectedSection.subjects)) {
+    console.log("📒 Subjects:", selectedSection.subjects.join(", "));
+  }
+
+  // 🟥 Handle Secondary with categorized subjects
+  if (selectedSection.titles) {
+    selectedSection.titles.forEach((titleGroup) => {
+      console.log(`📂 ${titleGroup.category}: ${titleGroup.subjects.join(", ")}`);
+    });
+  }
+
+  console.log("------------");
+};
+
+
+
+
+
 
   const handleSubjectClick = (section, level, subject) => {
     const sectionToTableMap = {
@@ -361,6 +417,7 @@ const Home = () => {
             handleSubjectClick={handleSubjectClick}
             selectedTables={selectedTables}
             handleUnitClick={handleUnitClick}
+            handleSectionClick={handleSectionClick}
           />
         </div>
 
