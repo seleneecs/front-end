@@ -180,9 +180,7 @@ const handleMaterialClick = async (material, category) => {
 
   return (
     <div className="">
-     <div className="senior-school-title">
-       <h1 className="moving">Senior School Section</h1>
-    </div>
+     
 
 
       {/* Grade Selection */}

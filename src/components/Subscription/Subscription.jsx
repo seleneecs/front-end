@@ -241,7 +241,7 @@ const SubscriptionForm = () => {
                     className="form-control"
                     name="Amount"
                     value={formData.Amount}
-                    
+                    onChange={handleInputChange}
                     required
                     min="40"
                   />

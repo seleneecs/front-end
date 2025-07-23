@@ -173,42 +173,9 @@
 }
 
 
-.moving {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-stroke: 1px rgb(249, 249, 249); /* Outline stroke for the text */
-  color: white;
-  font-size: 3em; /* Adjust the font size */
-  animation: slideIn 15s linear infinite; /* Continuous animation from right to left */
-}
-
-@keyframes slideIn {
-  0% {
-    transform: translateX(230%); /* Start off-screen to the right on larger screens */
-  }
-  100% {
-    transform: translateX(-230%); /* Move completely off-screen to the left */
-  }
-}
 
 
-/* For small screens */
-@media (max-width: 600px) {
-  .moving {
-    font-size: 2em; /* Smaller font size for mobile */
-    animation: slideInSmall 15s linear infinite; /* Different animation for smaller screens */
-  }
 
-  @keyframes slideInSmall {
-    0% {
-      transform: translateX(100%); /* Start off-screen to the right on smaller screens */
-    }
-    100% {
-      transform: translateX(-100%); /* Move completely off-screen to the left on smaller screens */
-    }
-  }
-
-}
 
 
   .senior-grade-headings{

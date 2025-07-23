@@ -1,0 +1,38 @@
+
+.fullscreen-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #f9f9f9;
+  z-index: 9999;
+  overflow-y: auto;
+  padding: 40px;
+}
+
+.unit-item {
+  margin: 8px 0;
+  padding-left: 10px;
+  cursor: pointer;
+}
+
+.close-button {
+  margin-top: 20px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.subjects-container {
+  display: flex;
+  gap: 40px;
+}
+
+.subjects-column {
+  flex: 1;
+}
+
+.subject-item {
+  cursor: pointer;
+  margin: 8px 0;
+}

@@ -142,51 +142,54 @@ const Renderer = ({ sections, handleSubjectClick, selectedTables, handleUnitClic
         </div>
 
         {levels.map((level, index) => (
-          <div className="subjectList" key={level}>
-            <p className="grade">{level}</p>
-            {titles ? (
-              titles.map(({ category, subjects }) => (
-                <div key={category}>
-                  <h5>{category}</h5>
-                  <ul>
-                    {subjects.map((subject) => (
-                      <li key={subject}>
-                        <span className="subjectSpan" onClick={() => handleSubjectClick(name, level, subject)}>
-                          {subject}
-                        </span>
-                        {selectedTables
-                          .filter((table) => table.label === `${level} ${subject}`)
-                          .map(({ unit, table, database, level, subject }) => (
-                            <ul className="nested-list" key={table}>
-                              <li onClick={() => handleUnitClick(unit, table, database, level, subject)}>
-                                {unit}
-                              </li>
-                            </ul>
-                          ))}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))
-            ) : (
-              <ul>
-                {(typeof subjects === "function" ? subjects(index) : subjects).map((subject) => (
-                  <li key={subject}>
-                    <span className="subjectSpan" onClick={() => handleSubjectClick(name, level, subject)}>
-                      {subject}
-                    </span>
-                    {selectedTables
-                      .filter((table) => table.label === `${level} ${subject}`)
-                      .map(({ unit, table, database, level, subject }) => (
-                        <ul className="nested-list" key={table}>
-                          <li onClick={() => handleUnitClick(unit, table, database, level, subject)}>{unit}</li>
-                        </ul>
-                      ))}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+<div className="subjectList mb-4" key={level}>
+  <p className="grade">{level}</p>
+  <label htmlFor={`subjectDropdown-${level}`} className="form-label">
+    Select Subject
+  </label>
+  <select
+    id={`subjectDropdown-${level}`}
+    className="form-select mb-3"
+    onChange={(e) => {
+      const [subject, category] = e.target.value.split("::");
+      if (subject) handleSubjectClick(name, level, subject);
+    }}
+  >
+    <option value="">-- Choose a Subject --</option>
+
+    {titles ? (
+      titles.map(({ category, subjects }) =>
+        subjects.map((subject) => (
+          <option key={`${category}-${subject}`} value={`${subject}::${category}`}>
+            {category} - {subject}
+          </option>
+        ))
+      )
+    ) : (
+      (typeof subjects === "function" ? subjects(index) : subjects).map((subject) => (
+        <option key={subject} value={`${subject}::`}>
+          {subject}
+        </option>
+      ))
+    )}
+  </select>
+
+  {/* Units List - only show if selectedTables has matches for this level */}
+  {selectedTables
+    .filter((table) => table.level === level)
+    .map(({ unit, table, database, level, subject }) => (
+      <ul className="nested-list" key={table}>
+        <li
+          className="ps-2"
+          onClick={() => handleUnitClick(unit, table, database, level, subject)}
+          style={{ cursor: "pointer" }}
+        >
+          📘 {unit}
+        </li>
+      </ul>
+    ))}
+</div>
+
         ))}
       </div>
     ))}
@@ -226,7 +229,29 @@ const Home = () => {
     else localStorage.removeItem("email");
   }, [userId, token, role, email]);
 
-  const handleSectionClick = (sectionName) => {
+
+  // To deal with user clicking the tittle or the header eg primary
+const sectionMap = {
+  "Pre-Primary School": seleneMaterials.selene_priprimary?.map(item => ({
+    ...item,
+    schemaName: "selene_priprimary",
+  })),
+  "Primary School": seleneMaterials.selene_primaryschool?.map(item => ({
+    ...item,
+    schemaName: "selene_primaryschool",
+  })),
+  "Junior School": seleneMaterials.selene_jss?.map(item => ({
+    ...item,
+    schemaName: "selene_jss",
+  })),
+  "Secondary School": seleneMaterials.selene_secondary?.map(item => ({
+    ...item,
+    schemaName: "selene_secondary",
+  })),
+};
+
+
+const handleSectionClick = (sectionName) => {
   const selectedSection = sections.find((section) => section.name === sectionName);
 
   if (!selectedSection) {
@@ -236,39 +261,107 @@ const Home = () => {
 
   console.log(`\n📚 Section: ${selectedSection.name}`);
 
-  // 🟨 Handle Pre-Primary School with individual subject lists per level
+  let structuredSubjects = [];
+
+  const getSeleneMaterials = () => {
+  const section = selectedSection.name;
+  const materials = sectionMap[section] || seleneMaterials.other;
+
+  let schemaName = "";
+
+  // Dynamically determine the schema name
+  switch (section) {
+    case "Pre-Primary School":
+      schemaName = "selene_priprimary";
+      break;
+    case "Primary School":
+      schemaName = "selene_primaryschool";
+      break;
+    case "Junior School":
+      schemaName = "selene_jss";
+      break;
+    case "Secondary School":
+      schemaName = "selene_secondary";
+      break;
+    default:
+      schemaName = "selene_other"; // optional fallback
+  }
+
+  // Add schemaName to each item
+  return materials?.map((item) => ({
+    ...item,
+    schemaName,
+  }));
+};
+
+
+  // 🟨 Pre-Primary: flat same subjects for each level
   if (selectedSection.name === "Pre-Primary School" && selectedSection.levels) {
-    selectedSection.levels.forEach((level) => {
-      console.log(`🔸 Subjects for ${level}:`);
-      selectedSection.subjects.forEach((subject) => {
-        console.log(`   - ${subject}`);
-      });
+    structuredSubjects = selectedSection.levels.map((level) => ({
+      level,
+      subjects: selectedSection.subjects,
+    }));
+
+    navigate(`/subjects/${selectedSection.name.toLowerCase()}`, {
+      state: {
+        seleneMaterials: getSeleneMaterials(),
+        sectionName: selectedSection.name,
+        subjectsByLevel: structuredSubjects,
+      },
     });
-    console.log("------------");
     return;
   }
 
-  // 🟩 Handle Primary School: dynamic subjects by level index
+  // 🟩 Primary School: subjects is a function based on level index
   if (typeof selectedSection.subjects === "function") {
-    selectedSection.levels.forEach((level, index) => {
-      const levelSubjects = selectedSection.subjects(index);
-      console.log(`🔸 Subjects for ${level}: ${levelSubjects.join(", ")}`);
+    structuredSubjects = selectedSection.levels.map((level, index) => ({
+      level,
+      subjects: selectedSection.subjects(index),
+    }));
+
+    navigate(`/subjects/${selectedSection.name.toLowerCase()}`, {
+      state: {
+        seleneMaterials: getSeleneMaterials(),
+        sectionName: selectedSection.name,
+        subjectsByLevel: structuredSubjects,
+      },
     });
+    return;
   }
 
-  // 🟦 Handle other sections with flat subjects array
-  if (Array.isArray(selectedSection.subjects)) {
-    console.log("📒 Subjects:", selectedSection.subjects.join(", "));
+  // 🟦 Others: same subjects across levels
+  if (Array.isArray(selectedSection.subjects) && selectedSection.levels) {
+    structuredSubjects = selectedSection.levels.map((level) => ({
+      level,
+      subjects: selectedSection.subjects,
+    }));
+
+    navigate(`/subjects/${selectedSection.name.toLowerCase()}`, {
+      state: {
+        seleneMaterials: getSeleneMaterials(),
+        sectionName: selectedSection.name,
+        subjectsByLevel: structuredSubjects,
+      },
+    });
+    return;
   }
 
-  // 🟥 Handle Secondary with categorized subjects
+  // 🟥 Secondary: grouped by categories
   if (selectedSection.titles) {
-    selectedSection.titles.forEach((titleGroup) => {
-      console.log(`📂 ${titleGroup.category}: ${titleGroup.subjects.join(", ")}`);
-    });
-  }
+    structuredSubjects = selectedSection.titles.map((group) => ({
+      level: group.category,
+      subjects: group.subjects,
+    }));
 
-  console.log("------------");
+    navigate(`/subjects/${selectedSection.name.toLowerCase()}`, {
+      state: {
+        seleneMaterials: getSeleneMaterials(),
+        sectionName: selectedSection.name,
+        subjectsByLevel: structuredSubjects,
+      },
+    });
+    return;
+  }
 };
 
 
@@ -314,7 +407,7 @@ const Home = () => {
 
       const fullURL = `${baseURL}/api/resource?${new URLSearchParams(queryParams).toString()}`;
       const response = await axios.get(fullURL, { withCredentials: true });
-
+      console.log("full url is:", fullURL)
       navigate("/display", { state: { data: response.data, type: "table", fullURL } });
     } catch (error) {
       const errorMessage = error.response?.data?.message || "Unexpected error. If this continues, contact support at infot@seleneecs.com. or Tel: 0748 996 731";
@@ -473,8 +566,8 @@ const Home = () => {
       </div>
 
       {/* Components below the main layout */}
-      <SecondarySchool />
       <OtherSchoolResources />
+      <SecondarySchool />      
     </Layout>
   );
 };
