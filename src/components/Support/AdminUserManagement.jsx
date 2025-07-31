@@ -42,9 +42,11 @@ const AdminUserManagement = () => {
   }, [currentPage]);
 
   // Derived filteredUsers state
-  const filteredUsers = users.filter((user) =>
-    user.Email.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+const filteredUsers = users.filter(
+  (user) =>
+    user?.Email?.toLowerCase().includes(searchQuery.toLowerCase())
+);
+
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
