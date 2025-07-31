@@ -34,13 +34,10 @@ const LoginForm = ({ phone,
               )}
 
     <div className="d-flex justify-content-between align-items-center mb-3">
-      <button type="submit" className="btn btn-primary" disabled={loading}>
-  {loading ? "Logging in..." : requirePassword ? "Login" : "Next"}
+      <button type="submit" className="btn btn-success w-100" disabled={loading}>
+  {loading ? "Logging in..." : requirePassword ? "Login" : "Login"}
 </button>
 
-      <button type="button" className="btn btn-link" onClick={onForgotPassword}>
-        Forgot Password?
-      </button>
     </div>
   </form>
 );

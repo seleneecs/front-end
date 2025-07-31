@@ -44,7 +44,7 @@ const SignupForm = ({ formData, setFormData, handleSubmit, loading }) => {
 
 
       <button type="submit" className="btn btn-success w-100" disabled={loading}>
-        {loading ? "Signing up..." : "Sign Up / Register"}
+        {loading ? "Signing up..." : "Register"}
       </button>
     </form>
   );
