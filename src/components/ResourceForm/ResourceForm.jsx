@@ -224,6 +224,7 @@ const ResourceForm = () => {
                   <option value="fullset_examinations">Fullset Examinations</option>
                     <option value="ksce_past_papers">KCSE Past Papers</option>
                     <option value="schemes">Schemes</option>
+                    <option value="mocks">Mocks</option>
                     <option value="revision_notes">Revision Notes</option>
                     <option value="assesment_tools">Assessment Tools</option>
                     <option value="trial_examinations">Trial Examinations</option>

@@ -115,7 +115,7 @@ const seleneMaterials = {
   ],
   selene_secondary: [
     { table: "schemes", unit: "Schemes" },
-   
+    { table: "mocks", unit: "Mocks" },   
     { table: "fullset_examinations", unit: "Fullset Examinations" },
     { table: "holiday_assignments", unit: "Holiday Assignments" },
     { table: "ksce_past_papers", unit: "KCSE Past Papers" },
