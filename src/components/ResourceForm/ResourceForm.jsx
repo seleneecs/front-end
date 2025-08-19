@@ -304,9 +304,20 @@ const ResourceForm = () => {
 
 
               <div className="col-md-4 mb-3">
-                <label htmlFor="set" className="form-label"><strong>Set</strong></label>
-                <input type="number" className="form-control" id="set" name="set" value={formData.set} onChange={handleChange} placeholder="Enter set (e.g., 2)"/>
-              </div>
+  <label htmlFor="set" className="form-label">
+    <strong>Set</strong>
+  </label>
+  <input
+    type="text"
+    className="form-control"
+    id="set"
+    name="set"
+    value={formData.set}
+    onChange={handleChange}
+    placeholder="Enter set (e.g., 2, 2B, A1)"
+  />
+</div>
+
 
               <div className="col-md-4 mb-3">
                 <label htmlFor="grade" className="form-label"><strong>Grade</strong></label>
