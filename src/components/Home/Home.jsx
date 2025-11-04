@@ -120,7 +120,7 @@ const seleneMaterials = {
     { table: "holiday_assignments", unit: "Holiday Assignments" },
     { table: "ksce_past_papers", unit: "KCSE Past Papers" },
     { table: "revision_notes", unit: "Revision Notes" },
-    { table: "trial_examinations", unit: "Trial Examinations" },
+    
   ],
 };
 
