@@ -65,7 +65,7 @@ const sections = [
   },
   {
     name: "Secondary School",
-    levels: [...Array(3)].map((_, i) => `Form ${i + 2}`),
+    levels: [...Array(2)].map((_, i) => `Form ${i + 3}`),
     titles: [
       {
         category: "Science",
