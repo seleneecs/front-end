@@ -6,6 +6,10 @@ import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 import { devLog } from "../../utils/devLog";
 
+// ✅ Axios global setup for cookies and base URL
+axios.defaults.withCredentials = true;
+axios.defaults.headers.common["Content-Type"] = "application/json";
+
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -46,38 +50,25 @@ const AuthPage = () => {
     try {
       if (!requirePassword) {
         // Phase 1: Role check
-        const res = await axios.post(
-          `${baseURL}/api/auth/check-role`,
-          { Phone: phone },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
+        const res = await axios.post(`${baseURL}/api/auth/check-role`, { Phone: phone });
         const role = res.data.role;
 
         if (role === "ordinary_user") {
           // Direct login without password
-          const loginRes = await axios.post(
-            `${baseURL}/api/auth/login`,
-            { Phone: phone },
-            {
-              headers: { "Content-Type": "application/json" },
-              withCredentials: true,
-            }
-          );
-
+          const loginRes = await axios.post(`${baseURL}/api/auth/login`, { Phone: phone });
           const user = loginRes.data.user;
+
           setUserId(user.id);
           setToken(loginRes.data.token);
           setRole(user.role);
+
+          // ✅ Attach token for future axios requests
+          axios.defaults.headers.common["Authorization"] = `Bearer ${loginRes.data.token}`;
+
           navigate("/");
           window.location.reload();
           return;
         } else {
-          // Require password for staff/admin
           setRequirePassword(true);
           setError("Password required for staff or admin.");
           return;
@@ -91,19 +82,16 @@ const AuthPage = () => {
         return;
       }
 
-      const response = await axios.post(
-        `${baseURL}/api/auth/login`,
-        { Phone: phone, Password: password },
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.post(`${baseURL}/api/auth/login`, { Phone: phone, Password: password });
 
       const user = response.data.user;
       setUserId(user.id);
       setToken(response.data.token);
       setRole(user.role);
+
+      // ✅ Attach token for subsequent requests
+      axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
+
       navigate("/");
       window.location.reload();
     } catch (error) {
@@ -121,6 +109,7 @@ const AuthPage = () => {
     }
   };
 
+  // ✅ Enhanced Signup Handler
   const handleSignup = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -128,21 +117,33 @@ const AuthPage = () => {
     setSuccess(null);
 
     try {
-      const res = await axios.post(`${baseURL}/api/signup`, formData);
-      setSuccess(res.data.message || "Signup successful! Please login.");
-
-      setFormData({
-        Name: "",
-        Phone: "",
-        Password: "",
-        Role: "ordinary_user",
+      const res = await axios.post(`${baseURL}/api/signup`, formData, {
+        withCredentials: true,
       });
 
-      setTimeout(() => {
-        setSuccess(null);
+      // ✅ If backend returns token + user (as it does now)
+      const { user, token, message } = res.data;
+
+      if (user && token) {
+        setSuccess(message || "Signup successful!");
+
+        // Save to context
+        setUserId(user.id);
+        setToken(token);
+        setRole(user.role);
+
+        // ✅ Attach token for future axios requests
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+        // ✅ Navigate directly to home/dashboard
+        navigate("/");
+        window.location.reload();
+      } else {
+        setSuccess("Signup successful! Please log in.");
         setIsLogin(true);
-      }, 2000);
+      }
     } catch (err) {
+      console.error("Signup Error:", err);
       setError(err.response?.data?.errorMessage || "Signup failed.");
     } finally {
       setLoading(false);
