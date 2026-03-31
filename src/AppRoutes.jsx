@@ -25,6 +25,7 @@ import SubjectListPage from "./components/SubjectListPage";
 
 
 
+
 const AppRoutes = () => (
   <>
      <Routes>
@@ -34,7 +35,7 @@ const AppRoutes = () => (
       <Route path="/login/register" element={<AuthPage />} /> {/* ✅ Replaced with AuthPage */}
       <Route path="/login" element={<LoginForm />} /> {/* ✅ Replaced with AuthPage */}
       <Route path="/subscriptions" element={<SubscriptionForm />} />
-      <Route path="/admin/user/management" element={<AdminUserManagement />} />
+      <Route path="/admin/user/management" element={<AdminUserManagement />} />      
       <Route path="/support" element={<AdminUserManagement />} />
       <Route path="/subscription/management" element={<SubscriptionManagement />} />
       <Route path="/others" element={<OthersSection />} />

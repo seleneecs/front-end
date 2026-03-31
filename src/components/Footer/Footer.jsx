@@ -12,10 +12,7 @@ const Footer = () => {
             <li className="mx-2"><a className="custom-footer-text" href="#">Privacy Policy</a></li>
             <li className="mx-2"><a className="custom-footer-text" href="#">Terms & Conditions</a></li>
 
-            <li className="mx-2">
-              <a className="custom-footer-text position-relative" href="#" title="0720 938 209">Contact Us: 0748 98 01 78</a>              
-            </li>
-
+        
             <li className="mx-2">
               <a className="custom-footer-text position-relative" href="#" title="0720 938 209">Email: info@seleneecs.com</a>              
             </li>
