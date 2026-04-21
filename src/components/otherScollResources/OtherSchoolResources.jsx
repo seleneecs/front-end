@@ -10,7 +10,7 @@ const OtherSchoolResources =()=>{
                 <div className="section-text">
                     
                
-                <a className="btn btn-primary btn-lg react-signup" href="/others">More Resources</a>
+                <a className="btn btn-primary btn-lg react-signup" href="/others">Lesson Plans & More Resources</a>
                 </div>
                 
             </div>

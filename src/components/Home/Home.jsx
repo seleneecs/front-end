@@ -554,7 +554,7 @@ const handleSectionClick = (sectionName) => {
             For a richer learning experience, we offer a variety of additional materials including videos, documents, and interactive content. Explore more resources tailored to help you succeed by clicking the button below.
           </p>
           <a href="/others" className="btn btn-primary more-resources-button">
-            More Resources
+            Lesson Plans & More Resources
           </a>
         </div>
 
