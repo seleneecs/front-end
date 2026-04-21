@@ -158,7 +158,7 @@ const SubscriptionForm = () => {
                           role="button"
                         >
                           <td className="text-start">{item.label}</td>                          
-                          <td>40</td>
+                          <td>20</td>
                           <td>300</td>
                           <td>1800</td>
                         </tr>
@@ -203,7 +203,7 @@ const SubscriptionForm = () => {
                       const selected = e.target.value;
                       setPricingType(selected);
                       const pricingMap = {
-                        Daily: "40",
+                        Daily: "20",
                         Monthly: "300",
                         Yearly: "1800",
                       };
@@ -214,7 +214,7 @@ const SubscriptionForm = () => {
                     }}
                   >
                     
-                    <option value="Daily">Daily - (Min 2 days- 40/-) </option>
+                    <option value="Daily">Daily - (Min 2 days- 20/-) </option>
                     <option value="Monthly">Monthly - KES 300</option>
                     <option value="Yearly">Yearly - KES 1800</option>
                   </select>
@@ -243,7 +243,7 @@ const SubscriptionForm = () => {
                     value={formData.Amount}
                     onChange={handleInputChange}
                     required
-                    min="40"
+                    min="20"
                   />
                 </div>
 
