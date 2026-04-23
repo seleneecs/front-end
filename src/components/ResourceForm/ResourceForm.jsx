@@ -50,7 +50,7 @@ const ResourceForm = () => {
   try {
     const { data } = await axios.post(`${baseURL}/api/generate-upload-url`, {
       originalName: file.name,
-      mimeType: file.type,
+      mimeType: file.type || "application/octet-stream",
       fileSize: file.size,
     });
 
@@ -127,7 +127,7 @@ const ResourceForm = () => {
         } else {
           const initiateResponse = await axios.post(`${baseURL}/api/initiate-multipart-upload`, {
             originalName: file.name,
-            mimeType: file.type,
+            mimeType: file.type || "application/octet-stream",
             fileSize: file.size,
           });
 
