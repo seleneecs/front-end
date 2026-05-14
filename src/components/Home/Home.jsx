@@ -429,16 +429,18 @@ const handleSectionClick = (sectionName) => {
               </p>
              </div>
               <div className="subscription-categories">                       
-                  <div className="category-group">                  
-                    <h5>Preprimary</h5>
+                  <div onClick={() => handleSectionClick("Pre-Primary School")} className="category-group">                  
+              <h5 >
+                Preprimary
+              </h5>
                     <ul>
                       <li>PP1</li>
                       <li>PP2</li>
                     </ul>
                   </div>
                 
-                  <div className="category-group">
-                    <h5>Primary</h5>
+                  <div onClick={() => handleSectionClick("Primary School")} className="category-group">
+                    <h5 >Primary</h5>
                     <ul>
                       <li>GRADE 1</li>
                       <li>GRADE 2</li>
@@ -449,15 +451,15 @@ const handleSectionClick = (sectionName) => {
                       
                     </ul>
                   </div>
-                  <div className="category-group">
-                    <h5>Junior School</h5>
+                  <div onClick={() => handleSectionClick("Junior School")} className="category-group">
+                    <h5 >Junior School</h5>
                     <ul>                    
                       <li>GRADE 7</li>
                       <li>GRADE 8</li>
                       <li>GRADE 9</li>
                     </ul>
                   </div>
-                  <div className="category-group">
+                  <div onClick={() => handleSectionClick("Secondary School")} className="category-group">
                     <h5>Secondary School</h5>
                     <ul>                    
                       <li>GRADE 7</li>
@@ -465,38 +467,15 @@ const handleSectionClick = (sectionName) => {
                       <li>GRADE 9</li>
                     </ul>
                   </div>
-                  <div className="category-group">
-                    <h5>Senior School </h5>
-                    <ul>                    
-                      <li>STEM</li>
-                      <li>ART & SPORTS</li>
-                      <li>SOCIAL SCIENCES</li>
-                    </ul>
+                  <div  className="category-group">
+                      <a href="/others" className="btn btn-primary more-resources-button">
+                      Lesson Plans & More Resources
+                    </a>
                   </div>
-                  <div className="category-group">
-                    <h5>Senior School </h5>
-                    <ul>                    
-                      <li>STEM</li>
-                      <li>ART & SPORTS</li>
-                      <li>SOCIAL SCIENCES</li>
-                    </ul>
-                  </div>
-                  <div className="category-group">
-                    <h5>Senior School </h5>
-                    <ul>                    
-                      <li>STEM</li>
-                      <li>ART & SPORTS</li>
-                      <li>SOCIAL SCIENCES</li>
-                    </ul>
-                  </div>
-                  <div className="category-group">
-                    <h5>Senior School </h5>
-                    <ul>                    
-                      <li>STEM</li>
-                      <li>ART & SPORTS</li>
-                      <li>SOCIAL SCIENCES</li>
-                    </ul>
-                  </div>
+
+
+
+               
           </div>
           </div>
 
@@ -516,38 +495,10 @@ const handleSectionClick = (sectionName) => {
 
         {/* Right Sidebar */}
         <div className="column right-column">
-      <h2>Education News & Social</h2>
+     
 
-      {/* Twitter Embed */}
-      <div className="social-widget">
-        <h5>Latest from Twitter</h5>
-        <a
-          className="twitter-timeline"
-          data-height="400"
-          href="https://twitter.com/KICDKenya?ref_src=twsrc%5Etfw"
-        >
-          Tweets by KICDKenya
-        </a>
-      </div>
+     
 
-      {/* News Feed */}
-      <div className="news-widget">
-        <h5>Recent Education Updates</h5>
-        <ul>
-         <li>
-  <a href="https://www.kicd.ac.ke/cbc-guidelines" >
-    Ministry releases new CBC guidelines
-  </a>
-</li>          
-<li>
-  <a href="https://www.knec.ac.ke/exams-schedule-2025" >
-    National exams schedule 2025
-  </a>
-</li>
-
-
-        </ul>
-      </div>
       <div className="more-resources-container">
           <div className="more-resources-container">
           <p className="more-resources-intro">
