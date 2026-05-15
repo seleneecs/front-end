@@ -459,14 +459,7 @@ const handleSectionClick = (sectionName) => {
                       <li>GRADE 9</li>
                     </ul>
                   </div>
-                  <div onClick={() => handleSectionClick("Secondary School")} className="category-group">
-                    <h5>Secondary School</h5>
-                    <ul>                    
-                      <li>GRADE 7</li>
-                      <li>GRADE 8</li>
-                      <li>GRADE 9</li>
-                    </ul>
-                  </div>
+                  
                   <div  className="category-group">
                       <a href="/others" className="btn btn-primary more-resources-button">
                       Lesson Plans & More Resources
